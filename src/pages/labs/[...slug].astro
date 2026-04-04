@@ -1,0 +1,43 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE } from '../../consts';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const labs = await getCollection('labs');
+  return labs.map((lab) => ({
+    params: { slug: lab.id },
+    props: lab,
+  }));
+}
+
+const lab = Astro.props;
+const { Content } = await render(lab);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`${lab.data.titulo} — ${SITE_TITLE}`} description={lab.data.descripcion} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <article>
+        <header>
+          <span>Fase {lab.data.fase} · Día {lab.data.dia}</span>
+          <h1>{lab.data.titulo}</h1>
+          <FormattedDate date={lab.data.fecha} />
+          <div>
+            {lab.data.tags.map(tag => <span>{tag}</span>)}
+          </div>
+        </header>
+        <Content />
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>

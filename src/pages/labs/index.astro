@@ -1,0 +1,43 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+const labs = (await getCollection('labs', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.dia - b.data.dia);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Labs — ${SITE_TITLE}`} description="El viaje completo documentado: Linux, Bash, Docker, AWS, Kubernetes y Terraform desde cero." />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section>
+        <h1>Labs</h1>
+        <p>El viaje completo documentado. Cada día es un lab real — comandos ejecutados, errores cometidos, lecciones aprendidas.</p>
+      </section>
+      <section>
+        {labs.map((lab) => (
+          <article>
+            <a href={`/labs/${lab.id}`}>
+              <span>Fase {lab.data.fase} · Día {lab.data.dia}</span>
+              <h2>{lab.data.titulo}</h2>
+              <p>{lab.data.descripcion}</p>
+              <div>
+                <FormattedDate date={lab.data.fecha} />
+                {lab.data.tags.map(tag => <span>{tag}</span>)}
+              </div>
+            </a>
+          </article>
+        ))}
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
