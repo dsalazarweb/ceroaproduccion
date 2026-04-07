@@ -1,34 +1,59 @@
 ---
 import { AUTHOR, AUTHOR_GITHUB, AUTHOR_LINKEDIN } from '../consts';
 const today = new Date();
+const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
 ---
 
 <footer>
   <div class="footer-inner">
 
     <div class="footer-top">
-      <div class="footer-col">
-        <h3>Sitio</h3>
-        <ul>
-          <li><a href="/about">Sobre mí</a></li>
-          <li><a href="/roadmap">Roadmap</a></li>
-          <li><a href="/contacto">Contacto</a></li>
-        </ul>
+      <div class="newsletter-section">
+        <h3>Mantente al día</h3>
+        <p>Guías, labs y novedades de DevOps y Cloud en español. Sin spam, solo contenido real.</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <div class="newsletter-input-group">
+            <input
+              type="email"
+              name="email"
+              id="newsletter-email"
+              placeholder="tu@email.com"
+              required
+              autocomplete="email"
+            />
+            <button type="submit" id="newsletter-btn">Suscribirme</button>
+          </div>
+          <div
+            class="cf-turnstile"
+            data-sitekey={TURNSTILE_SITE_KEY}
+            data-theme="auto"
+            data-size="normal"
+          ></div>
+          <p class="newsletter-legal">
+            Al suscribirte aceptas la <a href="/privacidad">política de privacidad</a>.
+            Puedes cancelar cuando quieras.
+          </p>
+          <div id="newsletter-msg" class="newsletter-msg" aria-live="polite"></div>
+        </form>
       </div>
 
-      <div class="footer-col">
-        <h3>Conectar</h3>
-        <ul>
-          <li>
-            <a href={AUTHOR_GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
-          </li>
-          <li>
-            <a href={AUTHOR_LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          </li>
-          <li>
-            <a href="/rss.xml" target="_blank">RSS Feed</a>
-          </li>
-        </ul>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h3>Sitio</h3>
+          <ul>
+            <li><a href="/about">Sobre mí</a></li>
+            <li><a href="/roadmap">Roadmap</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Conectar</h3>
+          <ul>
+            <li><a href={AUTHOR_GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href={AUTHOR_LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="/rss.xml" target="_blank">RSS Feed</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -46,6 +71,60 @@ const today = new Date();
   </div>
 </footer>
 
+<!-- Turnstile script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script is:inline>
+  const form = document.getElementById('newsletter-form');
+  const msg = document.getElementById('newsletter-msg');
+  const btn = document.getElementById('newsletter-btn');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('newsletter-email').value;
+
+      const turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
+      const turnstileToken = turnstileInput ? turnstileInput.value : '';
+
+      if (!turnstileToken) {
+        msg.textContent = 'Completa la verificación de seguridad.';
+        msg.className = 'newsletter-msg error';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+      msg.textContent = '';
+      msg.className = 'newsletter-msg';
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, turnstileToken })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          msg.textContent = '¡Gracias! Ya estás suscrito.';
+          msg.className = 'newsletter-msg success';
+          form.reset();
+          if (window.turnstile) window.turnstile.reset();
+        } else {
+          throw new Error(data.error || 'Error al suscribir');
+        }
+      } catch (err) {
+        msg.textContent = err.message || 'Algo salió mal. Intenta de nuevo.';
+        msg.className = 'newsletter-msg error';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Suscribirme';
+      }
+    });
+  }
+</script>
+
 <style>
   footer {
     background-color: var(--bg-secondary);
@@ -60,10 +139,85 @@ const today = new Date();
   }
   .footer-top {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2em;
+    grid-template-columns: 1fr auto;
+    gap: 4em;
     margin-bottom: 3em;
-    max-width: 400px;
+    padding-bottom: 3em;
+    border-bottom: 1px solid var(--border-color);
+    align-items: start;
+  }
+  .newsletter-section h3 {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.4em 0;
+  }
+  .newsletter-section > p {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin: 0 0 1.25em 0;
+    line-height: 1.5;
+    max-width: 420px;
+  }
+  .newsletter-input-group {
+    display: flex;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    max-width: 480px;
+  }
+  .newsletter-input-group input {
+    flex: 1;
+    min-width: 180px;
+    padding: 0.65em 1em;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.95em;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .newsletter-input-group input:focus {
+    border-color: var(--accent);
+  }
+  .newsletter-input-group button {
+    padding: 0.65em 1.4em;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .newsletter-input-group button:hover { opacity: 0.85; }
+  .newsletter-input-group button:disabled { opacity: 0.6; cursor: not-allowed; }
+  .cf-turnstile {
+    margin-top: 0.75em;
+    max-width: 480px;
+  }
+  .newsletter-legal {
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin: 0.6em 0 0 0;
+    max-width: 480px;
+  }
+  .newsletter-legal a {
+    color: var(--text-muted);
+    text-decoration: underline;
+  }
+  .newsletter-msg {
+    font-size: 0.88em;
+    margin-top: 0.6em;
+    min-height: 1.2em;
+  }
+  .newsletter-msg.success { color: #2d7a2d; }
+  .newsletter-msg.error { color: #b91c1c; }
+  .footer-links {
+    display: flex;
+    gap: 3em;
   }
   .footer-col h3 {
     font-size: 0.75em;
@@ -72,6 +226,7 @@ const today = new Date();
     letter-spacing: 0.1em;
     color: var(--text-muted);
     margin: 0 0 1em 0;
+    white-space: nowrap;
   }
   .footer-col ul {
     list-style: none;
@@ -86,12 +241,10 @@ const today = new Date();
     color: var(--text-secondary);
     font-size: 0.95em;
     transition: color 0.2s;
+    white-space: nowrap;
   }
-  .footer-col ul li a:hover {
-    color: var(--text-primary);
-  }
+  .footer-col ul li a:hover { color: var(--text-primary); }
   .footer-bottom {
-    border-top: 1px solid var(--border-color);
     padding-top: 1.5em;
     display: flex;
     align-items: center;
@@ -114,13 +267,20 @@ const today = new Date();
     text-decoration: none;
     transition: color 0.2s;
   }
-  .legal-links a:hover {
-    color: var(--text-secondary);
-  }
-  @media (max-width: 480px) {
+  .legal-links a:hover { color: var(--text-secondary); }
+  @media (max-width: 720px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 2.5em;
+    }
     .footer-bottom {
       flex-direction: column;
       align-items: flex-start;
+    }
+    .newsletter-section > p,
+    .newsletter-input-group,
+    .newsletter-legal {
+      max-width: 100%;
     }
   }
 </style>

@@ -6,15 +6,25 @@ import HeaderLink from './HeaderLink.astro';
 <header>
   <nav>
     <a href="/" class="site-title">{SITE_TITLE}</a>
-    <div class="nav-links">
+
+    <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="nav-links" id="nav-links">
       <HeaderLink href="/">Home</HeaderLink>
       <HeaderLink href="/blog">Blog</HeaderLink>
       <HeaderLink href="/labs">Labs</HeaderLink>
       <HeaderLink href="/guias">Guías</HeaderLink>
       <HeaderLink href="/portafolio">Portafolio</HeaderLink>
     </div>
+
     <div class="header-actions">
-      <button id="theme-toggle" aria-label="Cambiar tema" title="Cambiar entre modo claro y oscuro">
+      <button id="theme-toggle" aria-label="Cambiar tema">
         <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="5"/>
           <line x1="12" y1="1" x2="12" y2="3"/>
@@ -30,21 +40,31 @@ import HeaderLink from './HeaderLink.astro';
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       </button>
-      <a href="https://github.com/dsalazarweb" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-        <svg viewBox="0 0 16 16" aria-hidden="true" width="22" height="22">
+      <a href="https://github.com/dsalazarweb" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-link">
+        <svg viewBox="0 0 16 16" aria-hidden="true" width="20" height="20">
           <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
         </svg>
       </a>
-      <a href="https://www.linkedin.com/in/diego-salazar-a77a54100" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-        <svg viewBox="0 0 16 16" aria-hidden="true" width="22" height="22">
+      <a href="https://www.linkedin.com/in/diego-salazar-a77a54100" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-link">
+        <svg viewBox="0 0 16 16" aria-hidden="true" width="20" height="20">
           <path fill="currentColor" d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
         </svg>
       </a>
     </div>
   </nav>
+
+  <!-- Menú móvil desplegable -->
+  <div class="mobile-menu" id="mobile-menu">
+    <HeaderLink href="/">Home</HeaderLink>
+    <HeaderLink href="/blog">Blog</HeaderLink>
+    <HeaderLink href="/labs">Labs</HeaderLink>
+    <HeaderLink href="/guias">Guías</HeaderLink>
+    <HeaderLink href="/portafolio">Portafolio</HeaderLink>
+  </div>
 </header>
 
 <script is:inline>
+  // Dark mode
   const toggle = document.getElementById('theme-toggle');
   const iconSun = document.getElementById('icon-sun');
   const iconMoon = document.getElementById('icon-moon');
@@ -54,20 +74,33 @@ import HeaderLink from './HeaderLink.astro';
     iconSun.style.display = isDark ? 'block' : 'none';
     iconMoon.style.display = isDark ? 'none' : 'block';
   }
-
   updateIcons();
-
   toggle.addEventListener('click', () => {
     const isDark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
     updateIcons();
+  });
+
+  // Menú hamburguesa
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded',
+      mobileMenu.classList.contains('open') ? 'true' : 'false'
+    );
+  });
+  // Cerrar menú al navegar
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+    });
   });
 </script>
 
 <style>
   header {
     margin: 0;
-    padding: 0 1.5em;
     background: var(--bg-primary);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
@@ -82,68 +115,84 @@ import HeaderLink from './HeaderLink.astro';
     max-width: 1100px;
     margin: 0 auto;
     height: 56px;
+    padding: 0 1.5em;
+    gap: 1em;
   }
   .site-title {
     font-weight: 700;
-    font-size: 1.1em;
+    font-size: 1em;
     text-decoration: none;
     color: var(--text-primary);
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .nav-links {
     display: flex;
     gap: 0.25em;
+    flex: 1;
+    justify-content: center;
   }
   .nav-links a {
-    padding: 0.5em 0.75em;
+    padding: 0.5em 0.6em;
     color: var(--text-primary);
     border-bottom: 3px solid transparent;
     text-decoration: none;
-    font-size: 0.95em;
-    transition: border-color 0.2s, color 0.2s;
+    font-size: 0.9em;
+    white-space: nowrap;
+    transition: border-color 0.2s;
   }
-  .nav-links a.active {
-    border-bottom-color: var(--accent);
-  }
-  .nav-links a:hover {
-    border-bottom-color: var(--accent);
-  }
+  .nav-links a.active { border-bottom-color: var(--accent); }
+  .nav-links a:hover { border-bottom-color: var(--accent); }
+
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 0.75em;
+    gap: 0.6em;
+    flex-shrink: 0;
   }
-  .header-actions a {
+  .header-actions a, #theme-toggle {
     color: var(--text-primary);
     opacity: 0.7;
-    transition: opacity 0.2s;
     display: flex;
     align-items: center;
-  }
-  .header-actions a:hover {
-    opacity: 1;
-  }
-  #theme-toggle {
+    transition: opacity 0.2s;
     background: none;
     border: none;
     cursor: pointer;
     padding: 0.25em;
+  }
+  .header-actions a:hover, #theme-toggle:hover { opacity: 1; }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
     color: var(--text-primary);
-    opacity: 0.7;
-    display: flex;
-    align-items: center;
-    transition: opacity 0.2s;
+    padding: 0.25em;
+    flex-shrink: 0;
   }
-  #theme-toggle:hover {
-    opacity: 1;
+
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+    padding: 0.5em 1.5em 1em;
   }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    padding: 0.75em 0;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1em;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+
   @media (max-width: 720px) {
-    .header-actions a:not(#theme-toggle) {
-      display: none;
-    }
-    .nav-links a {
-      padding: 0.5em 0.4em;
-      font-size: 0.85em;
-    }
+    .nav-links { display: none; }
+    .social-link { display: none; }
+    .menu-toggle { display: flex; }
   }
 </style>

@@ -232,3 +232,11 @@ hr {
 :root.dark a {
   color: var(--accent);
 }
+
+/* Prevenir scroll horizontal en móvil */
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+
