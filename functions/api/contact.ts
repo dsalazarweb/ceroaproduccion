@@ -12,44 +12,45 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   try {
     body = await request.json() as { name?: string; email?: string; message?: string; turnstileToken?: string };
   } catch {
-    return new Response(JSON.stringify({ error: "Body inválido" }), { status: 400, headers });
+    return new Response(JSON.stringify({ error: "Datos inválidos" }), { status: 400, headers });
   }
 
   const { name, email, message, turnstileToken } = body;
 
   if (!name || !email || !message || !turnstileToken) {
-    return new Response(JSON.stringify({ error: "Todos los campos son requeridos" }), { status: 400, headers });
+    return new Response(JSON.stringify({ error: "Todos los campos son obligatorios" }), { status: 400, headers });
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return new Response(JSON.stringify({ error: "Email no válido" }), { status: 400, headers });
+    return new Response(JSON.stringify({ error: "El email no parece válido" }), { status: 400, headers });
   }
 
   if (message.trim().length < 10) {
-    return new Response(JSON.stringify({ error: "Mensaje demasiado corto" }), { status: 400, headers });
+    return new Response(JSON.stringify({ error: "El mensaje es demasiado corto" }), { status: 400, headers });
   }
 
+  // Verificación de Turnstile
   const ip = request.headers.get("CF-Connecting-IP") ?? "";
-  const turnstileRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    body: new URLSearchParams({
-      secret: env.TURNSTILE_SECRET_KEY,
-      response: turnstileToken,
-      remoteip: ip
-    })
-  });
+  try {
+    const turnstileRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: new URLSearchParams({
+        secret: env.TURNSTILE_SECRET_KEY,
+        response: turnstileToken,
+        remoteip: ip
+      })
+    });
 
-  const turnstileData = await turnstileRes.json() as { success: boolean; "error-codes"?: string[] };
-  
-  if (!turnstileData.success) {
-    const errorMsg = turnstileData["error-codes"]?.join(", ") || "token-invalido";
-    return new Response(JSON.stringify({ 
-      error: `Verificación fallida: ${errorMsg}`,
-      debug: { hasSecret: !!env.TURNSTILE_SECRET_KEY }
-    }), { status: 403, headers });
+    const turnstileData = await turnstileRes.json() as { success: boolean };
+    if (!turnstileData.success) {
+      return new Response(JSON.stringify({ error: "Verificación de seguridad fallida" }), { status: 403, headers });
+    }
+  } catch (err) {
+    return new Response(JSON.stringify({ error: "Error en el servicio de seguridad" }), { status: 500, headers });
   }
 
+  // Envío por Resend
   try {
     const resendRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -78,14 +79,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     });
 
     if (resendRes.status === 200 || resendRes.status === 201) {
-      return new Response(JSON.stringify({ success: true, message: "Mensaje enviado." }), { status: 200, headers });
+      return new Response(JSON.stringify({ success: true, message: "Mensaje enviado correctamente." }), { status: 200, headers });
     }
 
-    const errorData = await resendRes.json();
-    console.error("[contact] Resend error:", errorData);
-    return new Response(JSON.stringify({ error: "No se pudo enviar el mensaje" }), { status: 500, headers });
+    return new Response(JSON.stringify({ error: "No se pudo enviar el mensaje. Inténtalo más tarde." }), { status: 500, headers });
   } catch (err) {
-    console.error("[contact] Error:", err);
-    return new Response(JSON.stringify({ error: "Error interno" }), { status: 500, headers });
+    return new Response(JSON.stringify({ error: "Error de conexión con el servidor de correo" }), { status: 500, headers });
   }
 };
