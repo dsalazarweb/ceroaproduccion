@@ -6,10 +6,19 @@ interface Env {
 const CONTACT_EMAIL = "hola@ceroaproduccion.dev";
 
 async function verifyTurnstile(token: string, ip: string, secret: string): Promise<boolean> {
+  if (!secret) {
+    console.error("[verifyTurnstile] TURNSTILE_SECRET_KEY is missing");
+    return false;
+  }
+
+  const formData = new URLSearchParams();
+  formData.append("secret", secret);
+  formData.append("response", token);
+  formData.append("remoteip", ip);
+
   const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ secret, response: token, remoteip: ip }),
+    body: formData,
   });
   const data = await res.json() as { success: boolean };
   return data.success === true;
