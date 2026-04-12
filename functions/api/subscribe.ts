@@ -4,6 +4,7 @@ interface Env {
   TURNSTILE_SECRET_KEY: string;
 }
 
+// Triggering a new build with updated environment variables
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const headers = { "Content-Type": "application/json" };
 
