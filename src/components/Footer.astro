@@ -24,11 +24,13 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
             <button type="submit" id="newsletter-btn">Suscribirme</button>
           </div>
           <div
+            id="turnstile-container"
             class="cf-turnstile"
             data-sitekey={TURNSTILE_SITE_KEY}
             data-theme="auto"
             data-size="normal"
             data-execution="execute"
+            style="display: none; opacity: 0; transition: opacity 0.3s ease;"
           ></div>
           <p class="newsletter-legal">
             Al suscribirte aceptas la <a href="/privacidad">política de privacidad</a>.
@@ -80,14 +82,22 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
   const msg = document.getElementById('newsletter-msg');
   const btn = document.getElementById('newsletter-btn');
   const emailInput = document.getElementById('newsletter-email');
+  const turnstileContainer = document.getElementById('turnstile-container');
   let turnstileExecuted = false;
 
-  // Ejecutar Turnstile solo cuando el usuario interactúa con el email
-  if (emailInput) {
+  // Ejecutar y mostrar Turnstile solo cuando el usuario interactúa con el email
+  if (emailInput && turnstileContainer) {
     ['focus', 'input'].forEach(evt => {
       emailInput.addEventListener(evt, () => {
         if (!turnstileExecuted && window.turnstile) {
-          window.turnstile.execute('.cf-turnstile');
+          // Mostrar el contenedor antes de ejecutar
+          turnstileContainer.style.display = 'block';
+          // Pequeño delay para la transición de opacidad
+          setTimeout(() => {
+            turnstileContainer.style.opacity = '1';
+          }, 10);
+          
+          window.turnstile.execute('#turnstile-container');
           turnstileExecuted = true;
         }
       }, { once: true });
@@ -131,6 +141,13 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
           msg.className = 'newsletter-msg success';
           form.reset();
           turnstileExecuted = false;
+          // Ocultar de nuevo tras éxito
+          if (turnstileContainer) {
+            turnstileContainer.style.opacity = '0';
+            setTimeout(() => {
+              turnstileContainer.style.display = 'none';
+            }, 300);
+          }
           if (window.turnstile) window.turnstile.reset();
         } else {
           throw new Error(data.error || 'Error al suscribir');
