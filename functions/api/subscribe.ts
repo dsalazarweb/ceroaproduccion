@@ -1,12 +1,11 @@
 interface Env {
   RESEND_API_KEY: string;
   TURNSTILE_SECRET_KEY: string;
-  AUTH_SECRET: string; // Nueva clave para firmar tokens
+  AUTH_SECRET: string;
 }
 
 const CONTACT_EMAIL = "hola@ceroaproduccion.dev";
 
-// Genera un token firmado usando Web Crypto API (nativo en Cloudflare Workers)
 async function generateToken(email: string, secret: string) {
   const encoder = new TextEncoder();
   const key = await crypto.subtle.importKey(
@@ -17,15 +16,12 @@ async function generateToken(email: string, secret: string) {
     ["sign"]
   );
   
-  const expires = Date.now() + 1000 * 60 * 60 * 24; // Expira en 24 horas
+  const expires = Date.now() + 1000 * 60 * 60 * 24; // 24 horas
   const data = `${email}|${expires}`;
   const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(data));
-  
-  // Convertir firma a hex
   const hashArray = Array.from(new Uint8Array(signature));
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   
-  // Retornar en base64 seguro para URL
   return btoa(`${data}|${hashHex}`).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
@@ -46,7 +42,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     return new Response(JSON.stringify({ error: "Email y validación requeridos" }), { status: 400, headers });
   }
 
-  // 1. Verificación de Turnstile
   const ip = request.headers.get("CF-Connecting-IP") ?? "";
   try {
     const turnstileRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
@@ -65,11 +60,9 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     return new Response(JSON.stringify({ error: "Error en el servicio de seguridad" }), { status: 500, headers });
   }
 
-  // 2. Generar Token y Enlace
   const token = await generateToken(email, env.AUTH_SECRET);
   const confirmationLink = `${origin}/api/confirm?token=${token}`;
 
-  // 3. Enviar Correo de Confirmación
   try {
     const resendRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -82,23 +75,45 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         to: [email],
         subject: "Confirma tu suscripción a Cero a Producción",
         html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #333; line-height: 1.6; border: 1px solid #eee; border-radius: 12px; background-color: #fff;">
-            <h2 style="color: #2337ff; margin-bottom: 24px; font-size: 24px;">¡Casi estás dentro! 🚀</h2>
-            <p>Gracias por querer sumarte a <strong>Cero a Producción</strong>. Para asegurar que este es tu correo y que quieres recibir nuestras guías de DevOps, por favor confirma tu suscripción:</p>
-            
-            <div style="margin: 32px 0; text-align: center;">
-              <a href="${confirmationLink}" style="background-color: #2337ff; color: #ffffff !important; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
-                Confirmar mi suscripción
-              </a>
-            </div>
-
-            <p style="font-size: 0.9em; color: #666;">Si no solicitaste esto, puedes ignorar este correo. El enlace expirará en 24 horas.</p>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
-            <p style="font-size: 0.8em; color: #999; text-align: center;">
-              Cero a Producción — De Operaciones a Infraestructura Cloud<br>
-              <a href="https://ceroaproduccion.dev" style="color: #999; text-decoration: none;">ceroaproduccion.dev</a>
-            </p>
-          </div>
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="margin: 0; padding: 0; background-color: #f8f8f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" style="padding: 40px 20px;">
+                  <table width="100%" max-width="600" style="max-width: 600px; background-color: #ffffff; border: 1px solid #e8e8e4; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                    <tr>
+                      <td style="padding: 40px; text-align: center; background-color: #ffffff;">
+                        <div style="margin-bottom: 24px;">
+                          <span style="font-size: 48px;">🚀</span>
+                        </div>
+                        <h1 style="margin: 0 0 16px 0; color: #0f1219; font-size: 28px; font-weight: 700; line-height: 1.2;">¡Casi estás dentro!</h1>
+                        <p style="margin: 0 0 32px 0; color: #60739f; font-size: 18px; line-height: 1.6;">
+                          Gracias por querer sumarte a <strong>Cero a Producción</strong>. Por favor, confirma tu correo para empezar a recibir las bitácoras y guías de DevOps.
+                        </p>
+                        <a href="${confirmationLink}" style="display: inline-block; padding: 16px 32px; background-color: #2337ff; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-size: 18px; font-weight: 600; transition: background-color 0.2s ease;">
+                          Confirmar mi suscripción
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 24px 40px; background-color: #f8f8f6; border-top: 1px solid #e8e8e4; text-align: center;">
+                        <p style="margin: 0 0 8px 0; color: #888; font-size: 14px;">Si no solicitaste esto, puedes ignorar este correo.</p>
+                        <p style="margin: 0; color: #888; font-size: 14px;">
+                          &copy; ${new Date().getFullYear()} <a href="https://ceroaproduccion.dev" style="color: #888; text-decoration: underline;">ceroaproduccion.dev</a>
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </body>
+          </html>
         `,
       }),
     });
