@@ -5,25 +5,6 @@ interface Env {
 
 const CONTACT_EMAIL = "hola@ceroaproduccion.dev";
 
-async function verifyTurnstile(token: string, ip: string, secret: string): Promise<boolean> {
-  if (!secret) {
-    console.error("[verifyTurnstile] TURNSTILE_SECRET_KEY is missing");
-    return false;
-  }
-
-  const formData = new URLSearchParams();
-  formData.append("secret", secret);
-  formData.append("response", token);
-  formData.append("remoteip", ip);
-
-  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    body: formData,
-  });
-  const data = await res.json() as { success: boolean };
-  return data.success === true;
-}
-
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const headers = { "Content-Type": "application/json" };
 
@@ -50,9 +31,23 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   const ip = request.headers.get("CF-Connecting-IP") ?? "";
-  const turnstileOk = await verifyTurnstile(turnstileToken, ip, env.TURNSTILE_SECRET_KEY);
-  if (!turnstileOk) {
-    return new Response(JSON.stringify({ error: "Verificación de seguridad fallida" }), { status: 403, headers });
+  const turnstileRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    body: new URLSearchParams({
+      secret: env.TURNSTILE_SECRET_KEY,
+      response: turnstileToken,
+      remoteip: ip
+    })
+  });
+
+  const turnstileData = await turnstileRes.json() as { success: boolean; "error-codes"?: string[] };
+  
+  if (!turnstileData.success) {
+    const errorMsg = turnstileData["error-codes"]?.join(", ") || "token-invalido";
+    return new Response(JSON.stringify({ 
+      error: `Verificación fallida: ${errorMsg}`,
+      debug: { hasSecret: !!env.TURNSTILE_SECRET_KEY }
+    }), { status: 403, headers });
   }
 
   try {
