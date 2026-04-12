@@ -84,9 +84,14 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
       e.preventDefault();
       const email = document.getElementById('newsletter-email').value;
 
-      const turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
-      const turnstileToken = turnstileInput ? turnstileInput.value : '';
-
+      let turnstileToken = '';
+      if (window.turnstile) {
+        turnstileToken = window.turnstile.getResponse() || '';
+      }
+      if (!turnstileToken) {
+        const input = document.querySelector('[name="cf-turnstile-response"]');
+        turnstileToken = input ? input.value : '';
+      }
       if (!turnstileToken) {
         msg.textContent = 'Completa la verificación de seguridad.';
         msg.className = 'newsletter-msg error';
