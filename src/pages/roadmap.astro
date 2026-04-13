@@ -81,6 +81,58 @@ const phases = [
         font-size: 3.5rem;
         margin-bottom: 1rem;
       }
+      
+      /* --- Tech Showcase --- */
+      .tech-showcase {
+        margin-top: 2.5rem;
+        padding-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      .tech-showcase > span {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-muted);
+        font-weight: 700;
+      }
+      .tech-icons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.6rem;
+      }
+      .tech-badge {
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.35rem 0.85rem;
+        border-radius: 999px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: default;
+      }
+      .tech-badge:hover {
+        transform: translateY(-2px);
+      }
+      
+      /* Colors */
+      .tech-badge.astro { color: #ff5d01; border-color: rgba(255, 93, 1, 0.4); background: rgba(255, 93, 1, 0.05); }
+      .tech-badge.tailwind { color: #0ea5e9; border-color: rgba(14, 165, 233, 0.4); background: rgba(14, 165, 233, 0.05); }
+      .tech-badge.cloudflare { color: #f38020; border-color: rgba(243, 128, 32, 0.4); background: rgba(243, 128, 32, 0.05); }
+      .tech-badge.wsl { color: #2563eb; border-color: rgba(37, 99, 235, 0.4); background: rgba(37, 99, 235, 0.05); }
+      .tech-badge.obsidian { color: #a855f7; border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.05); }
+
+      .tech-badge.astro:hover { background: #ff5d01; color: white; box-shadow: 0 10px 15px -3px rgba(255,93,1,0.3); }
+      .tech-badge.tailwind:hover { background: #0ea5e9; color: white; box-shadow: 0 10px 15px -3px rgba(14,165,233,0.3); }
+      .tech-badge.cloudflare:hover { background: #f38020; color: white; box-shadow: 0 10px 15px -3px rgba(243,128,32,0.3); }
+      .tech-badge.wsl:hover { background: #2563eb; color: white; box-shadow: 0 10px 15px -3px rgba(37,99,235,0.3); }
+      .tech-badge.obsidian:hover { background: #a855f7; color: white; box-shadow: 0 10px 15px -3px rgba(168,85,247,0.3); }
+
       .roadmap-timeline {
         display: flex;
         flex-direction: column;
@@ -181,6 +233,17 @@ const phases = [
       <header class="roadmap-header">
         <h1>Roadmap</h1>
         <p>Mi hoja de ruta pública hacia DevOps. 10 fases para dominar la infraestructura moderna.</p>
+        
+        <div class="tech-showcase">
+          <span>Infraestructura actual:</span>
+          <div class="tech-icons">
+            <span class="tech-badge astro">Astro 6</span>
+            <span class="tech-badge tailwind">Tailwind CSS</span>
+            <span class="tech-badge cloudflare">Cloudflare</span>
+            <span class="tech-badge obsidian">Obsidian</span>
+            <span class="tech-badge wsl">WSL 2</span>
+          </div>
+        </div>
       </header>
 
       <div class="roadmap-timeline">

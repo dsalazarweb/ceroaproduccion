@@ -10,6 +10,7 @@ const labs = defineCollection({
     fase: z.number(),
     dia: z.number(),
     tags: z.array(z.string()),
+    imagen: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

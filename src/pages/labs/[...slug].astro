@@ -77,13 +77,34 @@ const { Content } = await render(lab);
       .tags {
         display: flex;
         gap: 0.5rem;
+        flex-wrap: wrap;
       }
       .tag {
-        background: var(--bg-secondary);
-        padding: 0.1rem 0.5rem;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        color: var(--text-muted);
+        background: rgba(var(--accent-rgb), 0.1);
+        padding: 0.35rem 1rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--accent);
+        border: 1px solid rgba(var(--accent-rgb), 0.3);
+        box-shadow: 0 4px 6px -1px rgba(var(--accent-rgb), 0.05);
+        backdrop-filter: blur(4px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-flex;
+        align-items: center;
+      }
+      .tag::before {
+        content: '#';
+        margin-right: 0.15rem;
+        opacity: 0.5;
+        font-weight: 400;
+      }
+      .tag:hover {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(var(--accent-rgb), 0.2);
       }
       .back-link {
         display: inline-flex;
@@ -157,6 +178,100 @@ const { Content } = await render(lab);
         border-radius: 0 8px 8px 0;
         margin: 2rem 0;
       }
+      /* Estilos para Imagen Destacada y Código */
+      .featured-image {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: cover;
+        border-radius: 16px;
+        margin-bottom: 4rem;
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);
+        border: 1px solid var(--border-color);
+        transition: transform 0.3s ease;
+      }
+      .featured-image:hover {
+        transform: scale(1.01);
+      }
+      :global(.code-wrapper) {
+        margin: 2.5rem 0;
+        background: #1e1e1e !important;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25), 0 5px 15px rgba(0,0,0,0.1);
+        border: 1px solid #333 !important;
+      }
+      :global(.code-header) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1.25rem;
+        background: #252526 !important;
+        border-bottom: 1px solid #333 !important;
+      }
+      :global(.mac-dots) {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      :global(.mac-dots span) {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+      }
+      :global(.mac-dots span:nth-child(1)) { background: #ff5f56; }
+      :global(.mac-dots span:nth-child(2)) { background: #ffbd2e; }
+      :global(.mac-dots span:nth-child(3)) { background: #27c93f; }
+      :global(.mac-dots::after) {
+        content: 'Terminal';
+        color: #858585;
+        font-size: 0.75rem;
+        font-family: inherit;
+        margin-left: 0.75rem;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+      :global(.copy-btn) {
+        background: #333 !important;
+        border: 1px solid #444 !important;
+        color: #ccc !important;
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      :global(.copy-btn:hover) {
+        background: #444 !important;
+        color: #fff !important;
+        border-color: #555 !important;
+        transform: translateY(-1px);
+      }
+      :global(.copy-btn.copied) {
+        background: #10b981 !important;
+        border-color: #059669 !important;
+        color: white !important;
+      }
+      :global(.code-wrapper pre) {
+        margin: 0 !important;
+        padding: 1.5rem 1.5rem !important;
+        overflow-x: auto;
+        font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace !important;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #e5e7eb !important;
+        background: transparent !important;
+      }
+      :global(.code-wrapper code) {
+        font-family: inherit !important;
+      }
       .share-container {
         margin: 4rem 0 2rem;
         padding-top: 2rem;
@@ -219,10 +334,15 @@ const { Content } = await render(lab);
           <div class="lab-date-tags">
             <FormattedDate date={lab.data.fecha} />
             <div class="tags">
-              {lab.data.tags.map(tag => <span class="tag">#{tag}</span>)}
+              {lab.data.tags.map(tag => <span class="tag">{tag}</span>)}
             </div>
           </div>
         </header>
+        
+        {lab.data.imagen && (
+          <img src={lab.data.imagen} alt={`Imagen destacada de ${lab.data.titulo}`} class="featured-image" />
+        )}
+
         <Content />
         
         <div class="share-container">
@@ -260,5 +380,51 @@ const { Content } = await render(lab);
       </article>
     </main>
     <Footer />
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const preElements = document.querySelectorAll('.prose pre');
+        preElements.forEach((pre) => {
+          // Wrap pre
+          const wrapper = document.createElement('div');
+          wrapper.className = 'code-wrapper';
+          pre.parentNode?.insertBefore(wrapper, pre);
+          
+          // Header
+          const header = document.createElement('div');
+          header.className = 'code-header';
+          
+          const dots = document.createElement('div');
+          dots.className = 'mac-dots';
+          dots.innerHTML = '<span></span><span></span><span></span>';
+          header.appendChild(dots);
+
+          const copyBtn = document.createElement('button');
+          copyBtn.className = 'copy-btn';
+          copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> <span class="copy-text">Copiar</span>';
+          
+          copyBtn.addEventListener('click', () => {
+            const code = document.createElement('div');
+            code.innerHTML = pre.innerHTML;
+            const text = code.innerText || code.textContent;
+            if (text) {
+              navigator.clipboard.writeText(text);
+              const textSpan = copyBtn.querySelector('.copy-text') as HTMLSpanElement;
+              if (textSpan) {
+                textSpan.textContent = 'Copiado!';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                  textSpan.textContent = 'Copiar';
+                  copyBtn.classList.remove('copied');
+                }, 2000);
+              }
+            }
+          });
+          
+          header.appendChild(copyBtn);
+          wrapper.appendChild(header);
+          wrapper.appendChild(pre);
+        });
+      });
+    </script>
   </body>
 </html>
