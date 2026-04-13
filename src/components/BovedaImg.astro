@@ -1,0 +1,48 @@
+---
+import { R2_DOMAIN } from '../consts';
+
+export interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+const { src, alt, caption } = Astro.props;
+
+// Si la ruta empieza con http, es absoluta. Si no, asume que viene del bucket R2.
+const imageUrl = src.startsWith('http') ? src : `${R2_DOMAIN}${src.startsWith('/') ? src : '/' + src}`;
+---
+
+<figure class="boveda-img-container">
+  <img 
+    src={imageUrl} 
+    alt={alt} 
+    loading="lazy" 
+    decoding="async"
+    class="boveda-img"
+  />
+  {caption && <figcaption class="boveda-caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .boveda-img-container {
+    margin: 2.5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .boveda-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  .boveda-caption {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    font-style: italic;
+  }
+</style>
