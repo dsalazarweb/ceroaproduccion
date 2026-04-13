@@ -8,18 +8,88 @@ import { SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={`About — ${SITE_TITLE}`} description="Venezuelan professional based in Colombia, transitioning from Customer Operations to DevOps & Cloud Administration." />
+    <BaseHead title={`Sobre Mí — ${SITE_TITLE}`} description="Profesional venezolano radicado en Colombia, en transición de Operaciones Técnicas a DevOps & Cloud Administration." />
+    <style>
+      .about-header {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .about-header h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      .about-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+      .about-content h2 {
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        color: var(--accent);
+      }
+      .skill-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+      .skill-card {
+        padding: 1rem;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      .about-footer {
+        margin-top: 4rem;
+        padding: 2rem;
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        text-align: center;
+      }
+      .about-footer p { margin-bottom: 1.5rem; }
+      @media (max-width: 720px) {
+        .about-header h1 { font-size: 2.2rem; }
+      }
+    </style>
   </head>
   <body>
     <Header />
     <main>
-      <h1>About</h1>
-      <p>Venezuelan professional based in Colombia, transitioning from 6+ years in technical operations to DevOps & Cloud Administration.</p>
-      <p>Building real skills through hands-on practice, documented publicly from day one.</p>
-      <h2>Current Focus</h2>
-      <p>Linux · Bash · Python · Docker · AWS · Terraform · Kubernetes</p>
-      <h2>Background</h2>
-      <p>My operations background gives me a unique perspective — I've seen production systems from the customer impact side. Now I'm learning to build the infrastructure that prevents those incidents.</p>
+      <header class="about-header">
+        <h1>Sobre Mí</h1>
+        <p class="about-subtitle">Profesional venezolano radicado en Colombia, en transición de más de 6 años en operaciones técnicas a DevOps & Administración Cloud.</p>
+      </header>
+
+      <div class="about-content">
+        <p>Construyendo habilidades reales a través de la práctica diaria, documentada públicamente desde el primer día. Mi enfoque no es obtener un papel, sino construir un producto en producción que hable por sí solo.</p>
+        
+        <h2>Foco Técnico Actual</h2>
+        <div class="skill-grid">
+          <div class="skill-card">Linux Administration</div>
+          <div class="skill-card">Bash & Python</div>
+          <div class="skill-card">Docker</div>
+          <div class="skill-card">AWS</div>
+          <div class="skill-card">Terraform</div>
+          <div class="skill-card">Kubernetes</div>
+        </div>
+
+        <h2>Mi Superpoder: Operaciones</h2>
+        <p>Mi background en operaciones no es una limitación — es mi superpoder. He visto sistemas en producción desde el impacto en el cliente final. Ahora estoy aprendiendo a construir la infraestructura que previene esos incidentes.</p>
+
+        <p>Aporto mentalidad de resolución de problemas en entornos reales, comprensión de uptime y fiabilidad, y experiencia en gestión de incidentes y comunicación con stakeholders.</p>
+
+        <div class="about-footer">
+          <p>¿Interesado en mi viaje o en colaborar?</p>
+          <a href="/contacto" class="btn btn-primary">Hablemos</a>
+        </div>
+      </div>
     </main>
     <Footer />
   </body>

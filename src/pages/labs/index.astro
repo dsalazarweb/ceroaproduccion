@@ -15,28 +15,113 @@ const labs = (await getCollection('labs', ({ data }) => !data.draft))
 <html lang="es">
   <head>
     <BaseHead title={`Labs — ${SITE_TITLE}`} description="El viaje completo documentado: Linux, Bash, Docker, AWS, Kubernetes y Terraform desde cero." />
+    <style>
+      .labs-intro {
+        margin-bottom: 3rem;
+      }
+      .labs-grid {
+        display: grid;
+        gap: 2rem;
+        list-style: none;
+        padding: 0;
+      }
+      .lab-card {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        background: var(--bg-secondary);
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      .lab-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      .lab-badge-container {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+      }
+      .badge-fase {
+        background: var(--accent);
+        color: white;
+      }
+      .badge-dia {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        color: var(--text-secondary);
+      }
+      .lab-card h2 {
+        margin: 0 0 0.75rem 0;
+        font-size: 1.5rem;
+        line-height: 1.2;
+        color: var(--text-primary);
+      }
+      .lab-card p {
+        margin: 0 0 1.5rem 0;
+        font-size: 1rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+      }
+      .lab-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-color);
+        padding-top: 1rem;
+      }
+      .tags {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .tag {
+        background: rgba(var(--accent), 0.1);
+        color: var(--accent);
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+      }
+    </style>
   </head>
   <body>
     <Header />
     <main>
-      <section>
+      <section class="labs-intro">
         <h1>Labs</h1>
         <p>El viaje completo documentado. Cada día es un lab real — comandos ejecutados, errores cometidos, lecciones aprendidas.</p>
       </section>
       <section>
-        {labs.map((lab) => (
-          <article>
-            <a href={`/labs/${lab.id}`}>
-              <span>Fase {lab.data.fase} · Día {lab.data.dia}</span>
-              <h2>{lab.data.titulo}</h2>
-              <p>{lab.data.descripcion}</p>
-              <div>
-                <FormattedDate date={lab.data.fecha} />
-                {lab.data.tags.map(tag => <span>{tag}</span>)}
-              </div>
-            </a>
-          </article>
-        ))}
+        <div class="labs-grid">
+          {labs.map((lab) => (
+            <article>
+              <a href={`/labs/${lab.id}`} class="lab-card">
+                <div class="lab-badge-container">
+                  <span class="badge badge-fase">Fase {lab.data.fase}</span>
+                  <span class="badge badge-dia">Día {lab.data.dia}</span>
+                </div>
+                <h2>{lab.data.titulo}</h2>
+                <p>{lab.data.descripcion}</p>
+                <div class="lab-footer">
+                  <FormattedDate date={lab.data.fecha} />
+                  <div class="tags">
+                    {lab.data.tags.slice(0, 3).map(tag => <span class="tag">#{tag}</span>)}
+                  </div>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
       </section>
     </main>
     <Footer />

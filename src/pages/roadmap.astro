@@ -1,0 +1,209 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+
+const phases = [
+  { 
+    id: 0, 
+    title: 'Fundamentos de Linux', 
+    status: 'doing', 
+    items: ['Sistema de archivos', 'Navegación y comandos base', 'Permisos y usuarios', 'Gestión de paquetes'] 
+  },
+  { 
+    id: 1, 
+    title: 'Scripting & Automation', 
+    status: 'pending', 
+    items: ['Bash Scripting', 'Python para DevOps', 'Automatización de tareas (Cron)'] 
+  },
+  { 
+    id: 2, 
+    title: 'Networking & Security', 
+    status: 'pending', 
+    items: ['Protocolos base (HTTP/S, SSH)', 'Firewalls & WAF', 'Certificados SSL/TLS'] 
+  },
+  { 
+    id: 3, 
+    title: 'Contenerización', 
+    status: 'pending', 
+    items: ['Docker Fundamentals', 'Docker Compose', 'Registry & Images'] 
+  },
+  { 
+    id: 4, 
+    title: 'Cloud Infrastructure (AWS)', 
+    status: 'pending', 
+    items: ['EC2 & VPC', 'S3 & IAM', 'Lambda & Serverless'] 
+  },
+  { 
+    id: 5, 
+    title: 'Infraestructura como Código', 
+    status: 'pending', 
+    items: ['Terraform basics', 'Modules & State', 'Cloudformation'] 
+  },
+  { 
+    id: 6, 
+    title: 'CI/CD Pipelines', 
+    status: 'pending', 
+    items: ['GitHub Actions', 'GitLab CI', 'Jenkins'] 
+  },
+  { 
+    id: 7, 
+    title: 'Orquestación', 
+    status: 'pending', 
+    items: ['Kubernetes Basics', 'Helm Charts', 'EKS/GKE'] 
+  },
+  { 
+    id: 8, 
+    title: 'Observabilidad', 
+    status: 'pending', 
+    items: ['Monitoring (Prometheus/Grafana)', 'Logging (ELK Stack)'] 
+  },
+  { 
+    id: 9, 
+    title: 'Producción Real', 
+    status: 'pending', 
+    items: ['Arquitecturas resilientes', 'Optimización de costes', 'Seguridad avanzada'] 
+  }
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Roadmap — ${SITE_TITLE}`} description="Mi hoja de ruta hacia DevOps & Cloud Administration. Paso a paso, de cero a producción." />
+    <style>
+      .roadmap-header {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+      .roadmap-header h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+      }
+      .roadmap-timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .roadmap-timeline::before {
+        content: '';
+        position: absolute;
+        left: 2rem;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--border-color);
+      }
+      .phase-card {
+        display: flex;
+        gap: 2rem;
+        position: relative;
+      }
+      .phase-number {
+        width: 4rem;
+        height: 4rem;
+        background: var(--bg-primary);
+        border: 2px solid var(--border-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+        z-index: 1;
+        transition: border-color 0.3s, color 0.3s;
+      }
+      .phase-card.done .phase-number {
+        border-color: #10b981;
+        color: #10b981;
+      }
+      .phase-card.doing .phase-number {
+        border-color: var(--accent);
+        color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(var(--accent), 0.1);
+      }
+      .phase-content {
+        background: var(--bg-secondary);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        flex-grow: 1;
+      }
+      .phase-content h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+      }
+      .phase-content ul {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0.5rem;
+      }
+      .phase-content li {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .phase-content li::before {
+        content: '○';
+        color: var(--text-muted);
+      }
+      .status-badge {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+      .status-doing { background: var(--accent); color: white; }
+      .status-pending { background: var(--bg-primary); color: var(--text-muted); border: 1px solid var(--border-color); }
+      
+      @media (max-width: 600px) {
+        .roadmap-timeline::before { left: 1.5rem; }
+        .phase-number { width: 3rem; height: 3rem; font-size: 1rem; }
+        .phase-card { gap: 1rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <header class="roadmap-header">
+        <h1>Roadmap</h1>
+        <p>Mi hoja de ruta pública hacia DevOps. 10 fases para dominar la infraestructura moderna.</p>
+      </header>
+
+      <div class="roadmap-timeline">
+        {phases.map((phase) => (
+          <div class={`phase-card ${phase.status}`}>
+            <div class="phase-number">{phase.id}</div>
+            <div class="phase-content">
+              <h2>
+                {phase.title}
+                <span class={`status-badge status-${phase.status}`}>
+                  {phase.status === 'doing' ? 'En proceso' : 'Pendiente'}
+                </span>
+              </h2>
+              <ul>
+                {phase.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

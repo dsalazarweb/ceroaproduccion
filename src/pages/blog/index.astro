@@ -1,0 +1,96 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+const labs = await getCollection('labs', ({ data }) => !data.draft);
+const guias = await getCollection('guias', ({ data }) => !data.draft);
+
+// Combinar y ordenar por fecha
+const posts = [...labs.map(p => ({ ...p, collection: 'labs' })), 
+               ...guias.map(p => ({ ...p, collection: 'guias' }))]
+  .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Blog — ${SITE_TITLE}`} description="Feed cronológico de todos los labs y guías de mi viaje DevOps." />
+    <style>
+      .blog-intro {
+        margin-bottom: 3rem;
+      }
+      .posts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .post-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        color: inherit;
+        transition: background-color 0.2s;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .post-item:hover {
+        background-color: var(--bg-secondary);
+      }
+      .post-date {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        min-width: 100px;
+        padding-top: 0.2rem;
+      }
+      .post-content h2 {
+        font-size: 1.25rem;
+        margin: 0 0 0.5rem 0;
+      }
+      .post-tag {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+      .tag-labs { color: var(--accent); }
+      .tag-guias { color: #10b981; } /* Verde para guías */
+
+      @media (max-width: 600px) {
+        .post-item { flex-direction: column; gap: 0.5rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="blog-intro">
+        <h1>Blog</h1>
+        <p>Feed cronológico de todos los labs y guías documentadas.</p>
+      </section>
+
+      <section class="posts-list">
+        {posts.map((post) => (
+          <a href={`/${post.collection}/${post.id}`} class="post-item">
+            <div class="post-date">
+              <FormattedDate date={post.data.fecha} />
+            </div>
+            <div class="post-content">
+              <span class={`post-tag tag-${post.collection}`}>
+                {post.collection === 'labs' ? 'Lab' : 'Guía'}
+              </span>
+              <h2>{post.data.titulo}</h2>
+              <p>{post.data.descripcion}</p>
+            </div>
+          </a>
+        ))}
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

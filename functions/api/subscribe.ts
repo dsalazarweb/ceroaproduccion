@@ -5,6 +5,7 @@ interface Env {
 }
 
 const CONTACT_EMAIL = "hola@ceroaproduccion.dev";
+const NOREPLY_EMAIL = "noreply@ceroaproduccion.dev";
 
 async function generateToken(email: string, secret: string) {
   const encoder = new TextEncoder();
@@ -71,7 +72,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         "Authorization": `Bearer ${env.RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: `Cero a Producción <${CONTACT_EMAIL}>`,
+        from: `Cero a Producción <${NOREPLY_EMAIL}>`,
         to: [email],
         subject: "Confirma tu suscripción a Cero a Producción",
         html: `
@@ -102,6 +103,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
                     </tr>
                     <tr>
                       <td style="padding: 24px 40px; background-color: #f8f8f6; border-top: 1px solid #e8e8e4; text-align: center;">
+                        <p style="margin: 0 0 8px 0; color: #888; font-size: 14px;"><strong>Nota:</strong> Esta es una cuenta de envío automático. Las respuestas a este correo no son monitoreadas.</p>
                         <p style="margin: 0 0 8px 0; color: #888; font-size: 14px;">Si no solicitaste esto, puedes ignorar este correo.</p>
                         <p style="margin: 0; color: #888; font-size: 14px;">
                           &copy; ${new Date().getFullYear()} <a href="https://ceroaproduccion.dev" style="color: #888; text-decoration: underline;">ceroaproduccion.dev</a>

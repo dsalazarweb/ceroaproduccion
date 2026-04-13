@@ -3,19 +3,157 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+const latestLabs = (await getCollection('labs', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
+  .slice(0, 3);
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      .hero {
+        padding: 4rem 0 6rem 0;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .hero h1 {
+        font-size: 4rem;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(to bottom right, var(--text-primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .hero p {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 2.5rem;
+        line-height: 1.6;
+      }
+      .cta-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+      .btn {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform 0.2s, opacity 0.2s;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: white;
+      }
+      .btn-secondary {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+      }
+
+      .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1rem;
+      }
+      .section-title h2 {
+        margin: 0;
+        font-size: 1.8rem;
+      }
+      .section-title a {
+        font-size: 0.9rem;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .labs-preview {
+        display: grid;
+        gap: 1.5rem;
+      }
+      .lab-mini-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        text-decoration: none;
+        color: inherit;
+        transition: border-color 0.2s, transform 0.2s;
+      }
+      .lab-mini-card:hover {
+        border-color: var(--accent);
+        transform: translateX(4px);
+      }
+      .lab-info h3 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.2rem;
+      }
+      .lab-meta {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+      .lab-day {
+        font-weight: 700;
+        color: var(--accent);
+        margin-right: 0.5rem;
+      }
+
+      @media (max-width: 720px) {
+        .hero h1 { font-size: 2.8rem; }
+        .hero { padding: 2rem 0 4rem 0; }
+        .cta-group { flex-direction: column; }
+      }
+    </style>
   </head>
   <body>
     <Header />
     <main>
-      <h1>Cero a Producción</h1>
-      <p>DevOps y Cloud en español — guías reales, errores reales, desde cero hasta producción.</p>
-      <a href="/labs">Ver Labs →</a>
+      <section class="hero">
+        <h1>{SITE_TITLE}</h1>
+        <p>{SITE_DESCRIPTION}</p>
+        <div class="cta-group">
+          <a href="/labs" class="btn btn-primary">Explorar Labs</a>
+          <a href="/about" class="btn btn-secondary">Mi Historia</a>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <h2>Últimos Labs</h2>
+          <a href="/labs">Ver todos →</a>
+        </div>
+        <div class="labs-preview">
+          {latestLabs.map((lab) => (
+            <a href={`/labs/${lab.id}`} class="lab-mini-card">
+              <div class="lab-info">
+                <span class="lab-meta">
+                  <span class="lab-day">Día {lab.data.dia}</span>
+                  <FormattedDate date={lab.data.fecha} />
+                </span>
+                <h3>{lab.data.titulo}</h3>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+          ))}
+        </div>
+      </section>
     </main>
     <Footer />
   </body>

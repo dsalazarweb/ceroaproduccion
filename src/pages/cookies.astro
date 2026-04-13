@@ -1,0 +1,75 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Directiva de Cookies — ${SITE_TITLE}`} description="Transparencia sobre el uso de tecnologías de almacenamiento persistente en el navegador." />
+    <style>
+      .legal-container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+      .legal-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
+      .legal-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+      .legal-meta { font-size: 0.9rem; color: var(--text-secondary); }
+      .prose { color: var(--text-primary); line-height: 1.8; }
+      .prose h2 { color: var(--accent); margin-top: 2.5rem; margin-bottom: 1rem; }
+      table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.9em; }
+      table th, table td { border: 1px solid var(--border-color); padding: 1rem; text-align: left; }
+      table th { background: var(--bg-secondary); }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="legal-container">
+      <header class="legal-header">
+        <h1>Política de Cookies</h1>
+        <div class="legal-meta">
+          <p>Última actualización: Abril de 2026</p>
+        </div>
+      </header>
+
+      <div class="prose">
+        <p>Nuestra creencia es construir productos transparentes que mantengan tu actividad y anonimato preservados. En <strong>ceroaproduccion.dev</strong> buscamos activamente <strong>evitar</strong> el uso de cookies no esenciales de terceros.</p>
+
+        <h2>Nuestro enfoque sobre el Rastreo</h2>
+        <ul>
+          <li><strong>No usamos Google Analytics:</strong> Usamos <em>Umami</em>, el cual está diseñado sin depender de cookies y opera para recolectar información completamente anónima.</li>
+          <li><strong>No usamos Redes Publicitarias:</strong> Cero banners, por lo que nunca existirá inyección de rastreadores de publicidad.</li>
+        </ul>
+
+        <h2>Cookies y Almacenamiento Estrictamente Necesario</h2>
+        <p>No usamos cookies de rastreo comercial, sin embargo, nuestra operación técnica segura y nuestras preferencias de interfaz generan pequeños vectores técnicos en el sistema local.</p>
+        
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre o Tipo</th>
+              <th>Propósito</th>
+              <th>Duración</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>theme</code> (Local Storage)</td>
+              <td>Guarda la preferencia visual del navegador si hiciste click en el ícono de Modo Oscuro o Claro en la parte superior, garantizando que tu navegación se mantenga fluida.</td>
+              <td>Infinita (hasta limpieza)</td>
+            </tr>
+            <tr>
+              <td>Tokens Turnstile</td>
+              <td>Son administrados por Cloudflare Turnstile en los formularios locales de seguridad para resolver pruebas algorítmicas de anti-bots y así proteger la infraestructura.</td>
+              <td>Variable / Corta vida</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Modificación de tus Permisos</h2>
+        <p>Al entender la simpleza de nuestro stack respecto a cookies, no emitimos un banner molesto a pantalla completa, ya que todo almacenamiento se acota por ley a "Razones técnicas estrictamente necesarias". Puedes limpiar las opciones directamente desde las herramientas de tu navegador, aunque esto perderá de memoria temas como el modo visual deseado por defecto.</p>
+
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -8,71 +8,54 @@ import { SITE_TITLE } from '../../consts';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const labs = (await getCollection('labs'))
-    .sort((a, b) => a.data.dia - b.data.dia);
+  const guias = (await getCollection('guias'))
+    .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
   
-  return labs.map((lab, index) => ({
-    params: { slug: lab.id },
+  return guias.map((guia, index) => ({
+    params: { slug: guia.id },
     props: {
-      lab,
-      prev: index > 0 ? labs[index - 1] : null,
-      next: index < labs.length - 1 ? labs[index + 1] : null,
+      guia,
+      prev: index < guias.length - 1 ? guias[index + 1] : null,
+      next: index > 0 ? guias[index - 1] : null,
     },
   }));
 }
 
-const { lab, prev, next } = Astro.props;
-const { Content } = await render(lab);
+const { guia, prev, next } = Astro.props;
+const { Content } = await render(guia);
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={`${lab.data.titulo} — ${SITE_TITLE}`} description={lab.data.descripcion} />
+    <BaseHead title={`${guia.data.titulo} — ${SITE_TITLE}`} description={guia.data.descripcion} />
     <style>
-      .lab-header {
+      .guia-header {
         margin-bottom: 3rem;
         padding-bottom: 2rem;
         border-bottom: 1px solid var(--border-color);
       }
-      .lab-meta {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-        flex-wrap: wrap;
-      }
-      .badge {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 9999px;
-        font-size: 0.85rem;
+      .difficulty {
+        font-size: 0.75rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-      .badge-fase {
-        background-color: var(--accent);
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        background: #10b981;
         color: white;
+        margin-bottom: 1rem;
+        display: inline-block;
       }
-      .badge-dia {
-        background-color: var(--bg-secondary);
-        color: var(--text-primary);
-        border: 1px solid var(--border-color);
-      }
-      .lab-title {
+      .guia-title {
         font-size: 3rem;
         margin: 0 0 1rem 0;
         line-height: 1.1;
       }
-      .lab-date-tags {
+      .guia-meta {
         display: flex;
-        align-items: center;
         justify-content: space-between;
         color: var(--text-secondary);
         font-size: 0.95rem;
-        flex-wrap: wrap;
-        gap: 1rem;
       }
       .tags {
         display: flex;
@@ -102,8 +85,7 @@ const { Content } = await render(lab);
         max-width: 100%;
         margin-bottom: 4rem;
       }
-      /* Navegación entre labs */
-      .lab-nav {
+      .guia-nav {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
@@ -120,7 +102,7 @@ const { Content } = await render(lab);
         transition: border-color 0.2s;
       }
       .nav-card:hover {
-        border-color: var(--accent);
+        border-color: #10b981;
       }
       .nav-label {
         font-size: 0.8rem;
@@ -135,31 +117,9 @@ const { Content } = await render(lab);
       .next { text-align: right; grid-column: 2; }
       .prev { text-align: left; grid-column: 1; }
 
-      /* Estilos para tablas dentro del Markdown */
-      :global(table) {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 2rem 0;
-        font-size: 0.95rem;
-      }
-      :global(th), :global(td) {
-        padding: 0.75rem;
-        border: 1px solid var(--border-color);
-        text-align: left;
-      }
-      :global(th) {
-        background-color: var(--bg-secondary);
-        font-weight: 700;
-      }
-      /* Estilos para blockquotes */
-      :global(blockquote) {
-        background: var(--bg-secondary);
-        border-radius: 0 8px 8px 0;
-        margin: 2rem 0;
-      }
       @media (max-width: 720px) {
-        .lab-title { font-size: 2.2rem; }
-        .lab-nav { grid-template-columns: 1fr; }
+        .guia-title { font-size: 2.2rem; }
+        .guia-nav { grid-template-columns: 1fr; }
         .next { grid-column: 1; }
       }
     </style>
@@ -167,37 +127,34 @@ const { Content } = await render(lab);
   <body>
     <Header />
     <main>
-      <a href="/labs" class="back-link">
+      <a href="/guias" class="back-link">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        Volver a Labs
+        Volver a Guías
       </a>
       <article class="prose">
-        <header class="lab-header">
-          <div class="lab-meta">
-            <span class="badge badge-fase">Fase {lab.data.fase}</span>
-            <span class="badge badge-dia">Día {lab.data.dia}</span>
-          </div>
-          <h1 class="lab-title">{lab.data.titulo}</h1>
-          <div class="lab-date-tags">
-            <FormattedDate date={lab.data.fecha} />
+        <header class="guia-header">
+          <span class="difficulty">{guia.data.dificultad}</span>
+          <h1 class="guia-title">{guia.data.titulo}</h1>
+          <div class="guia-meta">
+            <FormattedDate date={guia.data.fecha} />
             <div class="tags">
-              {lab.data.tags.map(tag => <span class="tag">#{tag}</span>)}
+              {guia.data.tags.map(tag => <span class="tag">#{tag}</span>)}
             </div>
           </div>
         </header>
         <Content />
         
-        <nav class="lab-nav">
+        <nav class="guia-nav">
           {prev && (
-            <a href={`/labs/${prev.id}`} class="nav-card prev">
+            <a href={`/guias/${prev.id}`} class="nav-card prev">
               <span class="nav-label">Anterior</span>
-              <span class="nav-title">Día {prev.data.dia}: {prev.data.titulo}</span>
+              <span class="nav-title">{prev.data.titulo}</span>
             </a>
           )}
           {next && (
-            <a href={`/labs/${next.id}`} class="nav-card next">
+            <a href={`/guias/${next.id}`} class="nav-card next">
               <span class="nav-label">Siguiente</span>
-              <span class="nav-title">Día {next.data.dia}: {next.data.titulo}</span>
+              <span class="nav-title">{next.data.titulo}</span>
             </a>
           )}
         </nav>

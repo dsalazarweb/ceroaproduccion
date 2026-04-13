@@ -1,0 +1,110 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+const guias = (await getCollection('guias', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Guías — ${SITE_TITLE}`} description="Tutoriales detallados y guías evergreen sobre DevOps, Cloud y Linux." />
+    <style>
+      .guias-intro {
+        margin-bottom: 3rem;
+      }
+      .guias-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+      .guia-card {
+        padding: 1.5rem;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        text-decoration: none;
+        color: inherit;
+        transition: border-color 0.2s, transform 0.2s;
+        display: flex;
+        flex-direction: column;
+      }
+      .guia-card:hover {
+        border-color: #10b981;
+        transform: translateY(-4px);
+      }
+      .guia-card h2 {
+        font-size: 1.4rem;
+        margin: 0.5rem 0;
+      }
+      .difficulty {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        width: fit-content;
+      }
+      .diff-principiante { color: #10b981; }
+      .diff-intermedio { color: #f59e0b; }
+      .diff-avanzado { color: #ef4444; }
+      
+      .guia-footer {
+        margin-top: auto;
+        padding-top: 1rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        display: flex;
+        justify-content: space-between;
+      }
+      .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 4rem 2rem;
+        background: var(--bg-secondary);
+        border: 2px dashed var(--border-color);
+        border-radius: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="guias-intro">
+        <h1>Guías</h1>
+        <p>Tutoriales detallados paso a paso para dominar herramientas y conceptos de infraestructura.</p>
+      </section>
+
+      <section class="guias-grid">
+        {guias.length > 0 ? (
+          guias.map((guia) => (
+            <a href={`/guias/${guia.id}`} class="guia-card">
+              <span class={`difficulty diff-${guia.data.dificultad}`}>
+                {guia.data.dificultad}
+              </span>
+              <h2>{guia.data.titulo}</h2>
+              <p>{guia.data.descripcion}</p>
+              <div class="guia-footer">
+                <FormattedDate date={guia.data.fecha} />
+                {guia.data.tiempo_lectura && <span>{guia.data.tiempo_lectura} min</span>}
+              </div>
+            </a>
+          ))
+        ) : (
+          <div class="empty-state">
+            <h2>Próximamente</h2>
+            <p>Estoy preparando guías detalladas sobre AWS, Docker y Kubernetes. Por ahora, puedes revisar los <a href="/labs">Labs</a>.</p>
+          </div>
+        )}
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

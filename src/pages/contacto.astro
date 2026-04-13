@@ -1,0 +1,174 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Contacto — ${SITE_TITLE}`} description="¿Tienes alguna pregunta o propuesta? Hablemos." />
+    <style>
+      .contact-container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .contact-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .contact-form {
+        display: grid;
+        gap: 1.5rem;
+        background: var(--bg-secondary);
+        padding: 2.5rem;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+      }
+      .form-group {
+        display: grid;
+        gap: 0.5rem;
+      }
+      .form-group label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+      .form-group input, .form-group textarea {
+        padding: 0.8rem 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: inherit;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .form-group input:focus, .form-group textarea:focus {
+        border-color: var(--accent);
+      }
+      .contact-msg {
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+        display: none;
+        font-size: 0.9rem;
+      }
+      .contact-msg.success {
+        display: block;
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #bbf7d0;
+      }
+      .contact-msg.error {
+        display: block;
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+      }
+      .cf-turnstile {
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="contact-container">
+        <header class="contact-header">
+          <h1>Hablemos</h1>
+          <p>¿Tienes alguna pregunta, propuesta o simplemente quieres saludar? Estaré encantado de escucharte.</p>
+        </header>
+
+        <form class="contact-form" id="contact-form">
+          <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" name="name" required placeholder="Tu nombre" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="tu@email.com" />
+          </div>
+          <div class="form-group">
+            <label for="message">Mensaje</label>
+            <textarea id="message" name="message" rows="5" required placeholder="¿En qué puedo ayudarte?"></textarea>
+          </div>
+          <div 
+            id="turnstile-container" 
+            class="cf-turnstile" 
+            data-sitekey={TURNSTILE_SITE_KEY}
+            data-theme="auto"
+          ></div>
+          <button type="submit" class="btn btn-primary" id="contact-btn">Enviar Mensaje</button>
+          <div id="contact-response" class="contact-msg" aria-live="polite"></div>
+        </form>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<!-- Turnstile script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script is:inline>
+  const contactForm = document.getElementById('contact-form');
+  const contactRes = document.getElementById('contact-response');
+  const contactBtn = document.getElementById('contact-btn');
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(contactForm);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        message: formData.get('message'),
+        turnstileToken: ''
+      };
+
+      if (window.turnstile) {
+        data.turnstileToken = window.turnstile.getResponse() || '';
+      }
+
+      if (!data.turnstileToken) {
+        contactRes.textContent = 'Por favor, completa la verificación de seguridad.';
+        contactRes.className = 'contact-msg error';
+        return;
+      }
+
+      contactBtn.disabled = true;
+      contactBtn.textContent = 'Enviando...';
+      contactRes.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+          contactRes.textContent = '¡Mensaje enviado con éxito! Te responderé lo antes posible.';
+          contactRes.className = 'contact-msg success';
+          contactForm.reset();
+          if (window.turnstile) window.turnstile.reset();
+        } else {
+          throw new Error(result.error || 'Error al enviar el mensaje');
+        }
+      } catch (err) {
+        contactRes.textContent = err.message || 'Algo salió mal. Intenta de nuevo más tarde.';
+        contactRes.className = 'contact-msg error';
+      } finally {
+        contactBtn.disabled = false;
+        contactBtn.textContent = 'Enviar Mensaje';
+      }
+    });
+  }
+</script>

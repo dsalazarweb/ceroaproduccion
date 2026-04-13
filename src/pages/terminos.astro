@@ -1,0 +1,158 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Términos y Licencia — ${SITE_TITLE}`} description="Términos de uso y Licencia de Propiedad Intelectual para ceroaproduccion.dev." />
+    <style>
+      .legal-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      .legal-header {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .legal-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+      .legal-meta {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+      .prose {
+        color: var(--text-primary);
+        line-height: 1.8;
+      }
+      .prose h2, .prose h3 {
+        color: var(--accent);
+        margin-top: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .prose h4 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+      .prose a {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+      .prose ul, .prose ol {
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .prose li {
+        margin-bottom: 0.5rem;
+      }
+      .prose pre {
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+      }
+      .prose code {
+        background-color: var(--bg-secondary);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+      .prose blockquote {
+        border-left: 4px solid var(--accent);
+        background-color: var(--bg-secondary);
+        margin: 1.5rem 0;
+        padding: 1rem 1.5rem;
+        border-radius: 0 8px 8px 0;
+        color: var(--text-secondary);
+        font-style: normal;
+        font-size: 1rem;
+      }
+      .alert {
+        background-color: rgba(239, 68, 68, 0.1);
+        border: 1px solid #ef4444;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 2rem 0;
+      }
+      .alert h3 {
+        color: #ef4444;
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="legal-container">
+      <header class="legal-header">
+        <h1>Licencia y Términos de Uso</h1>
+        <div class="legal-meta">
+          <p><strong>Copyright © 2026 Diego Salazar / Gravelca</strong></p>
+          <p>Última actualización: Abril de 2026</p>
+        </div>
+      </header>
+
+      <div class="prose">
+        <div class="alert">
+          <h3>Aviso Importante — Leer antes de usar</h3>
+          <p>Este trabajo y todo el contenido asociado al ecosistema digital (ceroaproduccion.dev, ceroaproduccion.com, dominios de gravelca.com y repositorios oficiales en GitHub) está protegido por las leyes de derecho de autor y se licencia bajo los términos descritos a continuación. El acceso, clonación, descarga, intercambio o referencia constituye su aceptación total de estos términos.</p>
+        </div>
+
+        <h2>Licencia Base</h2>
+        <p>Este trabajo está bajo la licencia <strong>Creative Commons Atribución-NoComercial-SinDerivadas 4.0 Internacional (CC BY-NC-ND 4.0)</strong>, sujeto a los términos y condiciones adicionales establecidos en este documento.</p>
+        <p>En caso de cualquier conflicto entre la licencia base CC BY-NC-ND 4.0 y los términos adicionales a continuación, prevalecerán los términos adicionales.</p>
+
+        <h2>1. Usos Permitidos</h2>
+        <p>Se permiten los siguientes usos sin autorización previa por escrito:</p>
+        <ul>
+          <li>Visualización y lectura del código, artículos y laboratorios para fines de aprendizaje personal y no comercial.</li>
+          <li>Compartir enlaces no modificados a los dominios o repositorios oficiales en redes sociales, blogs o plataformas educativas, siempre que se cumplan los requisitos de atribución.</li>
+          <li>Referenciar conceptos o comandos de este trabajo en notas de estudio personales, siempre que la atribución se indique claramente.</li>
+        </ul>
+
+        <h2>2. Usos Prohibidos</h2>
+        <p>Los siguientes usos están estrictamente prohibidos sin la autorización previa por escrito del titular de los derechos de autor:</p>
+        <ul>
+          <li>Cualquier <strong>uso comercial</strong> de este trabajo, incluyendo pero no limitado a: venta, licenciamiento, monetización o incorporación de este trabajo (total o parcial) en cursos de pago, productos, servicios, plataformas o materiales de capacitación.</li>
+          <li>Creación de <strong>obras derivadas</strong>, adaptaciones, traducciones o versiones modificadas de cualquier contenido.</li>
+          <li>Reproducir o distribuir este trabajo (total o parcial) en cualquier medio sin el cumplimiento total de los requisitos de atribución establecidos en la Sección 3.</li>
+          <li>Usar este trabajo en cualquier contexto que implique respaldo, patrocinio o afiliación con Gravelca o Diego Salazar, sin autorización previa.</li>
+          <li><strong>Extracción de Datos y Entrenamiento de IA:</strong> El uso de web scraping, rastreadores automatizados (crawlers) o cualquier método de extracción de datos para alimentar, entrenar o afinar modelos de Inteligencia Artificial (IA) está terminantemente prohibido. La evasión de medidas de protección técnica (ej. robots.txt, configuraciones de firewalls o bloqueos de red) constituye una violación agravada de esta licencia.</li>
+        </ul>
+
+        <h2>3. Requisitos de Atribución Obligatoria</h2>
+        <p>Cualquier intercambio, reproducción o referencia permitida a este trabajo —incluso para fines educativos personales o no comerciales— debe incluir el siguiente bloque de atribución de manera visible al inicio del contenido:</p>
+        
+        <blockquote>
+          <strong>Obra original de Diego Salazar / Gravelca</strong><br/>
+          <strong>Ecosistema Digital:</strong> https://ceroaproduccion.dev | https://github.com/dsalazarweb<br/>
+          <strong>LinkedIn:</strong> https://www.linkedin.com/in/diego-salazar-a77a54100<br/>
+          <strong>Licencia:</strong> CC BY-NC-ND 4.0 con Términos Adicionales. No se permiten modificaciones sin autorización por escrito.
+        </blockquote>
+
+        <h2>4. Uso Comercial — Proceso de Autorización</h2>
+        <p>El uso comercial requiere autorización expresa. Para solicitudes individuales, startups o corporativas, por favor establezca contacto a través de <a href="https://www.linkedin.com/in/diego-salazar-a77a54100" target="_blank" rel="noopener noreferrer">LinkedIn</a> detallando la naturaleza del uso, la audiencia y la empresa involucrada.</p>
+
+        <h2>5. Propiedad Intelectual e Integridad</h2>
+        <p>Todo el contenido alojado constituye una obra intelectual original. La estructura, metodología y el viaje de aprendizaje documentado están protegidos en su conjunto e individualmente. Eliminar o alterar avisos de derechos de autor constituye una violación directa.</p>
+
+        <h2>6. Exclusión de Garantía y Terminación</h2>
+        <p>Este trabajo se proporciona "tal cual" (as is), sin garantía de ningún tipo. El uso de estos procesos y configuraciones para entornos de producción es bajo su propio riesgo.</p>
+        <p>Cualquier violación resulta en la terminación automática e inmediata de los derechos otorgados, y el propietario se reserva el derecho de ejercer acciones legales bajo la <strong>Ley de la República de Colombia</strong> y los convenios internacionales pertinentes.</p>
+
+        <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border-color);" />
+        <p style="font-size: 0.9em; color: var(--text-muted); text-align: center;">
+          © 2026 Diego Salazar / Gravelca. Todos los derechos reservados excepto los otorgados expresamente en este documento.
+        </p>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
