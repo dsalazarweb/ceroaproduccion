@@ -38,15 +38,15 @@
   --accent-dark: #3730A3; /* Indigo más oscuro para hover */
   --accent-rgb: 79, 70, 229;
 
-  --bg-primary: #FAFAFA;
+  --bg-primary: #F8FAFC; /* Tono cálido-azulado, menos agresivo que #FAFAFA */
   --bg-secondary: #FFFFFF;
-  --bg-code: #F1F5F9;
+  --bg-code: #EEF2F7;
 
   --text-primary: #1E293B;
-  --text-secondary: #475569;
-  --text-muted: #94A3B8;
+  --text-secondary: #334155; /* Más contraste que #475569 */
+  --text-muted: #64748B; /* Más legible que #94A3B8 — footer links visibles */
 
-  --border-color: #E2E8F0;
+  --border-color: #CBD5E1; /* Bordes más definidos que #E2E8F0 */
 
   --black: 30, 41, 59;
   --gray: 100, 116, 139;
@@ -54,7 +54,7 @@
   --gray-dark: 15, 23, 42;
   --gray-gradient: rgba(var(--gray-light), 0%), var(--bg-primary);
 
-  --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.025);
+  --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 /* ============================================

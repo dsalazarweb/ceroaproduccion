@@ -73,6 +73,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       },
       body: JSON.stringify({
         from: `Cero a Producción <${NOREPLY_EMAIL}>`,
+        reply_to: 'contacto@ceroaproduccion.dev',
         to: [email],
         subject: "Confirma tu suscripción a Cero a Producción",
         html: `
@@ -103,7 +104,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
                     </tr>
                     <tr>
                       <td style="padding: 24px 40px; background-color: #f8f8f6; border-top: 1px solid #e8e8e4; text-align: center;">
-                        <p style="margin: 0 0 8px 0; color: #888; font-size: 14px;"><strong>Nota:</strong> Esta es una cuenta de envío automático. Las respuestas a este correo no son monitoreadas.</p>
+                        <p style="margin: 0 0 8px 0; color: #888; font-size: 14px;"><strong>Nota:</strong> Esta es una cuenta de envío automático. Si respondes a este correo, nos llegará a nuestra bandeja de contacto.</p>
                         <p style="margin: 0 0 8px 0; color: #888; font-size: 14px;">Si no solicitaste esto, puedes ignorar este correo.</p>
                         <p style="margin: 0; color: #888; font-size: 14px;">
                           &copy; ${new Date().getFullYear()} <a href="https://ceroaproduccion.dev" style="color: #888; text-decoration: underline;">ceroaproduccion.dev</a>

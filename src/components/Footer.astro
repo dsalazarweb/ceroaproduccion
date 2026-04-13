@@ -325,6 +325,48 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
     transition: color 0.2s;
   }
   .legal-links a:hover { color: var(--text-secondary); }
+  .scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 50;
+    box-shadow: var(--box-shadow);
+  }
+
+  @supports (backdrop-filter: blur(8px)) {
+    .scroll-to-top {
+      background: rgba(var(--bg-secondary), 0.85); /* Requires rgba variable interpretation or we just rely on opacity, but wait, bg-secondary is a hex color. Oh, well it will fallback to solid var(--bg-secondary) above */
+      backdrop-filter: blur(8px);
+    }
+  }
+
+  .scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .scroll-to-top:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
   @media (max-width: 720px) {
     .footer-top {
       grid-template-columns: 1fr;
