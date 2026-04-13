@@ -72,6 +72,10 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
     </div>
 
   </div>
+  
+  <button id="scrollToTop" class="scroll-to-top" aria-label="Volver arriba">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
 </footer>
 
 <!-- Turnstile script -->
@@ -159,6 +163,21 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
         btn.disabled = false;
         btn.textContent = 'Suscribirme';
       }
+    });
+  }
+
+  // Scroll to Top Logic
+  const scrollToTopBtn = document.getElementById('scrollToTop');
+  if (scrollToTopBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 </script>
@@ -319,6 +338,12 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
     .newsletter-input-group,
     .newsletter-legal {
       max-width: 100%;
+    }
+    .scroll-to-top {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 40px;
+      height: 40px;
     }
   }
 </style>

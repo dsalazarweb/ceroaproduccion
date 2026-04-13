@@ -157,6 +157,44 @@ const { Content } = await render(lab);
         border-radius: 0 8px 8px 0;
         margin: 2rem 0;
       }
+      .share-container {
+        margin: 4rem 0 2rem;
+        padding-top: 2rem;
+        border-top: 1px dashed var(--border-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      .share-container p {
+        margin: 0;
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+      }
+      .share-buttons {
+        display: flex;
+        gap: 1rem;
+      }
+      .share-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--bg-secondary);
+        color: var(--text-secondary);
+        border: 1px solid var(--border-color);
+        transition: all 0.2s;
+        text-decoration: none;
+      }
+      .share-btn:hover {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
       @media (max-width: 720px) {
         .lab-title { font-size: 2.2rem; }
         .lab-nav { grid-template-columns: 1fr; }
@@ -187,6 +225,18 @@ const { Content } = await render(lab);
         </header>
         <Content />
         
+        <div class="share-container">
+          <p>¿Te resultó útil? ¡Compártelo!</p>
+          <div class="share-buttons">
+            <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(lab.data.titulo)}&url=${encodeURIComponent(Astro.url)}`} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Compartir en Twitter">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+            </a>
+            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(Astro.url)}`} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Compartir en LinkedIn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </div>
+        </div>
+
         <nav class="lab-nav">
           {prev && (
             <a href={`/labs/${prev.id}`} class="nav-card prev">
