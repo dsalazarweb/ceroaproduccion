@@ -7,8 +7,9 @@
    VARIABLES — Dark mode (Default)
    ============================================ */
 :root, :root.dark {
-  --accent: #00E5FF; /* Vibrant Cyan */
-  --accent-dark: #33FFD1;
+  --accent: #7C8AFF; /* Indigo Blue — puente entre azul-negro y morado DevTalles */
+  --accent-dark: #A5B4FC; /* Lavender suave para hover */
+  --accent-rgb: 124, 138, 255; /* Para uso con rgba() */
 
   --bg-primary: #0B0E14; /* Deep Obsidian */
   --bg-secondary: #131720; /* Slightly elevated card */
@@ -33,8 +34,9 @@
    VARIABLES — Light mode
    ============================================ */
 :root.light {
-  --accent: #0A84FF; /* Electric Blue */
-  --accent-dark: #0066CC;
+  --accent: #4F46E5; /* Indigo profundo — legible en fondo claro */
+  --accent-dark: #3730A3; /* Indigo más oscuro para hover */
+  --accent-rgb: 79, 70, 229;
 
   --bg-primary: #FAFAFA;
   --bg-secondary: #FFFFFF;
