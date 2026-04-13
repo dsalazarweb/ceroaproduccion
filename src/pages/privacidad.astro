@@ -8,21 +8,21 @@ import { SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={`Aviso de Privacidad — ${SITE_TITLE}`} description="Transparencia y respeto por tus datos en ceroaproduccion.dev." />
+    <BaseHead title={`Aviso de Privacidad — ${SITE_TITLE}`} description="Cómo recopilamos, usamos y protegemos tus datos personales en ceroaproduccion.dev" />
     <style>
-      /* Estilos idénticos a los de términos para mantener coherencia */
       .legal-container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
       .legal-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
-      .legal-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-      .legal-meta { font-size: 0.9rem; color: var(--text-secondary); }
+      .legal-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--accent); }
+      .legal-header p.subtitle { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+      .legal-meta { font-size: 0.9rem; color: var(--text-muted); }
       .prose { color: var(--text-primary); line-height: 1.8; }
-      .prose h2 { color: var(--accent); margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
-      .prose h3 { margin-top: 1.5rem; margin-bottom: 0.8rem; }
+      .prose h2 { color: var(--text-primary); margin-top: 3rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; font-size: 1.8rem; }
+      .prose .section-desc { color: var(--text-secondary); font-size: 1rem; margin-bottom: 1.5rem; font-style: italic; }
+      .prose h3 { color: var(--accent); margin-top: 1.5rem; margin-bottom: 0.8rem; font-size: 1.3rem; }
       .prose p { margin-bottom: 1.2rem; }
       .prose ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }
-      .prose a { color: var(--accent); text-decoration: underline; }
-      .summary-card { background: var(--bg-secondary); border: 1px solid var(--border-color); margin: 2rem 0; padding: 1.5rem; border-radius: 8px; }
-      .summary-card ul { margin: 0; padding-left: 1.2rem; }
+      .prose li { margin-bottom: 0.5rem; }
+      .prose a { color: var(--accent); text-decoration: underline; font-weight: 500; }
     </style>
   </head>
   <body>
@@ -30,46 +30,52 @@ import { SITE_TITLE } from '../consts';
     <main class="legal-container">
       <header class="legal-header">
         <h1>Política de Privacidad</h1>
+        <p class="subtitle">Cómo recopilamos, usamos y protegemos la información personal en este ecosistema.</p>
         <div class="legal-meta">
           <p>Última actualización: Abril de 2026</p>
         </div>
       </header>
 
       <div class="prose">
-        <div class="summary-card">
-          <h3>Resumen Ejecutivo (TL;DR)</h3>
-          <ul>
-            <li>No rastreamos tu comportamiento individual cruzado.</li>
-            <li>No vendemos bajo ninguna circunstancia tu información a terceros.</li>
-            <li>Utilizamos analíticas orientadas a la privacidad (Umami) sin el uso de cookies.</li>
-            <li>Si te suscribes, únicamente usamos tu correo para notificarte de nuevo contenido.</li>
-          </ul>
-        </div>
-
-        <h2>1. Información que Recopilamos</h2>
-        <p>Nuestro enfoque es la minimización de datos. Solo recolectamos la información estrictamente necesaria cuando interactúas con <strong>ceroaproduccion.dev</strong>.</p>
-        
-        <h3>1.1 Formularios (Suscripción y Contacto)</h3>
-        <p>Cuando te suscribes al newsletter o completas el formulario de contacto, recopilamos directamente los datos que decides proporcionarnos (como tu nombre o dirección de correo electrónico). Esta información se utiliza exclusivamente para la naturaleza de la solicitud (enviar boletines o responder mensajes).</p>
-
-        <h3>1.2 Analítica Web</h3>
-        <p>Utilizamos <strong>Umami Analytics</strong>, una plataforma de analítica orientada a la privacidad que no recopila información de identificación personal (PII) ni utiliza cookies. Únicamente se recolectan métricas demográficas de alto nivel (país, navegador, páginas visitadas) con la finalidad de entender qué contenido es más útil para los visitantes.</p>
-
-        <h2>2. Protección Anti-Spam y Seguridad</h2>
-        <p>Integramos <strong>Cloudflare Turnstile</strong> para proteger nuestros endpoints contra bots y ataques. Este servicio puede recopilar información técnica sobre el entorno de tu dispositivo para resolver desafíos invisibles, pero está diseñado específicamente por Cloudflare para operar sin retener información de identificación personal ni depender de soluciones intrusivas.</p>
-
-        <h2>3. Cómo Compartimos tu Información</h2>
-        <p>Nosotros <strong>no vendemos, alquilamos ni divulgamos</strong> tu información personal a entidades de publicidad. Únicamente compartimos datos mínimos con los proveedores autorizados que componen nuestra infraestructura:</p>
+        <h2>Identidad del Responsable</h2>
+        <p class="section-desc">Quién está detrás de este proyecto y cómo contactarlo.</p>
         <ul>
-          <li><strong>Cloudflare:</strong> Infraestructura web, firewall de seguridad, y protección bot (Turnstile).</li>
-          <li><strong>Resend:</strong> Operador de entrega y gestión de recepción de correos para formularios y suscripciones.</li>
-          <li><strong>Umami:</strong> Operador para métricas de retención estadísticamente anónimas y sin cookies.</li>
+          <li><strong>Titular:</strong> Diego Salazar / Gravelca</li>
+          <li><strong>Ecosistema Web:</strong> ceroaproduccion.dev</li>
+          <li><strong>Correo electrónico:</strong> <a href="mailto:contacto@ceroaproduccion.dev">contacto@ceroaproduccion.dev</a></li>
+        </ul>
+        <p>Nos tomamos muy en serio la privacidad de quienes deciden aprender y aportar a esta comunidad. Jamás venderemos ni cederemos tu información a terceros con fines comerciales.</p>
+
+        <h2>Datos que Recopilamos</h2>
+        <p class="section-desc">Información estricta y limitada a la operativa del sitio web.</p>
+        <p>Nuestro enfoque se rige por el principio de minimización de datos. Según la forma en que interactúas, podemos recolectar:</p>
+        <ul>
+          <li><strong>Formularios de contacto o suscripción:</strong> Nombre y correo electrónico (necesarios para enviarte boletines o responder a tus mensajes).</li>
+          <li><strong>Actividad demográfica anónima:</strong> País, navegador y páginas visitadas (recolectado estrictamente de forma agregada a través de Umami, sin identificar al usuario).</li>
+          <li><strong>Seguridad de red:</strong> Dirección IP e información técnica procesada temporalmente por Cloudflare para prevenir abusos cibernéticos y mitigar spam.</li>
         </ul>
 
-        <h2>4. Tus Derechos</h2>
-        <p>Si alguna vez te suscribiste a nuestro boletín u operaste los formularios, posees total derecho a requerir la suspensión o eliminación permanente de tus datos de nuestros registros.</p>
-        <p>Cada correo electrónico contiene en su base un enlace directo para darte de baja en 1 clic. Alternativamente, puedes <a href="/contacto">solicitar la baja o el ejercicio de eliminación contactándonos directamente</a> y procesaremos tu requerimiento inmediatamente.</p>
+        <h2>Finalidad del Tratamiento</h2>
+        <p class="section-desc">Por qué necesitamos esta información y qué hacemos con ella.</p>
+        <ul>
+          <li><strong>Prestación de comunicaciones:</strong> Enviarte notificaciones cuando interactúas con los formularios de contacto y distribuir los boletines educativos elegidos.</li>
+          <li><strong>Mejora del sitio web:</strong> Analizar tendencias de navegación, tiempos de lectura y utilidad de las publicaciones, usando únicamente herramientas respetuosas orientadas a la privacidad.</li>
+          <li><strong>Seguridad:</strong> Bloquear bots, prevenir intentos de fraude electrónico o uso malintencionado de las APIs de registro.</li>
+        </ul>
 
+        <h2>Destinatarios y Proveedores</h2>
+        <p class="section-desc">Plataformas e infraestructuras con las que integramos servicios.</p>
+        <p>Compartimos información estrictamente técnica o limitada con los siguientes operadores (Encargados del Tratamiento) necesarios para el soporte del sitio:</p>
+        <ul>
+          <li><strong>Cloudflare:</strong> Red de entrega de contenido (CDN), firewall y validación anti-bot (Turnstile).</li>
+          <li><strong>Resend:</strong> Infraestructura utilizada de forma automatizada para procesar el envío de correos de transacción y boletín.</li>
+          <li><strong>Umami Analytics:</strong> Herramienta empleada para la recolección de analítica web anonimizada, sin inyectar cookies.</li>
+        </ul>
+
+        <h2>Tus Derechos y Eliminación</h2>
+        <p class="section-desc">Control total sobre tus datos de suscripción o contacto.</p>
+        <p>En cualquier momento puedes requerir conocer qué información poseemos de tus suscripciones, pedir una modificación o exigir la eliminación permanente ("Derecho al olvido").</p>
+        <p>Todos nuestros boletines llevan un enlace directo integrado en la parte inferior para darse de baja de manera inmediata y sin consultas adicionales. Alternativamente, puedes ejercer estos requerimientos comunicándote directamente a <a href="mailto:contacto@ceroaproduccion.dev">contacto@ceroaproduccion.dev</a>.</p>
       </div>
     </main>
     <Footer />

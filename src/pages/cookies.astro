@@ -8,17 +8,26 @@ import { SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={`Directiva de Cookies — ${SITE_TITLE}`} description="Transparencia sobre el uso de tecnologías de almacenamiento persistente en el navegador." />
+    <BaseHead title={`Política de Cookies — ${SITE_TITLE}`} description="Información sobre las tecnologías de persistencia local en ceroaproduccion.dev" />
     <style>
       .legal-container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
       .legal-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
-      .legal-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-      .legal-meta { font-size: 0.9rem; color: var(--text-secondary); }
+      .legal-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--accent); }
+      .legal-header p.subtitle { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+      .legal-meta { font-size: 0.9rem; color: var(--text-muted); }
       .prose { color: var(--text-primary); line-height: 1.8; }
-      .prose h2 { color: var(--accent); margin-top: 2.5rem; margin-bottom: 1rem; }
-      table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.9em; }
-      table th, table td { border: 1px solid var(--border-color); padding: 1rem; text-align: left; }
-      table th { background: var(--bg-secondary); }
+      .prose h2 { color: var(--text-primary); margin-top: 3rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; font-size: 1.8rem; }
+      .prose .section-desc { color: var(--text-secondary); font-size: 1rem; margin-bottom: 1.5rem; font-style: italic; }
+      .prose p { margin-bottom: 1.2rem; }
+      .prose ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }
+      .prose a { color: var(--accent); text-decoration: underline; font-weight: 500; }
+      
+      table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 2rem 0; font-size: 0.95em; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+      table th, table td { border-bottom: 1px solid var(--border-color); padding: 1rem; text-align: left; }
+      table tr:last-child td { border-bottom: none; }
+      table th { background: var(--bg-secondary); color: var(--text-primary); font-weight: 600; }
+      table td { background: var(--bg-primary); }
+      code { color: var(--accent); font-weight: 600; font-size: 0.9em; background: var(--bg-code); padding: 0.2rem 0.4rem; border-radius: 4px; }
     </style>
   </head>
   <body>
@@ -26,48 +35,52 @@ import { SITE_TITLE } from '../consts';
     <main class="legal-container">
       <header class="legal-header">
         <h1>Política de Cookies</h1>
+        <p class="subtitle">Transparencia sobre tecnologías de retención y almacenamiento en tu navegador.</p>
         <div class="legal-meta">
           <p>Última actualización: Abril de 2026</p>
         </div>
       </header>
 
       <div class="prose">
-        <p>Nuestra creencia es construir productos transparentes que mantengan tu actividad y anonimato preservados. En <strong>ceroaproduccion.dev</strong> buscamos activamente <strong>evitar</strong> el uso de cookies no esenciales de terceros.</p>
+        <h2>¿Qué son las tecnologías locales?</h2>
+        <p class="section-desc">Definición de las herramientas técnicas usadas en la web moderna.</p>
+        <p>Tradicionalmente, las "cookies" son pequeños ficheros inyectados al entrar a un portal para recordar preferencias o rastrear comportamiento. Hoy en día existen otras formas como el Local Storage. En <strong>ceroaproduccion.dev</strong> operamos bajo una visión minimalista, evitando el requerimiento de seguimiento profundo.</p>
+        <p>No usamos cookies analíticas, de perfilado para marketing ni dependemos del rastreo individual por sesión. En consecuencia, y según la normativa, la web no te inundará de molestos banners bloqueadores ya que su funcionamiento se fundamenta en elementos <strong>estrictamente técnicos y necesarios</strong>.</p>
 
-        <h2>Nuestro enfoque sobre el Rastreo</h2>
-        <ul>
-          <li><strong>Analítica sin cookies:</strong> Usamos <em>Umami</em>, diseñado para recolectar métricas completamente anónimas sin depender de cookies ni rastreo individual.</li>
-          <li><strong>Sin publicidad:</strong> Este sitio no incluye banners ni rastreadores publicitarios de ningún tipo.</li>
-        </ul>
-
-        <h2>Cookies y Almacenamiento Estrictamente Necesario</h2>
-        <p>No usamos cookies de rastreo comercial, sin embargo, nuestra operación técnica segura y nuestras preferencias de interfaz generan pequeños vectores técnicos en el sistema local.</p>
-        
+        <h2>Almacenamiento Estrictamente Necesario</h2>
+        <p class="section-desc">Detalle claro del origen y finalidad de lo que aloja tu equipo.</p>
         <table>
           <thead>
             <tr>
-              <th>Nombre o Tipo</th>
-              <th>Propósito</th>
-              <th>Duración</th>
+              <th>Nombre del valor</th>
+              <th>Tecnología</th>
+              <th>Propósito Estricto</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><code>theme</code> (Local Storage)</td>
-              <td>Guarda la preferencia visual del navegador si hiciste click en el ícono de Modo Oscuro o Claro en la parte superior, garantizando que tu navegación se mantenga fluida.</td>
-              <td>Infinita (hasta limpieza)</td>
+              <td><code>theme</code></td>
+              <td>Local Storage</td>
+              <td>Almacena tu preferencia manual sobre la paleta de colores (Modo Oscuro / Claro) sin enviar esta información a ningún servidor de terceros.</td>
             </tr>
             <tr>
-              <td>Tokens Turnstile</td>
-              <td>Son administrados por Cloudflare Turnstile en los formularios locales de seguridad para resolver pruebas algorítmicas de anti-bots y así proteger la infraestructura.</td>
-              <td>Variable / Corta vida</td>
+              <td><code>cf_clearance</code></td>
+              <td>Cookie</td>
+              <td>Generada por Cloudflare en determinados momentos para confirmar que un visitante ha pasado una verificación anti-DDoS o validación Turnstile, manteniendo así tu conexión y evitando repetir puzzles en la sesión actual.</td>
             </tr>
           </tbody>
         </table>
 
-        <h2>Modificación de tus Permisos</h2>
-        <p>Al entender la simpleza de nuestro stack respecto a cookies, no emitimos un banner molesto a pantalla completa, ya que todo almacenamiento se acota por ley a "Razones técnicas estrictamente necesarias". Puedes limpiar las opciones directamente desde las herramientas de tu navegador, aunque esto perderá de memoria temas como el modo visual deseado por defecto.</p>
-
+        <h2>Gestión y Permisos del Navegador</h2>
+        <p class="section-desc">Cómo administrar tú mismo estos rastros de estado.</p>
+        <p>Dado que nuestros implementos están marcados como "Técnicos Necesarios", no es posible "desactivarlos" directamente desde la interfaz del sitio web web ya que rompería las características anti-spam y visualización de la plataforma.</p>
+        <p>Sin embargo, si prefieres eliminarlos en totalidad, puedes limpiar la memoria técnica y cookies desde los ajustes propios de tu navegador. Esto te permitirá reiniciar tus elecciones manuales visuales y eliminar tu autorización frente al firewall, aunque no limitará tu consumo de lectura normal.</p>
+        <ul>
+          <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer">Guía de gestión de cookies en Google Chrome</a></li>
+          <li><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank" rel="noopener noreferrer">Guía en Mozilla Firefox</a></li>
+          <li><a href="https://support.microsoft.com/es-es/windows/eliminar-y-administrar-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank" rel="noopener noreferrer">Guía en Microsoft Edge</a></li>
+          <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer">Guía en Apple Safari</a></li>
+        </ul>
       </div>
     </main>
     <Footer />

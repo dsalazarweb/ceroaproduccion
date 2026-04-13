@@ -115,10 +115,44 @@ const latestLabs = (await getCollection('labs', ({ data }) => !data.draft))
         margin-right: 0.5rem;
       }
 
+      .tech-strip {
+        background-color: var(--bg-secondary);
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+        padding: 1.5rem 0;
+        margin: 2rem 0 4rem 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+      .tech-strip span {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 700;
+        color: var(--text-muted);
+      }
+      .tech-strip .icon {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        transition: color 0.3s, transform 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+      }
+      .tech-strip .icon:hover {
+        color: var(--accent);
+        transform: translateY(-2px);
+      }
+
       @media (max-width: 720px) {
         .hero h1 { font-size: 2.8rem; }
-        .hero { padding: 2rem 0 4rem 0; }
+        .hero { padding: 2rem 0 2rem 0; }
         .cta-group { flex-direction: column; }
+        .tech-strip { gap: 1rem; padding: 1rem 0; }
       }
     </style>
   </head>
@@ -132,6 +166,17 @@ const latestLabs = (await getCollection('labs', ({ data }) => !data.draft))
           <a href="/labs" class="btn btn-primary">Explorar Labs</a>
           <a href="/about" class="btn btn-secondary">Mi Historia</a>
         </div>
+      </section>
+
+      <!-- Tech Strip (DevTalles Inspired) -->
+      <section class="tech-strip">
+        <span>{STACK BASE}</span>
+        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg> Bash</div>
+        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg> Linux</div>
+        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg> Docker</div>
+        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> AWS</div>
+        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg> Terraform</div>
+        <span>{NUBE}</span>
       </section>
 
       <section>

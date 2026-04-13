@@ -70,14 +70,22 @@ import HeaderLink from './HeaderLink.astro';
   const iconMoon = document.getElementById('icon-moon');
 
   function updateIcons() {
-    const isDark = document.documentElement.classList.contains('dark');
-    iconSun.style.display = isDark ? 'block' : 'none';
-    iconMoon.style.display = isDark ? 'none' : 'block';
+    const isLight = document.documentElement.classList.contains('light');
+    iconSun.style.display = isLight ? 'none' : 'block';
+    iconMoon.style.display = isLight ? 'block' : 'none';
   }
   updateIcons();
   toggle.addEventListener('click', () => {
-    const isDark = document.documentElement.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    const isLightNow = document.documentElement.classList.contains('light');
+    if (isLightNow) {
+      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      localStorage.setItem('theme', 'light');
+    }
     updateIcons();
   });
 

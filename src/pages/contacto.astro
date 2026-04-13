@@ -97,7 +97,7 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
             <textarea id="message" name="message" rows="5" required placeholder="¿En qué puedo ayudarte?"></textarea>
           </div>
           <div
-            id="turnstile-container"
+            id="contact-turnstile-container"
             class="cf-turnstile"
             data-sitekey={TURNSTILE_SITE_KEY}
             data-theme="auto"
@@ -114,34 +114,35 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
   </body>
 </html>
 
-<!-- Turnstile script -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<!-- No requerimos el script de turnstile aquí, porque el Footer.astro ya lo inyecta globalmente -->
 
 <script is:inline>
   const contactForm = document.getElementById('contact-form');
   const contactRes = document.getElementById('contact-response');
   const contactBtn = document.getElementById('contact-btn');
-  const turnstileContainer = document.getElementById('turnstile-container');
-  let turnstileExecuted = false;
+  const contactTurnstileContainer = document.getElementById('contact-turnstile-container');
+  let contactTurnstileExecuted = false;
 
-  // Ejecutar y mostrar Turnstile solo cuando el usuario interactúa con un campo
-  const formInputs = contactForm ? contactForm.querySelectorAll('input, textarea') : [];
-  formInputs.forEach(input => {
-    ['focus', 'input'].forEach(evt => {
-      input.addEventListener(evt, () => {
-        if (!turnstileExecuted && window.turnstile && turnstileContainer) {
-          turnstileContainer.style.display = 'block';
-          setTimeout(() => {
-            turnstileContainer.style.opacity = '1';
-          }, 10);
-          window.turnstile.execute('#turnstile-container');
-          turnstileExecuted = true;
-        }
-      }, { once: true });
-    });
-  });
-
+  // Ejecutar Turnstile de forma retrasada solo al tocar el formulario del Contacto
   if (contactForm) {
+    const inputs = contactForm.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+      ['focus', 'input'].forEach(evt => {
+        input.addEventListener(evt, () => {
+          if (!contactTurnstileExecuted && window.turnstile && contactTurnstileContainer) {
+            contactTurnstileContainer.style.display = 'block';
+            setTimeout(() => {
+              contactTurnstileContainer.style.opacity = '1';
+            }, 10);
+            
+            // Usamos el ID nuevo explícito
+            window.turnstile.execute('#contact-turnstile-container');
+            contactTurnstileExecuted = true;
+          }
+        }, { once: true });
+      });
+    });
+
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -153,16 +154,15 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
         turnstileToken: ''
       };
 
+      // Recuperar token explícitamente desde este container (por si hay más de 1 en pantalla)
       if (window.turnstile) {
-        data.turnstileToken = window.turnstile.getResponse() || '';
-      }
-      if (!data.turnstileToken) {
-        const input = document.querySelector('[name="cf-turnstile-response"]');
-        data.turnstileToken = input ? input.value : '';
+        // En un div manual Turnstile inserta un input oculto dentro
+        const tInput = contactTurnstileContainer.querySelector('[name="cf-turnstile-response"]');
+        if (tInput) data.turnstileToken = tInput.value;
       }
 
       if (!data.turnstileToken) {
-        contactRes.textContent = 'Por favor, completa la verificación de seguridad.';
+        contactRes.textContent = 'Por favor, completa o aguarda a la verificación de seguridad.';
         contactRes.className = 'contact-msg error';
         return;
       }
@@ -184,15 +184,18 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
           contactRes.textContent = '¡Mensaje enviado con éxito! Te responderé lo antes posible.';
           contactRes.className = 'contact-msg success';
           contactForm.reset();
-          turnstileExecuted = false;
-          // Ocultar Turnstile tras éxito
-          if (turnstileContainer) {
-            turnstileContainer.style.opacity = '0';
+          
+          contactTurnstileExecuted = false;
+          if (contactTurnstileContainer) {
+            contactTurnstileContainer.style.opacity = '0';
             setTimeout(() => {
-              turnstileContainer.style.display = 'none';
+              contactTurnstileContainer.style.display = 'none';
             }, 300);
           }
-          if (window.turnstile) window.turnstile.reset();
+          if (window.turnstile) {
+             // Reset todo
+             window.turnstile.reset();
+          }
         } else {
           throw new Error(result.error || 'Error al enviar el mensaje');
         }

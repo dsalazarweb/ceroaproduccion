@@ -17,12 +17,17 @@ const { title, description, image = '/og-default.png' } = Astro.props;
     if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
       return localStorage.getItem('theme');
     }
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
+    if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      return 'light';
     }
-    return 'light';
+    return 'dark'; // Dark es el valor por defecto
   })();
-  document.documentElement.classList.toggle('dark', theme === 'dark');
+  // Agrega la clase correspondiente
+  if (theme === 'light') {
+    document.documentElement.classList.add('light');
+  } else {
+    document.documentElement.classList.add('dark');
+  }
 </script>
 
 <meta charset="utf-8" />
