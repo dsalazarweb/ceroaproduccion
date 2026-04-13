@@ -60,7 +60,7 @@ export const onRequestPost: PagesFunction<{
         {
           from: 'Mensajero <noreply@ceroaproduccion.dev>', // Para que se diferencie en tu bandeja
           to: env.CONTACT_DEST_EMAIL,
-          subject: `Nuevo mensaje de ${safeName} vía web`,
+          subject: `Tu mensaje en ceroaproduccion.dev - ${safeName}`,
           reply_to: email, // Para que puedas darle a "Responder" directo
           html: `
             <h2>Nuevo mensaje de contacto</h2>
