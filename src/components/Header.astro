@@ -5,7 +5,10 @@ import HeaderLink from './HeaderLink.astro';
 
 <header>
   <nav>
-    <a href="/" class="site-title">{SITE_TITLE}</a>
+    <a href="/" class="site-title">
+      <img src="/favicon.svg" alt="Cero a Producción Logo" aria-hidden="true" />
+      {SITE_TITLE}
+    </a>
 
     <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -130,10 +133,18 @@ import HeaderLink from './HeaderLink.astro';
     font-weight: 700;
     font-size: 1.05em;
     text-decoration: none;
-    color: var(--accent);
+    color: var(--text-primary);
     white-space: nowrap;
     flex-shrink: 0;
     letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .site-title img {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
   }
   .nav-links {
     display: flex;
