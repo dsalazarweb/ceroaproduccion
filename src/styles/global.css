@@ -38,9 +38,9 @@
   --accent-dark: #3730A3; /* Indigo más oscuro para hover */
   --accent-rgb: 79, 70, 229;
 
-  --bg-primary: #F8FAFC; /* Tono cálido-azulado, menos agresivo que #FAFAFA */
+  --bg-primary: #F1F5F9; /* Slate 100 - Tono más bajo para menos brillo */
   --bg-secondary: #FFFFFF;
-  --bg-code: #EEF2F7;
+  --bg-code: #E2E8F0; /* Slate 200 para contrastar un poco más contra el fondo de main */
 
   --text-primary: #1E293B;
   --text-secondary: #334155; /* Más contraste que #475569 */

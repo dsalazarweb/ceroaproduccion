@@ -169,7 +169,9 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
 
       contactBtn.disabled = true;
       contactBtn.textContent = 'Enviando...';
-      contactRes.style.display = 'none';
+      contactRes.style.display = ''; /* Reset inline style from previous potential state */
+      contactRes.textContent = '';
+      contactRes.className = 'contact-msg';
 
       try {
         const res = await fetch('/api/contact', {
