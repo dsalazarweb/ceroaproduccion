@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 16 104 94">
   <defs>
     <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#7C8AFF"/>
       <stop offset="100%" stop-color="#4F46E5"/>
     </linearGradient>
   </defs>
-  <!-- Background removed for transparency -->
+  <!-- Background removed for perfect transparency, viewBox scaled to perfectly crop edges -->
   <text x="14" y="96" font-family="monospace" font-weight="900" font-size="80" fill="url(#g)">C0</text>
-  <rect x="14" y="104" width="100" height="4" rx="2" fill="url(#g)" opacity="0.5"/>
+  <rect x="14" y="104" width="96" height="4" rx="2" fill="url(#g)" opacity="0.6"/>
 </svg>

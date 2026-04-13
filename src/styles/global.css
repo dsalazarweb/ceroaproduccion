@@ -34,27 +34,27 @@
    VARIABLES — Light mode
    ============================================ */
 :root.light {
-  --accent: #4F46E5; /* Indigo profundo — legible en fondo claro */
+  --accent: #4F46E5; /* Indigo profundo */
   --accent-dark: #3730A3; /* Indigo más oscuro para hover */
   --accent-rgb: 79, 70, 229;
 
-  --bg-primary: #FCFAF5; /* Fondo crema/beige muy suave para evitar fatiga visual */
-  --bg-secondary: #FFFFFF; /* Cajas y elementos sobre el fondo */
-  --bg-code: #F3EFE6; /* Fondo de código beige ligeramente más oscuro */
+  --bg-primary: #ECEFF4; /* Nord Snow Storm - Sin reflejos amarillos ni destellos blancos */
+  --bg-secondary: #F8F9FB; /* Fondo limpio para cajas, muy cercano al mate */
+  --bg-code: #E5E9F0; /* Nord 5 para bloques de código */
 
-  --text-primary: #1E293B;
-  --text-secondary: #475569; 
-  --text-muted: #64748B; 
+  --text-primary: #2E3440; /* Polar Night: Carbón oscuro muy relajante a la vista */
+  --text-secondary: #434C5E; 
+  --text-muted: #4C566A; 
 
-  --border-color: #E8E5D9; /* Bordes cálidos integrados a la paleta beige */
+  --border-color: #D8DEE9; /* Nord 4 - bordes gélidos sutiles */
 
-  --black: 30, 41, 59;
-  --gray: 100, 116, 139;
-  --gray-light: 243, 239, 230;
-  --gray-dark: 15, 23, 42;
+  --black: 46, 52, 64;
+  --gray: 67, 76, 94;
+  --gray-light: 236, 239, 244;
+  --gray-dark: 59, 66, 82;
   --gray-gradient: rgba(var(--gray-light), 0%), var(--bg-primary);
 
-  --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
 }
 
 /* ============================================
