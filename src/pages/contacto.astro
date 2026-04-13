@@ -96,11 +96,14 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
             <label for="message">Mensaje</label>
             <textarea id="message" name="message" rows="5" required placeholder="¿En qué puedo ayudarte?"></textarea>
           </div>
-          <div 
-            id="turnstile-container" 
-            class="cf-turnstile" 
+          <div
+            id="turnstile-container"
+            class="cf-turnstile"
             data-sitekey={TURNSTILE_SITE_KEY}
             data-theme="auto"
+            data-size="normal"
+            data-execution="execute"
+            style="display: none; opacity: 0; transition: opacity 0.3s ease;"
           ></div>
           <button type="submit" class="btn btn-primary" id="contact-btn">Enviar Mensaje</button>
           <div id="contact-response" class="contact-msg" aria-live="polite"></div>
@@ -118,6 +121,25 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
   const contactForm = document.getElementById('contact-form');
   const contactRes = document.getElementById('contact-response');
   const contactBtn = document.getElementById('contact-btn');
+  const turnstileContainer = document.getElementById('turnstile-container');
+  let turnstileExecuted = false;
+
+  // Ejecutar y mostrar Turnstile solo cuando el usuario interactúa con un campo
+  const formInputs = contactForm ? contactForm.querySelectorAll('input, textarea') : [];
+  formInputs.forEach(input => {
+    ['focus', 'input'].forEach(evt => {
+      input.addEventListener(evt, () => {
+        if (!turnstileExecuted && window.turnstile && turnstileContainer) {
+          turnstileContainer.style.display = 'block';
+          setTimeout(() => {
+            turnstileContainer.style.opacity = '1';
+          }, 10);
+          window.turnstile.execute('#turnstile-container');
+          turnstileExecuted = true;
+        }
+      }, { once: true });
+    });
+  });
 
   if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
@@ -133,6 +155,10 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
 
       if (window.turnstile) {
         data.turnstileToken = window.turnstile.getResponse() || '';
+      }
+      if (!data.turnstileToken) {
+        const input = document.querySelector('[name="cf-turnstile-response"]');
+        data.turnstileToken = input ? input.value : '';
       }
 
       if (!data.turnstileToken) {
@@ -158,6 +184,14 @@ const TURNSTILE_SITE_KEY = '0x4AAAAAAC1DCm1Ou3AIDn3x';
           contactRes.textContent = '¡Mensaje enviado con éxito! Te responderé lo antes posible.';
           contactRes.className = 'contact-msg success';
           contactForm.reset();
+          turnstileExecuted = false;
+          // Ocultar Turnstile tras éxito
+          if (turnstileContainer) {
+            turnstileContainer.style.opacity = '0';
+            setTimeout(() => {
+              turnstileContainer.style.display = 'none';
+            }, 300);
+          }
           if (window.turnstile) window.turnstile.reset();
         } else {
           throw new Error(result.error || 'Error al enviar el mensaje');
