@@ -5,7 +5,7 @@
       <stop offset="100%" stop-color="#4F46E5"/>
     </linearGradient>
   </defs>
-  <rect width="128" height="128" rx="24" fill="#0B0E14"/>
+  <!-- Background removed for transparency -->
   <text x="14" y="96" font-family="monospace" font-weight="900" font-size="80" fill="url(#g)">C0</text>
   <rect x="14" y="104" width="100" height="4" rx="2" fill="url(#g)" opacity="0.5"/>
 </svg>
