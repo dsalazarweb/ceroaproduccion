@@ -13,32 +13,74 @@ import { SITE_TITLE } from '../../consts';
       .portfolio-header {
         margin-bottom: 4rem;
         text-align: center;
+        animation: fadeUp 0.8s ease forwards;
       }
       .portfolio-header h1 {
         font-size: 3.5rem;
         margin-bottom: 1rem;
       }
+      .portfolio-header p {
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+      }
       .portfolio-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         gap: 2rem;
+        animation: fadeUp 1s ease forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
       }
-      .empty-state {
-        grid-column: 1 / -1;
-        text-align: center;
-        padding: 4rem 2rem;
-        background: var(--bg-secondary);
-        border: 2px dashed var(--border-color);
+      
+      .project-card {
+        background: rgba(17, 19, 24, 0.6);
+        border: 1px solid rgba(124, 138, 255, 0.2);
         border-radius: 16px;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s ease, border-color 0.3s ease;
       }
-      .empty-state h2 {
-        color: var(--text-secondary);
+      
+      .project-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent);
+      }
+      
+      .project-status {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: rgba(124, 138, 255, 0.15);
+        color: var(--accent);
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 600;
         margin-bottom: 1rem;
       }
-      .empty-state p {
-        color: var(--text-muted);
-        max-width: 400px;
-        margin: 0 auto;
+      
+      .project-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+      }
+      
+      .project-desc {
+        color: var(--text-secondary);
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+      }
+      
+      .cta-container {
+        margin-top: 4rem;
+        text-align: center;
+        animation: fadeUp 1.2s ease forwards;
+        animation-delay: 0.4s;
+        opacity: 0;
+      }
+      
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
       }
     </style>
   </head>
@@ -47,14 +89,27 @@ import { SITE_TITLE } from '../../consts';
     <main>
       <header class="portfolio-header">
         <h1>Portafolio</h1>
-        <p>Proyectos terminados y arquitecturas reales en producción.</p>
+        <p>Proyectos funcionales en producción, construidos con infraestructura real.</p>
       </header>
 
       <div class="portfolio-grid">
-        <div class="empty-state">
-          <h2>Proyectos en Construcción</h2>
-          <p>Actualmente estoy documentando mis primeros despliegues en los Labs. Muy pronto verás aquí los proyectos consolidados.</p>
+        <div class="project-card">
+          <span class="project-status">En Producción</span>
+          <h2 class="project-title">ceroaproduccion.dev</h2>
+          <p class="project-desc">Este mismo sitio. Un blog técnico y portafolio interactivo. Desarrollado con Astro 6.1, infraestructura serverless en Cloudflare Pages, comunicaciones transaccionales con Resend (Double Opt-in HMAC), y analítica privacy-first con Umami.</p>
+          <a href="https://github.com/dsalazarweb/ceroaproduccion" target="_blank" class="btn" style="border: 1px solid var(--accent); color: var(--accent); padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none;">Ver Repositorio</a>
         </div>
+        
+        <div class="project-card" style="border: 1px dashed var(--border-color); background: transparent;">
+          <span class="project-status" style="background: rgba(255, 255, 255, 0.1); color: var(--text-muted);">En Planificación</span>
+          <h2 class="project-title" style="color: var(--text-muted);">Infraestructura DevOps</h2>
+          <p class="project-desc" style="color: var(--text-muted);">Más proyectos con AWS EC2, configuraciones de VPCs, y despliegues orquestados con Terraform y Kubernetes se añadirán pronto siguiendo el Roadmap DevOps.</p>
+        </div>
+      </div>
+      
+      <div class="cta-container">
+        <h3 style="margin-bottom: 1rem; color: var(--text-primary);">¿Quieres ver en qué estoy trabajando ahora?</h3>
+        <a href="/labs" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1.1rem;">Explora mis Labs →</a>
       </div>
     </main>
     <Footer />
