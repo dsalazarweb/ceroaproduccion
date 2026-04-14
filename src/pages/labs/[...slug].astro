@@ -134,14 +134,17 @@ const { Content } = await render(lab);
       .nav-card {
         display: flex;
         flex-direction: column;
-        padding: 1rem;
+        padding: 1.25rem;
         border: 1px solid var(--border-color);
-        border-radius: 8px;
+        border-radius: 12px;
         text-decoration: none;
-        transition: border-color 0.2s;
+        background: var(--bg-secondary);
+        transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
       }
       .nav-card:hover {
         border-color: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
       .nav-label {
         font-size: 0.8rem;
@@ -367,13 +370,13 @@ const { Content } = await render(lab);
           {prev && (
             <a href={`/labs/${prev.id}`} class="nav-card prev">
               <span class="nav-label">Anterior</span>
-              <span class="nav-title">Día {prev.data.dia}: {prev.data.titulo}</span>
+              <span class="nav-title">{prev.data.titulo}</span>
             </a>
           )}
           {next && (
             <a href={`/labs/${next.id}`} class="nav-card next">
               <span class="nav-label">Siguiente</span>
-              <span class="nav-title">Día {next.data.dia}: {next.data.titulo}</span>
+              <span class="nav-title">{next.data.titulo}</span>
             </a>
           )}
         </nav>

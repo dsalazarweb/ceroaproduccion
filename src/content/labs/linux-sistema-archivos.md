@@ -1,5 +1,5 @@
 ---
-titulo: "Día 01 — Sistema de archivos y navegación en Linux"
+titulo: "Sistema de archivos y navegación en Linux"
 descripcion: "Cómo está organizado Linux por dentro y cómo navegar con confianza desde la terminal. Primer día del roadmap DevOps."
 fecha: 2026-02-19
 fase: 0
@@ -11,9 +11,6 @@ draft: false
 
 ## Objetivo
 Entender cómo está organizado Linux por dentro y navegar con confianza desde la terminal.
-
-**Tiempo invertido:** ~2 horas
-**Entorno:** Linux Mint 22.3 "Zena" — Usuario: dsalazar
 
 ---
 

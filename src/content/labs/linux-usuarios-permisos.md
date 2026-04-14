@@ -1,10 +1,11 @@
 ---
-titulo: "Día 03 — Usuarios, grupos y permisos en Linux"
+titulo: "Usuarios, grupos y permisos en Linux"
 descripcion: "La base de toda seguridad Unix y el concepto detrás de AWS IAM. Permisos, chmod, chown y sudo desde cero."
 fecha: 2026-02-23
 fase: 0
 dia: 3
 tags: ["linux", "seguridad", "permisos", "principiante"]
+imagen: "/images/lab03-permissions.png"
 draft: false
 ---
 
@@ -22,40 +23,59 @@ Todo en Linux tiene un propietario y un conjunto de permisos. Cada archivo, dire
 
 ## Comandos practicados
 
+### Identidad del usuario
+Descubre quién eres en el sistema, tu UID, y a qué grupos perteneces:
 ```bash
-# Información de usuario
 whoami                              # usuario actual
 id                                  # uid, gid y todos los grupos
 groups                              # grupos del usuario actual
 groups dsalazar                     # grupos de un usuario específico
+```
 
-# Archivos del sistema
+### Archivos del sistema de usuarios
+Linux almacena la información de usuarios y contraseñas en archivos de texto plano:
+```bash
 cat /etc/passwd                     # todos los usuarios del sistema
 awk -F: '$3 >= 1000 {print $1, $3, $6}' /etc/passwd   # solo usuarios reales
 cat /etc/group                      # todos los grupos
 cat /etc/shadow                     # hashes de contraseñas (requiere sudo)
+```
 
-# Ver permisos
+### Ver permisos de archivos
+Cada archivo tiene permisos para usuario (u), grupo (g), y otros (o):
+```bash
 ls -la archivo.txt                  # permisos detallados
 stat archivo.txt                    # información completa incluyendo permisos en octal
+```
 
-# chmod numérico
+### chmod numérico
+Cambia permisos usando números octales — la forma más directa y usada en producción:
+```bash
 chmod 755 archivo.txt               # rwxr-xr-x
 chmod 644 archivo.txt               # rw-r--r--
 chmod 600 archivo.txt               # rw------- (solo propietario)
 chmod 700 directorio/               # drwx------ (solo propietario puede entrar)
+```
 
-# chmod simbólico
+### chmod simbólico
+La forma legible de modificar permisos, útil cuando quieres cambiar solo un aspecto:
+```bash
 chmod u+x archivo.txt               # agregar ejecución al usuario
 chmod g-w archivo.txt               # quitar escritura al grupo
 chmod o= archivo.txt                # quitar todo a otros
 chmod a+r archivo.txt               # agregar lectura a todos
+```
 
-# chown — cambiar propietario
+### chown — cambiar propietario
+Solo root puede cambiar el dueño de un archivo:
+```bash
 sudo chown root:root archivo.txt    # cambiar a root
 sudo chown dsalazar:dsalazar archivo.txt  # devolver al usuario
+```
 
-# sudo
+### sudo — ejecutar como root
+`sudo` te da poderes de administrador temporalmente — requiere estar en el grupo `sudo`:
+```bash
 sudo ls /root                       # ejecutar como root
 sudo mkdir /opt/proyecto-test       # crear en directorio del sistema
 sudo cat /etc/sudoers | head -30    # ver configuración de sudo

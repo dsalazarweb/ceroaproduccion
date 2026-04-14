@@ -1,10 +1,11 @@
 ---
-titulo: "Día 02 — Gestión de archivos y directorios en Linux"
+titulo: "Gestión de archivos y directorios en Linux"
 descripcion: "Crear, copiar, mover, renombrar y eliminar archivos desde la terminal. Las mismas operaciones que usarás en EC2, Docker y Kubernetes."
 fecha: 2026-02-22
 fase: 0
 dia: 2
 tags: ["linux", "terminal", "archivos", "principiante"]
+imagen: "/images/lab02-files.png"
 draft: false
 ---
 
@@ -22,40 +23,60 @@ Las mismas operaciones de archivos que ejecutas hoy en tu máquina local son exa
 
 ## Comandos practicados
 
+### Crear archivos y directorios
+Usa `touch` para archivos vacíos y `mkdir -p` para crear toda una jerarquía de carpetas de una vez:
 ```bash
-# Crear
 touch archivo.txt                    # archivo vacío
 touch arch1.txt arch2.txt            # varios a la vez
 mkdir carpeta1                       # directorio
 mkdir -p proyectos/web/css           # directorios anidados de una vez
+```
+
+### Escribir contenido en archivos
+La diferencia entre `>` y `>>` es crítica — uno destruye, el otro preserva:
+```bash
 echo "texto" > archivo.txt           # crear con contenido (sobreescribe)
 echo "más texto" >> archivo.txt      # agregar al final (no destruye)
+```
 
-# Ver contenido
+### Ver contenido de archivos
+Desde una vista rápida con `cat` hasta monitoreo en tiempo real con `tail -f`:
+```bash
 cat archivo.txt                      # muestra todo
 less /etc/passwd                     # con navegación (q para salir)
-head /etc/passwd                     # primeras 10 líneas
 head -5 /etc/passwd                  # primeras 5 líneas
 tail -5 /etc/passwd                  # últimas 5 líneas
 tail -f /var/log/syslog              # seguimiento en tiempo real (Ctrl+C)
+```
 
-# Copiar
+### Copiar archivos y directorios
+Copiar un archivo es directo; para directorios completos necesitas `-r` (recursivo):
+```bash
 cp archivo.txt copia.txt             # mismo directorio
 cp archivo.txt carpeta1/             # a otro directorio
 cp -r carpeta1/ carpeta1-backup/     # directorio completo
+```
 
-# Mover y renombrar
+### Mover y renombrar
+En Linux, mover y renombrar es el mismo comando — `mv` hace ambas cosas:
+```bash
 mv archivo.txt nuevo-nombre.txt      # renombrar
 mv archivo.txt carpeta1/             # mover
 mv archivo.txt carpeta1/nuevo.txt    # mover y renombrar a la vez
 mv -i origen destino                 # pedir confirmación
+```
 
-# Eliminar
+### Eliminar archivos y directorios
+`rm` no tiene papelera. Lo que borras, desaparece:
+```bash
 rm archivo.txt                       # archivo
 rm -r directorio/                    # directorio con contenido
 rmdir directorio-vacio/              # solo si está vacío
+```
 
-# Wildcards
+### Wildcards (patrones)
+Los comodines permiten operar sobre múltiples archivos con un solo comando:
+```bash
 ls *.txt                             # todos los .txt
 ls log-*.txt                         # los que empiezan con log-
 cp log-*.txt backup/                 # copiar por patrón

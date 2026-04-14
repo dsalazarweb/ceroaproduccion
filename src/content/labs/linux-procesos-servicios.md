@@ -1,10 +1,11 @@
 ---
-titulo: "Día 04 — Procesos y servicios en Linux"
+titulo: "Procesos y servicios en Linux"
 descripcion: "Cómo Linux gestiona todo lo que corre: procesos, servicios, systemd y logs. Base directa para administrar contenedores y servidores."
 fecha: 2026-03-26
 fase: 0
 dia: 4
 tags: ["linux", "procesos", "systemd", "principiante"]
+imagen: "/images/lab04-processes.png"
 draft: false
 ---
 
@@ -22,27 +23,40 @@ Todo lo que corre en Linux es un proceso. Cada servicio es un proceso gestionado
 
 ## Comandos practicados
 
+### Ver procesos activos
+`ps aux` es el snapshot que te dice TODO lo que corre en el sistema ahora mismo:
 ```bash
-# Ver procesos activos
 ps aux                              # todos los procesos del sistema
 ps aux | grep bash                  # filtrar por nombre
 ps -ef | head -20                   # formato alternativo, primeros 20
+```
 
-# Monitoreo en tiempo real
+### Monitoreo en tiempo real
+`top` viene instalado siempre; `htop` es su versión visual mejorada:
+```bash
 top                                 # monitor básico (M=memoria, P=CPU, q=salir)
 htop                                # monitor interactivo mejorado (q=salir)
+```
 
-# Procesos en segundo plano
+### Procesos en segundo plano
+Lanza procesos sin bloquear tu terminal y controla su ciclo de vida:
+```bash
 sleep 300 &                         # lanzar proceso en background
 jobs                                # ver jobs activos en la sesión
 kill PID                            # matar proceso por PID
 killall sleep                       # matar todos los procesos con ese nombre
+```
 
-# Señales de kill
+### Señales de kill
+SIGTERM pide permiso; SIGKILL no pregunta — último recurso:
+```bash
 kill -15 PID                        # SIGTERM — terminación limpia (default)
 kill -9 PID                         # SIGKILL — fuerza bruta, no ignorable
+```
 
-# Gestión de servicios con systemctl
+### Gestión de servicios con systemctl
+`systemctl` es la interfaz de systemd para controlar servicios del sistema operativo:
+```bash
 systemctl status cron               # ver estado de un servicio
 sudo systemctl stop cron            # detener servicio
 sudo systemctl start cron           # iniciar servicio
@@ -50,8 +64,11 @@ sudo systemctl restart cron         # reiniciar servicio
 sudo systemctl enable cron          # activar en arranque
 sudo systemctl disable cron         # desactivar en arranque
 systemctl list-units --type=service --state=running   # listar servicios activos
+```
 
-# Logs del sistema con journalctl
+### Logs del sistema con journalctl
+`journalctl` centraliza todos los logs del sistema — equivalente a buscar en CloudWatch:
+```bash
 journalctl -n 20                    # últimas 20 líneas del sistema
 journalctl -u cron -n 10            # logs de un servicio específico
 journalctl -f                       # seguimiento en tiempo real (Ctrl+C para salir)
