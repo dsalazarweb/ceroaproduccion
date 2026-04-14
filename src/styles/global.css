@@ -39,7 +39,7 @@
   --accent-rgb: 79, 70, 229;
 
   --bg-primary: #ECEFF4; /* Nord Snow Storm - Sin reflejos amarillos ni destellos blancos */
-  --bg-secondary: #F8F9FB; /* Fondo limpio para cajas, muy cercano al mate */
+  --bg-secondary: #FFFFFF; /* Pure white para máxima distinción contra bg-primary */
   --bg-code: #E5E9F0; /* Nord 5 para bloques de código */
 
   --text-primary: #2E3440; /* Polar Night: Carbón oscuro muy relajante a la vista */
@@ -78,6 +78,10 @@
 /* ============================================
    BASE
    ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Atkinson", sans-serif;
   margin: 0;
