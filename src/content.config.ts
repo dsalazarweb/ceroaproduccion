@@ -20,10 +20,13 @@ const guias = defineCollection({
   schema: z.object({
     titulo: z.string(),
     descripcion: z.string(),
+    imagen: z.string().optional(),
     fecha: z.coerce.date(),
     tags: z.array(z.string()),
     dificultad: z.enum(['principiante', 'intermedio', 'avanzado']),
     tiempo_lectura: z.number().optional(),
+    serie: z.string().optional(),
+    orden: z.number().optional(),
     draft: z.boolean().default(false),
   }),
 });

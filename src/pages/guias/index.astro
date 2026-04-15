@@ -82,6 +82,14 @@ const guias = (await getCollection('guias', ({ data }) => !data.draft))
         <p>Tutoriales detallados paso a paso para dominar herramientas y conceptos de infraestructura.</p>
       </section>
 
+      {guias.some(g => g.data.serie) && (
+        <div class="serie-banner" style="padding:1.5rem; background:var(--bg-secondary); border-left:4px solid var(--accent); border-radius:8px; margin-bottom:2rem;">
+          <span style="font-size:0.8rem; text-transform:uppercase; font-weight:bold; color:var(--accent);">Serie</span>
+          <h2 style="margin:0.25rem 0; font-size:1.5rem;">DevOps en Windows</h2>
+          <p style="margin:0; font-size:0.95rem; color:var(--text-secondary);">4 guías desde la instalación hasta producción</p>
+        </div>
+      )}
+
       <section class="guias-grid">
         {guias.length > 0 ? (
           guias.map((guia) => (
@@ -89,6 +97,11 @@ const guias = (await getCollection('guias', ({ data }) => !data.draft))
               <span class={`difficulty diff-${guia.data.dificultad}`}>
                 {guia.data.dificultad}
               </span>
+              {guia.data.serie && (
+                <span style="font-size:0.8rem; color:var(--accent); margin-top:0.5rem; font-weight:bold;">
+                  Parte {guia.data.orden} de 4
+                </span>
+              )}
               <h2>{guia.data.titulo}</h2>
               <p>{guia.data.descripcion}</p>
               <div class="guia-footer">
@@ -100,7 +113,7 @@ const guias = (await getCollection('guias', ({ data }) => !data.draft))
         ) : (
           <div class="empty-state">
             <h2>Próximamente</h2>
-            <p>Estoy preparando guías detalladas sobre AWS, Docker y Kubernetes. Por ahora, puedes revisar los <a href="/labs">Labs</a>.</p>
+            <p>Estoy preparando guías detalladas. Por ahora, puedes revisar los <a href="/labs">Labs</a>.</p>
           </div>
         )}
       </section>

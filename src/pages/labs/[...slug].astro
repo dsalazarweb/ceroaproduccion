@@ -168,7 +168,7 @@ const { Content } = await render(lab);
       }
       :global(th), :global(td) {
         padding: 0.75rem;
-        border: 1px solid var(--border-color);
+        border: 3px solid var(--border-color);
         text-align: left;
       }
       :global(th) {
@@ -200,9 +200,11 @@ const { Content } = await render(lab);
         margin: 2.5rem 0;
         background: #1e1e1e !important;
         border-radius: 12px;
-        overflow: hidden;
+        overflow: hidden; /* Ocultar desborde padre */
         box-shadow: 0 15px 35px rgba(0,0,0,0.25), 0 5px 15px rgba(0,0,0,0.1);
         border: 1px solid #333 !important;
+        width: 100%;
+        box-sizing: border-box;
       }
       :global(.code-header) {
         display: flex;
@@ -264,16 +266,23 @@ const { Content } = await render(lab);
       }
       :global(.code-wrapper pre) {
         margin: 0 !important;
-        padding: 1.5rem 1.5rem !important;
-        overflow-x: auto;
+        padding: 1.5rem !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        max-width: 100% !important;
         font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace !important;
         font-size: 0.95rem;
         line-height: 1.6;
         color: #e5e7eb !important;
         background: transparent !important;
+        white-space: pre-wrap !important;
+        word-break: break-word !important;
       }
       :global(.code-wrapper code) {
         font-family: inherit !important;
+        box-sizing: border-box !important;
+        white-space: pre-wrap !important;
+        word-break: break-word !important;
       }
       .share-container {
         margin: 4rem 0 2rem;

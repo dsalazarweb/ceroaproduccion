@@ -9,14 +9,21 @@ import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const guias = (await getCollection('guias'))
-    .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
+    .sort((a, b) => {
+      // Si están en la misma serie, ordenar por orden
+      if (a.data.serie && b.data.serie && a.data.serie === b.data.serie) {
+        return (a.data.orden ?? 0) - (b.data.orden ?? 0);
+      }
+      // Si no, ordenar por fecha descendente
+      return b.data.fecha.valueOf() - a.data.fecha.valueOf();
+    });
   
   return guias.map((guia, index) => ({
     params: { slug: guia.id },
     props: {
       guia,
-      prev: index < guias.length - 1 ? guias[index + 1] : null,
-      next: index > 0 ? guias[index - 1] : null,
+      prev: index > 0 ? guias[index - 1] : null,
+      next: index < guias.length - 1 ? guias[index + 1] : null,
     },
   }));
 }
@@ -82,8 +89,138 @@ const { Content } = await render(guia);
         color: var(--accent);
       }
       .prose {
-        max-width: 100%;
+        max-width: 850px; /* Ancho ajustado para hacerlo más amplio, similar a labs */
+        margin: 0 auto;
         margin-bottom: 4rem;
+      }
+      /* Estilos para tablas dentro del Markdown */
+      .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        margin: 2rem 0;
+      }
+      :global(table) {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+      :global(th), :global(td) {
+        padding: 0.75rem;
+        border: 3px solid var(--border-color);
+        text-align: left;
+      }
+      :global(th) {
+        background-color: var(--bg-secondary);
+        font-weight: 700;
+      }
+      /* Estilos para blockquotes */
+      :global(blockquote) {
+        background: var(--bg-secondary);
+        border-radius: 0 8px 8px 0;
+        margin: 2rem 0;
+      }
+      /* Estilos para Imagen Destacada y Código */
+      .featured-image {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: cover;
+        border-radius: 16px;
+        margin-bottom: 4rem;
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);
+        border: 1px solid var(--border-color);
+        transition: transform 0.3s ease;
+      }
+      .featured-image:hover {
+        transform: scale(1.01);
+      }
+      :global(.code-wrapper) {
+        margin: 2.5rem 0;
+        background: #1e1e1e !important;
+        border-radius: 12px;
+        overflow: hidden; /* Ocultar cualquier desborde del contenedor padre */
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25), 0 5px 15px rgba(0,0,0,0.1);
+        border: 1px solid #333 !important;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      :global(.code-header) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1.25rem;
+        background: #252526 !important;
+        border-bottom: 1px solid #333 !important;
+      }
+      :global(.mac-dots) {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      :global(.mac-dots span) {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+      }
+      :global(.mac-dots span:nth-child(1)) { background: #ff5f56; }
+      :global(.mac-dots span:nth-child(2)) { background: #ffbd2e; }
+      :global(.mac-dots span:nth-child(3)) { background: #27c93f; }
+      :global(.mac-dots::after) {
+        content: 'Terminal';
+        color: #858585;
+        font-size: 0.75rem;
+        font-family: inherit;
+        margin-left: 0.75rem;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+      :global(.copy-btn) {
+        background: #333 !important;
+        border: 1px solid #444 !important;
+        color: #ccc !important;
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      :global(.copy-btn:hover) {
+        background: #444 !important;
+        color: #fff !important;
+        border-color: #555 !important;
+        transform: translateY(-1px);
+      }
+      :global(.copy-btn.copied) {
+        background: #10b981 !important;
+        border-color: #059669 !important;
+        color: white !important;
+      }
+      :global(.code-wrapper pre) {
+        margin: 0 !important;
+        padding: 1.5rem !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace !important;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #e5e7eb !important;
+        background: transparent !important;
+        white-space: pre-wrap !important;
+        word-break: break-word !important;
+      }
+      :global(.code-wrapper code) {
+        font-family: inherit !important;
+        box-sizing: border-box !important;
+        white-space: pre-wrap !important;
+        word-break: break-word !important;
       }
       .guia-nav {
         display: grid;
@@ -134,6 +271,11 @@ const { Content } = await render(guia);
       <article class="prose">
         <header class="guia-header">
           <span class="difficulty">{guia.data.dificultad}</span>
+          {guia.data.serie && (
+            <span class="serie-indicator" style="display:block; margin-bottom:1rem; font-size:0.9rem; color:var(--text-secondary);">
+              Serie: {guia.data.serie === 'devops-en-windows' ? 'DevOps en Windows' : guia.data.serie} · Parte {guia.data.orden} de 4
+            </span>
+          )}
           <h1 class="guia-title">{guia.data.titulo}</h1>
           <div class="guia-meta">
             <FormattedDate date={guia.data.fecha} />
@@ -142,6 +284,11 @@ const { Content } = await render(guia);
             </div>
           </div>
         </header>
+        
+        {guia.data.imagen && (
+          <img src={guia.data.imagen} alt={`Imagen destacada de ${guia.data.titulo}`} class="featured-image" />
+        )}
+
         <Content />
         
         <nav class="guia-nav">
@@ -161,5 +308,61 @@ const { Content } = await render(guia);
       </article>
     </main>
     <Footer />
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Envolver tablas para scroll horizontal
+        const tables = document.querySelectorAll('.prose table');
+        tables.forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-wrapper';
+          table.parentNode?.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Configurar pre / código y el botón de copiar
+        const preElements = document.querySelectorAll('.prose pre');
+        preElements.forEach((pre) => {
+          // Wrap pre
+          const wrapper = document.createElement('div');
+          wrapper.className = 'code-wrapper';
+          pre.parentNode?.insertBefore(wrapper, pre);
+          
+          // Header
+          const header = document.createElement('div');
+          header.className = 'code-header';
+          
+          const dots = document.createElement('div');
+          dots.className = 'mac-dots';
+          dots.innerHTML = '<span></span><span></span><span></span>';
+          header.appendChild(dots);
+
+          const copyBtn = document.createElement('button');
+          copyBtn.className = 'copy-btn';
+          copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> <span class="copy-text">Copiar</span>';
+          
+          copyBtn.addEventListener('click', () => {
+            const code = document.createElement('div');
+            code.innerHTML = pre.innerHTML;
+            const text = code.innerText || code.textContent;
+            if (text) {
+              navigator.clipboard.writeText(text);
+              const textSpan = copyBtn.querySelector('.copy-text') as HTMLSpanElement;
+              if (textSpan) {
+                textSpan.textContent = 'Copiado!';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                  textSpan.textContent = 'Copiar';
+                  copyBtn.classList.remove('copied');
+                }, 2000);
+              }
+            }
+          });
+          
+          header.appendChild(copyBtn);
+          wrapper.appendChild(header);
+          wrapper.appendChild(pre);
+        });
+      });
+    </script>
   </body>
 </html>
