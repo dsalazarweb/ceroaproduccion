@@ -34,27 +34,27 @@
    VARIABLES — Light mode
    ============================================ */
 :root.light {
-  --accent: #4F46E5; /* Indigo profundo */
-  --accent-dark: #3730A3; /* Indigo más oscuro para hover */
-  --accent-rgb: 79, 70, 229;
+  --accent: #4338CA; /* Indigo más definido, mejor contraste */
+  --accent-dark: #312E81;
+  --accent-rgb: 67, 56, 202;
 
-  --bg-primary: #ECEFF4; /* Nord Snow Storm - Sin reflejos amarillos ni destellos blancos */
-  --bg-secondary: #FFFFFF; /* Pure white para máxima distinción contra bg-primary */
-  --bg-code: #E5E9F0; /* Nord 5 para bloques de código */
+  --bg-primary: #F8FAFC; /* Slate 50: Blanco tiza apagado. No deslumbra, es muy suave y moderno */
+  --bg-secondary: #FFFFFF; /* Blanco puro para elevar las cajas (cards, inputs, footer) */
+  --bg-code: #F1F5F9; /* Fondo muy sutil para código inline */
 
-  --text-primary: #2E3440; /* Polar Night: Carbón oscuro muy relajante a la vista */
-  --text-secondary: #434C5E; 
-  --text-muted: #4C566A; 
+  --text-primary: #0F172A; /* Slate 900: Oscuro marcado y fuerte, elimina la sensación "opaca" */
+  --text-secondary: #334155; /* Slate 700: Secundario legible y profesional */
+  --text-muted: #64748B; /* Slate 500 para notas al pie */
 
-  --border-color: #D8DEE9; /* Nord 4 - bordes gélidos sutiles */
+  --border-color: #CBD5E1; /* Slate 300 para mayor contraste y definición de tarjetas */
 
-  --black: 46, 52, 64;
-  --gray: 67, 76, 94;
-  --gray-light: 236, 239, 244;
-  --gray-dark: 59, 66, 82;
+  --black: 15, 23, 42;
+  --gray: 51, 65, 85;
+  --gray-light: 241, 245, 249;
+  --gray-dark: 15, 23, 42;
   --gray-gradient: rgba(var(--gray-light), 0%), var(--bg-primary);
 
-  --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01); /* Sombra difusa Apple/Tailwind-style */
 }
 
 /* ============================================
@@ -94,6 +94,8 @@ body {
   font-size: 20px;
   line-height: 1.7;
   transition: background-color 0.2s ease, color 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 main {
