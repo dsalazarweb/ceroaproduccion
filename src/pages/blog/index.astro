@@ -10,8 +10,8 @@ const labs = await getCollection('labs', ({ data }) => !data.draft);
 const guias = await getCollection('guias', ({ data }) => !data.draft);
 
 // Combinar y ordenar por fecha
-const posts = [...labs.map(p => ({ ...p, collection: 'labs' })), 
-               ...guias.map(p => ({ ...p, collection: 'guias' }))]
+const posts = [...labs.map(p => ({ ...p, collection: 'labs' as const })), 
+               ...guias.map(p => ({ ...p, collection: 'guias' as const }))]
   .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
 ---
 
@@ -21,48 +21,128 @@ const posts = [...labs.map(p => ({ ...p, collection: 'labs' })),
     <BaseHead title={`Blog — ${SITE_TITLE}`} description="Feed cronológico de todos los labs y guías de mi viaje DevOps." />
     <style>
       .blog-intro {
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
       }
-      .posts-list {
+
+      /* Filtros */
+      .blog-filters {
         display: flex;
-        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+      .filter-btn {
+        padding: 0.4rem 1.2rem;
+        border-radius: 999px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-secondary);
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: inherit;
+      }
+      .filter-btn:hover {
+        border-color: var(--accent);
+        color: var(--text-primary);
+      }
+      .filter-btn.active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+      }
+
+      /* Grid de cards */
+      .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 1.5rem;
       }
-      .post-item {
+
+      .blog-card {
         display: flex;
-        gap: 1rem;
-        padding: 1rem;
-        border-radius: 8px;
+        flex-direction: column;
+        padding: 1.5rem;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
         text-decoration: none;
         color: inherit;
-        transition: background-color 0.2s;
-        border-bottom: 1px solid var(--border-color);
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       }
-      .post-item:hover {
-        background-color: var(--bg-secondary);
+      .blog-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       }
-      .post-date {
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        min-width: 100px;
-        padding-top: 0.2rem;
+      .blog-card[data-type="labs"]:hover {
+        border-color: var(--accent);
       }
-      .post-content h2 {
-        font-size: 1.25rem;
-        margin: 0 0 0.5rem 0;
+      .blog-card[data-type="guias"]:hover {
+        border-color: #10b981;
       }
-      .post-tag {
+
+      .blog-card-tag {
         font-size: 0.75rem;
         text-transform: uppercase;
         font-weight: 700;
-        margin-bottom: 0.5rem;
-        display: block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        width: fit-content;
+        margin-bottom: 0.75rem;
       }
-      .tag-labs { color: var(--accent); }
-      .tag-guias { color: #10b981; } /* Verde para guías */
+      .tag-labs {
+        color: var(--accent);
+        background: rgba(var(--accent-rgb), 0.1);
+      }
+      .tag-guias {
+        color: #10b981;
+        background: rgba(16, 185, 129, 0.1);
+      }
+
+      .blog-card h2 {
+        font-size: 1.25rem;
+        margin: 0 0 0.5rem 0;
+        line-height: 1.3;
+      }
+      .blog-card p {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        margin: 0 0 1rem 0;
+        line-height: 1.5;
+        flex-grow: 1;
+      }
+      .blog-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-color);
+        padding-top: 0.75rem;
+        margin-top: auto;
+      }
+      .blog-card-tags {
+        display: flex;
+        gap: 0.4rem;
+      }
+      .blog-card-tags span {
+        font-size: 0.75rem;
+        background: rgba(var(--accent-rgb), 0.1);
+        color: var(--accent);
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+      }
+
+      /* Transición de filtrado */
+      .blog-card.hidden {
+        display: none;
+      }
 
       @media (max-width: 600px) {
-        .post-item { flex-direction: column; gap: 0.5rem; }
+        .blog-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
@@ -74,23 +154,54 @@ const posts = [...labs.map(p => ({ ...p, collection: 'labs' })),
         <p>Feed cronológico de todos los labs y guías documentadas.</p>
       </section>
 
-      <section class="posts-list">
+      <div class="blog-filters">
+        <button class="filter-btn active" data-filter="todos">Todos</button>
+        <button class="filter-btn" data-filter="labs">Labs</button>
+        <button class="filter-btn" data-filter="guias">Guías</button>
+      </div>
+
+      <section class="blog-grid" id="blog-grid">
         {posts.map((post) => (
-          <a href={`/${post.collection}/${post.id}`} class="post-item">
-            <div class="post-date">
+          <a href={`/${post.collection}/${post.id}`} class="blog-card" data-type={post.collection}>
+            <span class={`blog-card-tag tag-${post.collection}`}>
+              {post.collection === 'labs' ? 'Lab' : 'Guía'}
+            </span>
+            <h2>{post.data.titulo}</h2>
+            <p>{post.data.descripcion}</p>
+            <div class="blog-card-footer">
               <FormattedDate date={post.data.fecha} />
-            </div>
-            <div class="post-content">
-              <span class={`post-tag tag-${post.collection}`}>
-                {post.collection === 'labs' ? 'Lab' : 'Guía'}
-              </span>
-              <h2>{post.data.titulo}</h2>
-              <p>{post.data.descripcion}</p>
+              <div class="blog-card-tags">
+                {post.data.tags.slice(0, 2).map(tag => <span>#{tag}</span>)}
+              </div>
             </div>
           </a>
         ))}
       </section>
     </main>
     <Footer />
+
+    <script is:inline>
+      // Filtro de cards por tipo
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.blog-card');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Actualizar botón activo
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filter = btn.getAttribute('data-filter');
+
+          cards.forEach(card => {
+            if (filter === 'todos' || card.getAttribute('data-type') === filter) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>

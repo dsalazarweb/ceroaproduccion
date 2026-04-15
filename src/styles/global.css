@@ -7,9 +7,15 @@
    VARIABLES — Dark mode (Default)
    ============================================ */
 :root, :root.dark {
-  --accent: #7C8AFF; /* Indigo Blue — puente entre azul-negro y morado DevTalles */
+  --accent: #7C8AFF; /* Portage 400 — Indigo Blue principal */
   --accent-dark: #A5B4FC; /* Lavender suave para hover */
   --accent-rgb: 124, 138, 255; /* Para uso con rgba() */
+
+  /* Escala Portage expandida (solo valores en uso) */
+  --accent-50: #edf1ff;   /* Fondos ultra-sutiles: tags, badges, hover bg */
+  --accent-100: #dee6ff;  /* Hover backgrounds, bordes suaves */
+  --accent-600: #443dee;  /* CTAs hover, botones activos */
+  --accent-900: #2b2986;  /* Texto accent sobre fondos claros */
 
   --bg-primary: #0B0E14; /* Deep Obsidian */
   --bg-secondary: #131720; /* Slightly elevated card */
@@ -34,9 +40,9 @@
    VARIABLES — Light mode
    ============================================ */
 :root.light {
-  --accent: #4338CA; /* Indigo más definido, mejor contraste */
-  --accent-dark: #312E81;
-  --accent-rgb: 67, 56, 202;
+  --accent: #443dee; /* Portage 600 — más vivo que el anterior #4338CA */
+  --accent-dark: #392fd3; /* Portage 700 para hover */
+  --accent-rgb: 68, 61, 238;
 
   --bg-primary: #F8FAFC; /* Slate 50: Blanco tiza apagado. No deslumbra, es muy suave y moderno */
   --bg-secondary: #FFFFFF; /* Blanco puro para elevar las cajas (cards, inputs, footer) */

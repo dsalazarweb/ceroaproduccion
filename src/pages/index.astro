@@ -13,6 +13,11 @@ const latestLabs = allLabs
   .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
   .slice(0, 3);
 
+const allGuias = await getCollection('guias', ({ data }) => !data.draft);
+const latestGuias = allGuias
+  .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
+  .slice(0, 3);
+
 const maxPhase = allLabs.length > 0 ? Math.max(...allLabs.map((lab) => lab.data.fase || 0)) : 0;
 ---
 
@@ -320,6 +325,89 @@ const maxPhase = allLabs.length > 0 ? Math.max(...allLabs.map((lab) => lab.data.
         .tech-strip-items .separator { display: none; }
         .tech-item { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
       }
+
+      /* ===== Sección dual: Labs + Guías ===== */
+      .content-preview {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 3rem;
+        margin-bottom: 1rem;
+      }
+      .preview-column h2 {
+        font-size: 1.8rem;
+        margin: 0;
+      }
+
+      /* Cards de guía compactas */
+      .guia-mini-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1.25rem;
+        background: rgba(var(--bg-secondary-rgb), 0.6);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      .guia-mini-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 4px; height: 100%;
+        background: #10b981;
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .guia-mini-card:hover {
+        border-color: rgba(16, 185, 129, 0.4);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px -10px rgba(0,0,0,0.15);
+      }
+      .guia-mini-card:hover::before {
+        transform: scaleY(1);
+      }
+      .guia-mini-card h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.05rem;
+        line-height: 1.3;
+      }
+      .guia-mini-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: auto;
+        padding-top: 0.5rem;
+      }
+      .guia-difficulty {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+      }
+      .diff-principiante { color: #10b981; }
+      .diff-intermedio { color: #f59e0b; }
+      .diff-avanzado { color: #ef4444; }
+
+      .guias-preview {
+        display: grid;
+        gap: 1rem;
+      }
+
+      @media (max-width: 720px) {
+        .content-preview {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -388,31 +476,56 @@ const maxPhase = allLabs.length > 0 ? Math.max(...allLabs.map((lab) => lab.data.
         </div>
       </div>
 
-      <section>
-        <div class="section-title">
-          <h2>Últimos Labs</h2>
-          <a href="/labs">Ver todos →</a>
-        </div>
-        <div class="labs-preview">
-          {latestLabs.map((lab) => (
-            <a href={`/labs/${lab.id}`} class="lab-mini-card">
-              <div class="lab-info">
-                <span class="lab-meta">
-                  <span class="lab-day">Día {lab.data.dia}</span>
-                  <FormattedDate date={lab.data.fecha} />
-                </span>
-                <h3>{lab.data.titulo}</h3>
-                <div class="lab-tags">
-                  {lab.data.tags.slice(0, 3).map(tag => (
-                    <span class="lab-tag">{tag}</span>
-                  ))}
+      <div class="content-preview">
+        <!-- Columna Labs -->
+        <div class="preview-column">
+          <div class="section-title">
+            <h2>Últimos Labs</h2>
+            <a href="/labs">Ver todos →</a>
+          </div>
+          <div class="labs-preview">
+            {latestLabs.map((lab) => (
+              <a href={`/labs/${lab.id}`} class="lab-mini-card">
+                <div class="lab-info">
+                  <span class="lab-meta">
+                    <span class="lab-day">Día {lab.data.dia}</span>
+                    <FormattedDate date={lab.data.fecha} />
+                  </span>
+                  <h3>{lab.data.titulo}</h3>
+                  <div class="lab-tags">
+                    {lab.data.tags.slice(0, 3).map(tag => (
+                      <span class="lab-tag">{tag}</span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-            </a>
-          ))}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </a>
+            ))}
+          </div>
         </div>
-      </section>
+
+        <!-- Columna Guías -->
+        <div class="preview-column">
+          <div class="section-title">
+            <h2>Últimas Guías</h2>
+            <a href="/guias">Ver todas →</a>
+          </div>
+          <div class="guias-preview">
+            {latestGuias.map((guia) => (
+              <a href={`/guias/${guia.id}`} class="guia-mini-card">
+                <span class={`guia-difficulty diff-${guia.data.dificultad}`}>
+                  {guia.data.dificultad}
+                </span>
+                <h3>{guia.data.titulo}</h3>
+                <div class="guia-mini-meta">
+                  <FormattedDate date={guia.data.fecha} />
+                  {guia.data.tiempo_lectura && <span>{guia.data.tiempo_lectura} min</span>}
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
     </main>
     <Footer />
   </body>
