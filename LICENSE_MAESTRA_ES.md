@@ -1,8 +1,7 @@
 # LICENCIA MAESTRA — ceroaproduccion.dev
 *Redactada y aprobada en sesión de Marzo-Abril 2026*
 
-> Este documento es la base legal del proyecto. Los contenidos de `ceroaproduccion.dev` están bajo los términos aquí descritos.
-> ADRs: [[Decisiones de Arquitectura]] · Backlog (pendiente agregar al repo): [[Backlog Activo]]
+
 
 ---
 
@@ -73,44 +72,4 @@ El incumplimiento de este contrato intelectual terminará automáticamente cualq
 
 Esta licencia entra en vigor desde la fecha de publicación del contenido y permanece vigente indefinidamente, salvo notificación expresa del titular de que los términos han sido actualizados.
 
----
 
-## Estado de Implementación
-
-| Elemento | Estado |
-|---|---|
-| Texto de licencia redactado | ✅ |
-| Páginas `/privacidad`, `/terminos`, `/cookies` en el sitio | ✅ |
-| `robots.txt` con bloqueo de IA bots | ✅ |
-| `LICENSE_MAESTRA_ES.md` en repo ceroaproduccion | ⏳ Pendiente |
-| `LICENSE` en repo aws-learning | ⏳ Pendiente |
-
----
-
-## Extracto del robots.txt (protección técnica)
-
-```
-User-agent: GPTBot
-Disallow: /
-
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: CCBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: Claude-Web
-Disallow: /
-
-User-agent: Omgilibot
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: *
-Allow: /
-```
