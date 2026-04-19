@@ -127,8 +127,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       <head>
         ${commonHead}
         <title>Suscripción Confirmada | Cero a Producción</title>
-        <!-- Umami Analytics -->
-        <script defer src="https://cloud.umami.is/script.js" data-website-id="0f0878e3-9bfb-4f53-9954-3d138184d66f"></script>
+
       </head>
       <body>
         <div class="card">

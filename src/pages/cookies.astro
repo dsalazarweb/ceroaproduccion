@@ -44,17 +44,17 @@ import { SITE_TITLE } from '../consts';
       <div class="prose">
         <h2>¿Qué son las tecnologías locales?</h2>
         <p class="section-desc">Definición de las herramientas técnicas usadas en la web moderna.</p>
-        <p>Tradicionalmente, las "cookies" son pequeños ficheros inyectados al entrar a un portal para recordar preferencias o rastrear comportamiento. Hoy en día existen otras formas como el Local Storage. En <strong>ceroaproduccion.dev</strong> operamos bajo una visión minimalista, evitando el requerimiento de seguimiento profundo.</p>
-        <p>No usamos cookies analíticas, de perfilado para marketing ni dependemos del rastreo individual por sesión. En consecuencia, y según la normativa, la web no te inundará de molestos banners bloqueadores ya que su funcionamiento se fundamenta en elementos <strong>estrictamente técnicos y necesarios</strong>.</p>
+        <p>Tradicionalmente, las "cookies" son pequeños ficheros inyectados al entrar a un portal para recordar preferencias o rastrear comportamiento. Hoy en día existen otras formas como el Local Storage.</p>
+        <p>En <strong>ceroaproduccion.dev</strong> utilizamos cookies técnicas necesarias para el funcionamiento y seguridad de la plataforma, así como cookies analíticas (a través de Google Analytics 4) que nos permiten medir métricas de audiencia y comportamiento de forma agregada.</p>
 
-        <h2>Almacenamiento Estrictamente Necesario</h2>
+        <h2>Almacenamiento Local y Cookies</h2>
         <p class="section-desc">Detalle claro del origen y finalidad de lo que aloja tu equipo.</p>
         <table>
           <thead>
             <tr>
               <th>Nombre del valor</th>
               <th>Tecnología</th>
-              <th>Propósito Estricto</th>
+              <th>Propósito</th>
             </tr>
           </thead>
           <tbody>
@@ -66,7 +66,12 @@ import { SITE_TITLE } from '../consts';
             <tr>
               <td><code>cf_clearance</code></td>
               <td>Cookie</td>
-              <td>Generada por Cloudflare en determinados momentos para confirmar que un visitante ha pasado una verificación anti-DDoS o validación Turnstile, manteniendo así tu conexión y evitando repetir puzzles en la sesión actual.</td>
+              <td>Generada por Cloudflare en determinados momentos para confirmar que un visitante ha pasado una verificación anti-DDoS o validación Turnstile, manteniendo así tu conexión.</td>
+            </tr>
+            <tr>
+              <td><code>_ga</code>, <code>_ga_*</code></td>
+              <td>Cookie</td>
+              <td>Instaladas por Google Analytics 4 para calcular datos de visitantes, sesiones y campañas con el fin de elaborar informes de análisis web.</td>
             </tr>
           </tbody>
         </table>

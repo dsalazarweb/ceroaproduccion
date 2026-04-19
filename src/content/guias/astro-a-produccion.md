@@ -160,7 +160,7 @@ Cloudflare en un click acepta todo registro temporal automatizado sin matarse in
 El cierre de proyecto inicial no se queda acá, ¿Sino sería ir muy simplón para nosotros no?. Sobre la mesa en la base verás poco a poco desplegado como implementamos en futuro en el repositorio del proyecto central esto:
 - **Cloudflare Turnstile** para cortar con los asquerosos bots en toda entrada o login.
 - **Newsletter** implementando a puro pulso sobre APIs con Resend como herramienta base core (además con Full double Opt-in del user para cero riesgos Spam!)
-- Analítica libre y limpia como nos la dicta el umami: Instalaremos a **Umami Cloud** para privacidad amigable; fuera métricas que espían galletas por todo lado.
+- Analítica integrada: Inicialmente evaluamos herramientas alternativas, pero terminamos asentando nuestro historial técnico sobre **Google Analytics 4** para proyectar escalabilidad a futuro.
 - Todo esto sin faltar seguridad de limiters para mis APIs Serverless. Todo documentado en otros Labs... si te gustan mis temas claro; nos seguimos viendo en `labs`.
 
 > "Hace un mes, ceroaproduccion.dev no existía. Hoy tiene labs publicados, formularios seguros, y deploy automático amarrado. Lo más difícil no fue la tecnología — fue empezar."
