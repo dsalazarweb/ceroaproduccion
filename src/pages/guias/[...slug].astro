@@ -70,10 +70,16 @@ const { Content } = await render(guia);
       }
       .tag {
         background: var(--bg-secondary);
-        padding: 0.1rem 0.5rem;
+        padding: 0.2rem 0.6rem;
         border-radius: 4px;
         font-size: 0.8rem;
         color: var(--text-muted);
+        text-decoration: none;
+        transition: background 0.2s, color 0.2s;
+      }
+      .tag:hover {
+        background: var(--accent);
+        color: white;
       }
       .back-link {
         display: inline-flex;
@@ -280,7 +286,7 @@ const { Content } = await render(guia);
           <div class="guia-meta">
             <FormattedDate date={guia.data.fecha} />
             <div class="tags">
-              {guia.data.tags.map(tag => <span class="tag">#{tag}</span>)}
+              {guia.data.tags.map((tag: string) => <a href={`/tags/${tag}`} class="tag">#{tag}</a>)}
             </div>
           </div>
         </header>

@@ -1,0 +1,175 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+
+export async function getStaticPaths() {
+  const allLabs = await getCollection('labs');
+  const allGuias = await getCollection('guias');
+  
+  const allPosts = [...allLabs, ...allGuias].filter(post => !post.data.draft);
+
+  const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+
+  return uniqueTags.map((tag) => {
+    const filteredPosts = allPosts.filter((post) => post.data.tags.includes(tag));
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+
+// Ordenar por fecha descendente
+posts.sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Artículos sobre "${tag}" — ${SITE_TITLE}`} description={`Todos los artículos, laboratorios y guías relacionados con ${tag}.`} />
+    <style>
+      .tag-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 4rem 1rem;
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+      }
+      .tag-header p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin: 0;
+      }
+      .tag-badge {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        background: rgba(var(--accent-rgb), 0.1);
+        color: var(--accent);
+        border: 1px solid rgba(var(--accent-rgb), 0.3);
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin: 1.5rem 0;
+        letter-spacing: 0.05em;
+      }
+      .posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      .post-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.75rem;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: inherit;
+        position: relative;
+      }
+      .post-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent);
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+      }
+      .post-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: 1.25rem;
+      }
+      .collection-badge {
+        padding: 0.25rem 0.6rem;
+        border-radius: 4px;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+      }
+      .collection-labs { background: rgba(37, 99, 235, 0.1); color: #3b82f6; border: 1px solid rgba(37, 99, 235, 0.2); }
+      .collection-guias { background: rgba(168, 85, 247, 0.1); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.2); }
+      
+      .post-title {
+        font-size: 1.3rem;
+        margin: 0 0 0.8rem 0;
+        color: var(--text-primary);
+        line-height: 1.4;
+      }
+      .post-desc {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+      }
+      .post-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .tag-item {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        background: var(--bg-primary);
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid var(--border-color);
+        transition: color 0.2s, border-color 0.2s;
+      }
+      .post-card:hover .tag-item {
+        border-color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <header class="tag-header">
+        <p>Explorando contenido clasificado como</p>
+        <div class="tag-badge">#{tag}</div>
+        <p>Se encontraron <strong>{posts.length}</strong> archivo(s) documental(es).</p>
+      </header>
+
+      <div class="posts-grid">
+        {posts.map((post) => (
+          <a href={`/${post.collection}/${post.id}/`} class="post-card">
+            <div class="post-meta">
+              <span class={`collection-badge collection-${post.collection}`}>
+                {post.collection === 'labs' ? 'Laboratorio' : 'Guía'}
+              </span>
+              <time datetime={post.data.fecha.toISOString()}>
+                {post.data.fecha.toLocaleDateString('es-ES', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })}
+              </time>
+            </div>
+            <h3 class="post-title">{post.data.titulo}</h3>
+            <p class="post-desc">{post.data.descripcion}</p>
+            <div class="post-tags">
+              {post.data.tags.slice(0, 4).map((t: string) => (
+                <span class="tag-item">#{t}</span>
+              ))}
+              {post.data.tags.length > 4 && <span class="tag-item">+{post.data.tags.length - 4}</span>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

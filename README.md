@@ -1,62 +1,60 @@
-# Astro Starter Kit: Blog
+# Cero a Producción (ceroaproduccion.dev)
 
+El frontend completo, CMS y ecosistema legal detrás del blog y hoja de ruta DevOps: **Cero a Producción**. 
+
+Navegar hacia producción no debería ser tortuoso. Este repositorio encapsula un hub ultrarrápido y seguro construido para compartir experiencias técnicas en tiempo real, aislar laboratorios de AWS/Linux y presentar una identidad digital inamovible utilizando la arquitectura JAMStack y Cloudflare.
+
+[![Astro](https://img.shields.io/badge/Astro%206-FF5D01?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Cloudflare Pages](https://img.shields.io/badge/Cloudflare_Pages-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
+
+---
+
+## 🏗️ Pila Tecnológica (Stack)
+
+- **Framework Core**: [Astro 6](https://astro.build/) (Island Architecture / SSG)
+- **Estilos**: Tailwind CSS con sistema de diseño personalizado en variables nativas (`BaseHead.astro`).
+- **CMS Interno**: [Keystatic](https://keystatic.com) operando visualmente y emparejado con colecciones estrictas de Zod, exportando contenido en `.md`.
+- **Despliegue y CDN**: Cloudflare Pages (Deploy vía push a `main`).
+- **Analítica**: Google Analytics 4 (Con Consent Mode v2 Custom e inyección `gtag` desde *LocalStorage*).
+- **Seguridad Antispam**: Cloudflare Turnstile nativo activado para endpoints (Resend Node API).
+
+---
+
+## 🚀 Despliegue Local (`localhost`)
+
+Para contribuir o testear nuevas integraciones, ejecuta el sitio de la siguiente forma. *(Requiere Node 20+ y preferiblemente entorno WSL en Windows)*.
+
+1. **Instala las dependencias:**
 ```sh
-npm create astro@latest -- --template blog
+npm install
+# Nota: usa --legacy-peer-deps si Keystatic colisiona con dependencias nativas modernas de Astro v6
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+2. **Levanta el servidor local:**
+```sh
+npm run dev
+```
+> La web estará disponible en `http://localhost:4321`.
+> El panel administrador de Keystatic (CMS visual) estará disponible en `http://localhost:4321/keystatic`.
 
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+### Compilación Pura para Analizar Rendimiento
+Si quieres testear cómo se generarán las rutas estáticas antes de que Cloudflare las tome:
+```sh
+npm run build
+npm run preview
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+---
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## 🔒 Arquitectura Legal y Cumplimiento
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+Este repositorio aloja la **[LICENCIA_MAESTRA_ES.md](LICENSE_MAESTRA_ES.md)** en su raíz. Como se indica explícitamente en `src/pages/terminos.astro` y en nuestra base legal:
+- El uso de la marca comercial *"Cero a Producción"*, así como copias exactas del diseño visual para reventa están restringidas.
+- **Prohibido el rasgado/scraping:** Toda recolección automatizada del contenido de los laboratorios o guías para **entrenamiento de modelos de inteligencia artificial (LLMs)** está prohibida por política expresa y bloqueada por `robots.txt`.
 
-Any static assets, like images, can be placed in the `public/` directory.
+Los fragmentos y *snippets* de código presentes dentro de los archivos de laboratorios o guías (`src/content/`) son de dominio libre y pueden utilizarse en proyectos personales y servidores mediante la filosofía MIT, sin necesidad de atribución obligatoria.
 
-## 🧞 Commands
+---
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+El dominio principal es `ceroaproduccion.dev`. También se puede acceder mediante `ceroaproduccion.com`, el cual redirige de manera automática el tráfico al dominio `.dev`.
