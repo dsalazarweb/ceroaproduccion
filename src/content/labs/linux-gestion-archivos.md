@@ -1,7 +1,7 @@
 ---
 titulo: "Gestión de archivos y directorios en Linux"
 descripcion: "Crear, copiar, mover, renombrar y eliminar archivos desde la terminal. Las mismas operaciones que usarás en EC2, Docker y Kubernetes."
-fecha: 2026-02-22
+fecha: "2026-02-22"
 fase: 0
 dia: 2
 tags: ["linux", "terminal", "archivos", "principiante"]
