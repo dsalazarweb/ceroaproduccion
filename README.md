@@ -49,6 +49,8 @@ npm run preview
 
 ## 🔒 Arquitectura Legal y Cumplimiento
 
+[![Licencia Creative Commons](https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-nd/4.0/)
+
 Este repositorio aloja la **[LICENCIA_MAESTRA_ES.md](LICENSE_MAESTRA_ES.md)** en su raíz. Como se indica explícitamente en `src/pages/terminos.astro` y en nuestra base legal:
 - El uso de la marca comercial *"Cero a Producción"*, así como copias exactas del diseño visual para reventa están restringidas.
 - **Prohibido el rasgado/scraping:** Toda recolección automatizada del contenido de los laboratorios o guías para **entrenamiento de modelos de inteligencia artificial (LLMs)** está prohibida por política expresa y bloqueada por `robots.txt`.

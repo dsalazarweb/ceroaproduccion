@@ -25,7 +25,9 @@ El contenido de **ceroaproduccion.dev** está protegido bajo la licencia **Creat
 
 ### 1. LICENCIA BASE
 
-El contenido publicado en ceroaproduccion.dev (en adelante "el Sitio") —incluyendo artículos, guías técnicas, tutoriales, código de ejemplo, gráficos explicativos y materiales didácticos— se publica bajo la licencia **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)**.
+[![Licencia Creative Commons](https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-nd/4.0/)
+
+El contenido publicado en ceroaproduccion.dev (en adelante "el Sitio") —incluyendo artículos, guías técnicas, tutoriales, código de ejemplo, gráficos explicativos y materiales didácticos— se publica bajo la licencia [**Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)**](http://creativecommons.org/licenses/by-nc-nd/4.0/).
 
 Esto significa que usted puede:
 - **Compartir:** copiar y redistribuir el material en cualquier medio o formato.
