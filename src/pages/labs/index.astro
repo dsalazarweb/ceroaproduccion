@@ -2,6 +2,7 @@
 export const prerender = true;
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
+import GTMNoScript from '../../components/GTMNoScript.astro';
 import Footer from '../../components/Footer.astro';
 import { SITE_TITLE } from '../../consts';
 import { getCollection } from 'astro:content';
@@ -95,6 +96,7 @@ const labs = (await getCollection('labs', ({ data }) => !data.draft))
     </style>
   </head>
   <body>
+    <GTMNoScript />
     <Header />
     <main>
       <section class="labs-intro">

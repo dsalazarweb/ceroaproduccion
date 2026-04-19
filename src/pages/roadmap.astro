@@ -1,6 +1,7 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
+import GTMNoScript from '../components/GTMNoScript.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE } from '../consts';
 
@@ -228,6 +229,7 @@ const phases = [
     </style>
   </head>
   <body>
+    <GTMNoScript />
     <Header />
     <main>
       <header class="roadmap-header">

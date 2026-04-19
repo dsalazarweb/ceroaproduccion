@@ -1,6 +1,7 @@
 ---
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
+import GTMNoScript from '../../components/GTMNoScript.astro';
 import Footer from '../../components/Footer.astro';
 import { SITE_TITLE } from '../../consts';
 import { getCollection } from 'astro:content';
@@ -147,6 +148,7 @@ const posts = [...labs.map(p => ({ ...p, collection: 'labs' as const })),
     </style>
   </head>
   <body>
+    <GTMNoScript />
     <Header />
     <main>
       <section class="blog-intro">

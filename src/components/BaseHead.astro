@@ -48,13 +48,10 @@ const { title, description, image = '/og-default.png' } = Astro.props;
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 
-<!-- Google Analytics 4 + Consent Mode v2 -->
-<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-CW63HG0DDY"></script>
+<!-- Consent Mode v2 — debe cargar ANTES de GTM -->
 <script is:inline>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  // Consent Mode v2: denied por defecto, wait_for_update permite que GA4
-  // envíe pings anonimizados (cookieless) para verificación y métricas básicas.
   gtag('consent', 'default', {
     'analytics_storage': 'denied',
     'ad_storage': 'denied',
@@ -62,9 +59,17 @@ const { title, description, image = '/og-default.png' } = Astro.props;
     'ad_personalization': 'denied',
     'wait_for_update': 500
   });
-  gtag('js', new Date());
-  gtag('config', 'G-CW63HG0DDY', { send_page_view: true });
 </script>
+
+<!-- Google Tag Manager -->
+<script is:inline>
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-5QHLHWJ4');
+</script>
+<!-- End Google Tag Manager -->
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />

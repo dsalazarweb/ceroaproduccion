@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
+import GTMNoScript from '../../components/GTMNoScript.astro';
 import Footer from '../../components/Footer.astro';
 import { SITE_TITLE } from '../../consts';
 
@@ -135,6 +136,7 @@ posts.sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
     </style>
   </head>
   <body>
+    <GTMNoScript />
     <Header />
     <main>
       <header class="tag-header">

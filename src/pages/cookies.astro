@@ -1,6 +1,7 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
+import GTMNoScript from '../components/GTMNoScript.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE } from '../consts';
 ---
@@ -31,6 +32,7 @@ import { SITE_TITLE } from '../consts';
     </style>
   </head>
   <body>
+    <GTMNoScript />
     <Header />
     <main class="legal-container">
       <header class="legal-header">
