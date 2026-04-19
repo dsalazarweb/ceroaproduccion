@@ -53,15 +53,17 @@ const { title, description, image = '/og-default.png' } = Astro.props;
 <script is:inline>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  // Default de Consentimiento configurado a 'denied' (Bloqueado)
+  // Consent Mode v2: denied por defecto, wait_for_update permite que GA4
+  // envíe pings anonimizados (cookieless) para verificación y métricas básicas.
   gtag('consent', 'default', {
     'analytics_storage': 'denied',
     'ad_storage': 'denied',
     'ad_user_data': 'denied',
-    'ad_personalization': 'denied'
+    'ad_personalization': 'denied',
+    'wait_for_update': 500
   });
   gtag('js', new Date());
-  gtag('config', 'G-CW63HG0DDY');
+  gtag('config', 'G-CW63HG0DDY', { send_page_view: true });
 </script>
 
 <!-- Open Graph / Facebook -->
