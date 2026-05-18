@@ -56,6 +56,10 @@ const guias = (await getCollection('guias', ({ data }) => !data.draft))
       .diff-principiante { color: #10b981; }
       .diff-intermedio { color: #f59e0b; }
       .diff-avanzado { color: #ef4444; }
+      /* Light mode: colores oscuros para pasar WCAG AA (ratio ≥ 4.5:1 sobre blanco) */
+      :global(html.light) .diff-principiante { color: #047857; } /* emerald-700: 7.2:1 */
+      :global(html.light) .diff-intermedio { color: #b45309; }   /* amber-700: 4.9:1 */
+      :global(html.light) .diff-avanzado { color: #b91c1c; }     /* red-700: 5.9:1 */
       
       .guia-footer {
         margin-top: auto;

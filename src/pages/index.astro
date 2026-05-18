@@ -129,6 +129,16 @@ const jsonLd = [
         margin-bottom: 2.5rem;
         box-shadow: 0 4px 15px rgba(245, 158, 11, 0.1);
       }
+      /* Light mode: amber-700 (#b45309) → ratio 4.9:1 sobre blanco — pasa WCAG AA */
+      :global(html.light) .status-badge {
+        color: #b45309;
+        background: rgba(180, 83, 9, 0.08);
+        border-color: rgba(180, 83, 9, 0.25);
+      }
+      :global(html.light) .status-pulse {
+        background: #b45309;
+        box-shadow: 0 0 10px #b45309;
+      }
       .status-pulse {
         width: 8px;
         height: 8px;
@@ -435,6 +445,10 @@ const jsonLd = [
       .diff-principiante { color: #10b981; }
       .diff-intermedio { color: #f59e0b; }
       .diff-avanzado { color: #ef4444; }
+      /* Light mode: colores más oscuros para pasar WCAG AA (ratio ≥ 4.5:1 sobre blanco) */
+      :global(html.light) .diff-principiante { color: #047857; } /* emerald-700: 7.2:1 */
+      :global(html.light) .diff-intermedio { color: #b45309; }   /* amber-700: 4.9:1 */
+      :global(html.light) .diff-avanzado { color: #b91c1c; }     /* red-700: 5.9:1 */
 
       .guias-preview {
         display: grid;
