@@ -89,6 +89,10 @@ const jsonLd = [
         animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         opacity: 0;
       }
+      /* Accesibilidad: sin animación para usuarios que la prefieren reducida */
+      @media (prefers-reduced-motion: reduce) {
+        .animate-fade-up { animation: none; opacity: 1; }
+      }
       .delay-1 { animation-delay: 0.1s; }
       .delay-2 { animation-delay: 0.2s; }
       .delay-3 { animation-delay: 0.3s; }
@@ -118,26 +122,29 @@ const jsonLd = [
         align-items: center;
         gap: 0.5rem;
         padding: 0.4rem 1.2rem;
-        background: rgba(245, 158, 11, 0.1); /* Amber/Beta color */
-        border: 1px solid rgba(245, 158, 11, 0.2);
-        color: #f59e0b;
+        /* Fondo opaco: axe-core no puede resolver semi-transparentes sobre fondo variable.
+           #1a1400 ≈ rgba(245,158,11,0.1) sobre #0B0E14 — mismo efecto visual, contraste computable */
+        background: #1a1400;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        color: #f59e0b; /* amber-500: 9.2:1 sobre #1a1400 — pasa WCAG AAA */
         border-radius: 999px;
         font-size: 0.85rem;
         font-weight: 700;
         letter-spacing: 0.05em;
         text-transform: uppercase;
         margin-bottom: 2.5rem;
-        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.1);
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.08);
       }
-      /* Light mode: amber-700 (#b45309) → ratio 4.9:1 sobre blanco — pasa WCAG AA */
+      /* Light mode: fondo opaco amber-100 + texto amber-800 → 5.4:1 sobre fondo, 5.96:1 sobre blanco — pasa WCAG AA */
       :global(html.light) .status-badge {
-        color: #b45309;
-        background: rgba(180, 83, 9, 0.08);
-        border-color: rgba(180, 83, 9, 0.25);
+        color: #92400e; /* amber-800: 5.96:1 sobre blanco */
+        background: #fef3c7; /* amber-100, opaco — axe-core puede computar correctamente */
+        border-color: rgba(146, 64, 14, 0.3);
+        box-shadow: 0 4px 15px rgba(146, 64, 14, 0.08);
       }
       :global(html.light) .status-pulse {
-        background: #b45309;
-        box-shadow: 0 0 10px #b45309;
+        background: #92400e;
+        box-shadow: 0 0 10px rgba(146, 64, 14, 0.4);
       }
       .status-pulse {
         width: 8px;
