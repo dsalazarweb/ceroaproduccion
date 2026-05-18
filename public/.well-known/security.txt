@@ -6,15 +6,14 @@ Hash: SHA512
 # Este archivo ayuda a investigadores de seguridad a reportar vulnerabilidades
 
 Contact: mailto:contacto@ceroaproduccion.dev
-Expires: 2027-05-18T06:00:00z
+Expires: 2027-05-18T06:00:00Z
 Preferred-Languages: es, en
 Canonical: https://ceroaproduccion.dev/.well-known/security.txt
 Encryption: https://ceroaproduccion.dev/.well-known/pgp-key.txt
 -----BEGIN PGP SIGNATURE-----
 
-iJMEARYKADsWIQQr4puoxSG2+9E/XBYNr+PYw0SnNgUCagquth0cY29udGFjdG9A
-Y2Vyb2Fwcm9kdWNjaW9uLmRldgAKCRANr+PYw0SnNkwsAQCvP1DPBDz6Wzr78LJe
-9f5mqla/RohVCjCqEUaTfInPfwD/bBjVCTkO80mKOKE8eMvs9OhXSVtGgXtG1F1C
-YyG84Ac=
-=SOKE
+iHUEARYKAB0WIQQr4puoxSG2+9E/XBYNr+PYw0SnNgUCagq78wAKCRANr+PYw0Sn
+Njy1AQDFlLcAJKONyWCCt/lTe8WIN1ViLFpzyYHobV3VrbgL/gD8DPuZNK067oYq
+B9zV4Ft6YsVsqdjpID+Zv/D2246jlgI=
+=aTsV
 -----END PGP SIGNATURE-----
