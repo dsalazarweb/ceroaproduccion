@@ -1,7 +1,6 @@
----
+﻿---
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
-import GTMNoScript from '../components/GTMNoScript.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_URL, AUTHOR, AUTHOR_LINKEDIN, AUTHOR_GITHUB } from '../consts';
 const jsonLd = {
@@ -91,7 +90,6 @@ const jsonLd = {
     </style>
   </head>
   <body>
-    <GTMNoScript />
     <Header />
     <main>
       <header class="about-header">

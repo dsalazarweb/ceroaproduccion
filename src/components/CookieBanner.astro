@@ -86,21 +86,28 @@
       console.error('Error parseando cookies locales');
     }
 
-    const applyConsentToGtag = (prefs) => {
-      if (typeof gtag === 'function') {
-        gtag('consent', 'update', {
-          'analytics_storage': prefs.analytics ? 'granted' : 'denied',
-          'ad_storage': prefs.marketing ? 'granted' : 'denied',
-          'ad_user_data': prefs.marketing ? 'granted' : 'denied',
-          'ad_personalization': prefs.marketing ? 'granted' : 'denied'
-        });
+    const applyConsentToZaraz = (prefs) => {
+      if (typeof zaraz !== 'undefined' && zaraz.consent) {
+        zaraz.consent.set('analytics', prefs.analytics);
+        zaraz.consent.set('marketing', prefs.marketing);
+        if (prefs.analytics || prefs.marketing) {
+          zaraz.consent.sendQueuedEvents();
+        }
+      } else {
+        document.addEventListener('zarazConsentAPIReady', () => {
+          zaraz.consent.set('analytics', prefs.analytics);
+          zaraz.consent.set('marketing', prefs.marketing);
+          if (prefs.analytics || prefs.marketing) {
+            zaraz.consent.sendQueuedEvents();
+          }
+        }, { once: true });
       }
     };
 
     if (!currentConsent) {
       banner.style.display = 'block';
     } else {
-      applyConsentToGtag(currentConsent);
+      applyConsentToZaraz(currentConsent);
     }
 
     const hideBanner = () => {
@@ -111,7 +118,7 @@
     btnAcceptAll.addEventListener('click', () => {
       const prefs = { analytics: true, marketing: true };
       localStorage.setItem('cookie_consent_granular', JSON.stringify(prefs));
-      applyConsentToGtag(prefs);
+      applyConsentToZaraz(prefs);
       hideBanner();
     });
 
@@ -127,7 +134,7 @@
         marketing: toggleMarketing.checked
       };
       localStorage.setItem('cookie_consent_granular', JSON.stringify(prefs));
-      applyConsentToGtag(prefs);
+      applyConsentToZaraz(prefs);
       hideBanner();
     });
   })();

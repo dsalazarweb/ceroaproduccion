@@ -49,50 +49,6 @@ const { title, description, image = '/og-default.png', jsonLd } = Astro.props;
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 
-<!-- Consent Mode v2 — debe cargar ANTES de GTM -->
-<script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-
-  // Default: todo denegado. url_passthrough permite modelado GA4 sin cookies.
-  gtag('consent', 'default', {
-    'analytics_storage': 'denied',
-    'ad_storage': 'denied',
-    'ad_user_data': 'denied',
-    'ad_personalization': 'denied',
-    'wait_for_update': 2000,
-    'url_passthrough': true
-  });
-
-  // Restaurar consentimiento previo ANTES de que GTM cargue.
-  // Evita el race condition: CookieBanner vive en el body (más tarde),
-  // si el timeout de 2000ms expira antes de que llegue → GA4 no registra nada.
-  (function() {
-    try {
-      var stored = localStorage.getItem('cookie_consent_granular');
-      if (stored) {
-        var prefs = JSON.parse(stored);
-        gtag('consent', 'update', {
-          'analytics_storage': prefs.analytics ? 'granted' : 'denied',
-          'ad_storage': prefs.marketing ? 'granted' : 'denied',
-          'ad_user_data': prefs.marketing ? 'granted' : 'denied',
-          'ad_personalization': prefs.marketing ? 'granted' : 'denied'
-        });
-      }
-    } catch(e) {}
-  })();
-</script>
-
-<!-- Google Tag Manager -->
-<script is:inline>
-  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-5QKD3CS8');
-</script>
-<!-- End Google Tag Manager -->
-
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />

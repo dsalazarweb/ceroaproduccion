@@ -1,8 +1,7 @@
----
+﻿---
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import GTMNoScript from '../components/GTMNoScript.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL, AUTHOR, AUTHOR_LINKEDIN } from '../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
@@ -471,7 +470,6 @@ const jsonLd = [
     </style>
   </head>
   <body>
-    <GTMNoScript />
     <Header />
     <main>
       <section class="hero">
