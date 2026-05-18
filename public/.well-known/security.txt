@@ -1,0 +1,20 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+# security.txt para ceroaproduccion.dev
+# Estándar RFC 9116 — https://www.rfc-editor.org/rfc/rfc9116
+# Este archivo ayuda a investigadores de seguridad a reportar vulnerabilidades
+
+Contact: mailto:contacto@ceroaproduccion.dev
+Expires: 2027-05-18T06:00:00z
+Preferred-Languages: es, en
+Canonical: https://ceroaproduccion.dev/.well-known/security.txt
+Encryption: https://ceroaproduccion.dev/.well-known/pgp-key.txt
+-----BEGIN PGP SIGNATURE-----
+
+iJMEARYKADsWIQQr4puoxSG2+9E/XBYNr+PYw0SnNgUCagquth0cY29udGFjdG9A
+Y2Vyb2Fwcm9kdWNjaW9uLmRldgAKCRANr+PYw0SnNkwsAQCvP1DPBDz6Wzr78LJe
+9f5mqla/RohVCjCqEUaTfInPfwD/bBjVCTkO80mKOKE8eMvs9OhXSVtGgXtG1F1C
+YyG84Ac=
+=SOKE
+-----END PGP SIGNATURE-----
