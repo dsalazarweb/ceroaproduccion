@@ -5,7 +5,7 @@ import Header from '../../components/Header.astro';
 import GTMNoScript from '../../components/GTMNoScript.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import { SITE_TITLE } from '../../consts';
+import { SITE_TITLE, SITE_URL, AUTHOR, AUTHOR_LINKEDIN } from '../../consts';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -31,12 +31,79 @@ export async function getStaticPaths() {
 
 const { guia, prev, next } = Astro.props;
 const { Content } = await render(guia);
+
+const canonicalUrl = `${SITE_URL}/guias/${guia.id}`;
+const imageUrl = guia.data.imagen
+  ? new URL(guia.data.imagen, SITE_URL).toString()
+  : `${SITE_URL}/og-default.png`;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: guia.data.titulo,
+    description: guia.data.descripcion,
+    url: canonicalUrl,
+    datePublished: new Date(guia.data.fecha).toISOString(),
+    dateModified: new Date(guia.data.fecha).toISOString(),
+    image: imageUrl,
+    inLanguage: 'es',
+    keywords: guia.data.tags.join(', '),
+    ...(guia.data.tiempo_lectura && {
+      timeRequired: `PT${guia.data.tiempo_lectura}M`,
+    }),
+    author: {
+      '@type': 'Person',
+      name: AUTHOR,
+      url: `${SITE_URL}/about`,
+      sameAs: [AUTHOR_LINKEDIN],
+    },
+    publisher: {
+      '@type': 'Person',
+      name: AUTHOR,
+      url: SITE_URL,
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonicalUrl,
+    },
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Cero a Producción',
+      url: SITE_URL,
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Inicio',
+        item: SITE_URL,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Guías',
+        item: `${SITE_URL}/guias`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: guia.data.titulo,
+        item: canonicalUrl,
+      },
+    ],
+  },
+];
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={`${guia.data.titulo} — ${SITE_TITLE}`} description={guia.data.descripcion} />
+    <BaseHead title={`${guia.data.titulo} — ${SITE_TITLE}`} description={guia.data.descripcion} jsonLd={jsonLd} />
     <style>
       .guia-header {
         margin-bottom: 3rem;

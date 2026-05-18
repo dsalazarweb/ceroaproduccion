@@ -3,13 +3,43 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import GTMNoScript from '../components/GTMNoScript.astro';
 import Footer from '../components/Footer.astro';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_URL, AUTHOR, AUTHOR_LINKEDIN, AUTHOR_GITHUB } from '../consts';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: AUTHOR,
+  url: `${SITE_URL}/about`,
+  sameAs: [AUTHOR_LINKEDIN, AUTHOR_GITHUB],
+  jobTitle: 'DevOps & Cloud Engineer (en transición)',
+  description:
+    'Profesional venezolano radicado en Colombia, con más de 6 años en operaciones técnicas, en transición activa hacia DevOps & Cloud Administration.',
+  knowsAbout: [
+    'Linux Administration',
+    'Bash',
+    'Python',
+    'Docker',
+    'AWS',
+    'Terraform',
+    'Kubernetes',
+    'DevOps',
+    'Cloud Computing',
+    'Astro',
+  ],
+  nationality: {
+    '@type': 'Country',
+    name: 'Venezuela',
+  },
+  homeLocation: {
+    '@type': 'Place',
+    name: 'Colombia',
+  },
+};
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={`Sobre Mí — ${SITE_TITLE}`} description="Profesional venezolano radicado en Colombia, en transición de Operaciones Técnicas a DevOps & Cloud Administration." />
+    <BaseHead title={`Sobre Mí — ${SITE_TITLE}`} description="Profesional venezolano radicado en Colombia, en transición de Operaciones Técnicas a DevOps & Cloud Administration." jsonLd={jsonLd} />
     <style>
       .about-header {
         margin-bottom: 3rem;
