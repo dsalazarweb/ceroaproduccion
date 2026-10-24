@@ -36,9 +36,16 @@ Y lo mejor: todo esto vive **100% dentro de tu propio computador**. No necesitas
 
 Casi todo el mundo se frustra con Git porque intenta memorizar comandos antes de entender dónde está parado. Para no perderte nunca, solo imagínate este taller de trabajo:
 
-```
-🛠️ Working Directory     ──(git add)──>     📦 Staging Area     ──(git commit)──>     📸 Repositorio Local
- (tu mesa de trabajo)                     (la caja de empaque)                        (el álbum histórico)
+```text
+🛠️ Working Directory  (Tu mesa de trabajo: archivos vivos)
+         │
+         │  git add
+         ▼
+📦 Staging Area       (La caja de empaque: cambios preparados)
+         │
+         │  git commit
+         ▼
+📸 Repositorio Local  (El álbum histórico: fotos selladas en .git)
 ```
 
 1. 🛠️ **Directorio de Trabajo (Working Directory):** Es la carpeta real en tu computador. Aquí abres tu editor, creas archivos, borras código y experimentas. Todo lo que esté aquí es borrador vivo.

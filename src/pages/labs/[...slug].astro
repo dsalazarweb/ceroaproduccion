@@ -1,4 +1,4 @@
-﻿---
+---
 export const prerender = true;
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
@@ -125,9 +125,11 @@ const jsonLd = [
         border: 1px solid var(--border-color);
       }
       .lab-title {
-        font-size: 3rem;
+        font-size: 2.25rem;
         margin: 0 0 1rem 0;
-        line-height: 1.1;
+        line-height: 1.25;
+        letter-spacing: -0.025em;
+        font-weight: 700;
       }
       .lab-date-tags {
         display: flex;
@@ -332,13 +334,13 @@ const jsonLd = [
       }
       :global(.code-wrapper pre) {
         margin: 0 !important;
-        padding: 1.5rem !important;
+        padding: 1.25rem 1.5rem !important;
         box-sizing: border-box !important;
         width: 100% !important;
         max-width: 100% !important;
         font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace !important;
-        font-size: 0.95rem;
-        line-height: 1.6;
+        font-size: 0.875rem !important;
+        line-height: 1.65;
         color: #e5e7eb !important;
         background: transparent !important;
         white-space: pre-wrap !important;
@@ -389,7 +391,7 @@ const jsonLd = [
         transform: translateY(-2px);
       }
       @media (max-width: 720px) {
-        .lab-title { font-size: 2.2rem; }
+        .lab-title { font-size: 1.85rem; }
         .lab-nav { grid-template-columns: 1fr; }
         .next { grid-column: 1; }
       }
