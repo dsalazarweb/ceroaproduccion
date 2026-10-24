@@ -1,10 +1,10 @@
-﻿---
+---
 export const prerender = true;
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import { SITE_TITLE, SITE_URL, AUTHOR, AUTHOR_LINKEDIN } from '../../consts';
+import { SITE_TITLE, SITE_URL, AUTHOR, AUTHOR_LINKEDIN, SERIES_CONFIG } from '../../consts';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -121,9 +121,11 @@ const jsonLd = [
         display: inline-block;
       }
       .guia-title {
-        font-size: 3rem;
+        font-size: 2.25rem;
         margin: 0 0 1rem 0;
-        line-height: 1.1;
+        line-height: 1.25;
+        letter-spacing: -0.025em;
+        font-weight: 700;
       }
       .guia-meta {
         display: flex;
@@ -162,7 +164,7 @@ const jsonLd = [
         color: var(--accent);
       }
       .prose {
-        max-width: 850px; /* Ancho ajustado para hacerlo más amplio, similar a labs */
+        max-width: 100%;
         margin: 0 auto;
         margin-bottom: 4rem;
       }
@@ -277,13 +279,13 @@ const jsonLd = [
       }
       :global(.code-wrapper pre) {
         margin: 0 !important;
-        padding: 1.5rem !important;
+        padding: 1.25rem 1.5rem !important;
         box-sizing: border-box !important;
         width: 100% !important;
         max-width: 100% !important;
         font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace !important;
-        font-size: 0.95rem;
-        line-height: 1.6;
+        font-size: 0.875rem !important;
+        line-height: 1.65;
         color: #e5e7eb !important;
         background: transparent !important;
         white-space: pre-wrap !important;
@@ -328,7 +330,7 @@ const jsonLd = [
       .prev { text-align: left; grid-column: 1; }
 
       @media (max-width: 720px) {
-        .guia-title { font-size: 2.2rem; }
+        .guia-title { font-size: 1.85rem; }
         .guia-nav { grid-template-columns: 1fr; }
         .next { grid-column: 1; }
       }
@@ -346,7 +348,7 @@ const jsonLd = [
           <span class="difficulty">{guia.data.dificultad}</span>
           {guia.data.serie && (
             <span class="serie-indicator" style="display:block; margin-bottom:1rem; font-size:0.9rem; color:var(--text-secondary);">
-              Serie: {guia.data.serie === 'devops-en-windows' ? 'DevOps en Windows' : guia.data.serie} · Parte {guia.data.orden} de 4
+              Serie: {SERIES_CONFIG[guia.data.serie]?.titulo ?? guia.data.serie} · Parte {guia.data.orden} de {SERIES_CONFIG[guia.data.serie]?.total ?? ''}
             </span>
           )}
           <h1 class="guia-title">{guia.data.titulo}</h1>

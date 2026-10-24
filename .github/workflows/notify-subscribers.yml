@@ -1,0 +1,58 @@
+name: Notificar Suscriptores (Resend)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/content/guias/**.md'
+      - 'src/content/labs/**.md'
+  workflow_dispatch:
+    inputs:
+      file_path:
+        description: 'Ruta del archivo a notificar (ej: src/content/guias/git-desde-cero-fundamentos.md)'
+        required: false
+        default: ''
+      dry_run:
+        description: 'Modo simulación (true = solo prueba, no envía correos reales)'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: notify-subscribers-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    name: Enviar Notificación a Resend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Permite a git diff comparar con el commit anterior
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Ejecutar script de notificación
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            DRY_RUN_FLAG=""
+            if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+              DRY_RUN_FLAG="--dry-run"
+            fi
+            if [ -n "${{ github.event.inputs.file_path }}" ]; then
+              node scripts/notify-subscribers.mjs --file "${{ github.event.inputs.file_path }}" $DRY_RUN_FLAG
+            else
+              node scripts/notify-subscribers.mjs $DRY_RUN_FLAG
+            fi
+          else
+            node scripts/notify-subscribers.mjs
+          fi

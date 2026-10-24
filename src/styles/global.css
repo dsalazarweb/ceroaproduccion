@@ -97,18 +97,18 @@ body {
   word-wrap: break-word;
   overflow-wrap: break-word;
   color: var(--text-primary);
-  font-size: 20px;
-  line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.8;
   transition: background-color 0.2s ease, color 0.2s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 main {
-  width: 720px;
-  max-width: calc(100% - 2em);
+  width: 768px;
+  max-width: calc(100% - 2rem);
   margin: auto;
-  padding: 3em 1em;
+  padding: 2.5rem 1rem;
 }
 
 /* ============================================
@@ -117,15 +117,37 @@ main {
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 0.5rem 0;
   color: var(--text-primary);
-  line-height: 1.2;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  font-weight: 700;
 }
-h1 { font-size: 3.052em; }
-h2 { font-size: 2.441em; }
-h3 { font-size: 1.953em; }
-h4 { font-size: 1.563em; }
-h5 { font-size: 1.25em; }
+h1 { font-size: 2.25rem; }
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 0.4em;
+}
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.75em;
+  margin-bottom: 0.5em;
+}
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+h5, h6 {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
 
-strong, b { font-weight: 700; }
+strong, b { font-weight: 600; color: var(--text-primary); }
 
 a {
   color: var(--accent);
@@ -134,8 +156,27 @@ a:hover {
   color: var(--accent-dark);
 }
 
-p { margin-bottom: 1em; }
-.prose p { margin-bottom: 2em; }
+p {
+  margin-bottom: 1.25em;
+  line-height: 1.8;
+}
+.prose p {
+  margin-bottom: 1.25em;
+  line-height: 1.8;
+}
+
+/* Listas ordenadas e inordenadas con viñeta acentuada */
+ul, ol {
+  margin: 1.25em 0;
+  padding-left: 1.5em;
+}
+li {
+  margin-bottom: 0.4em;
+  line-height: 1.75;
+}
+li::marker {
+  color: var(--accent);
+}
 
 /* ============================================
    ELEMENTOS
@@ -161,36 +202,50 @@ img {
   border-radius: 8px;
 }
 code {
-  padding: 2px 5px;
-  background-color: var(--bg-code);
-  color: var(--text-primary);
-  border-radius: 2px;
+  padding: 0.15em 0.4em;
+  background-color: rgba(var(--accent-rgb), 0.12);
+  color: var(--accent);
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.875em;
 }
 pre {
-  padding: 1.5em;
+  padding: 1.25em 1.5em;
   border-radius: 8px;
   background-color: var(--bg-code);
+  line-height: 1.65;
 }
-pre > code { all: unset; }
+pre > code {
+  all: unset;
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
 
 blockquote {
-  border-left: 4px solid var(--accent);
-  padding: 0 0 0 20px;
-  margin: 0;
-  font-size: 1.333em;
+  border-left: 2px solid var(--accent);
+  padding: 0.6rem 0 0.6rem 1.25rem;
+  margin: 1.5em 0;
+  font-size: 0.95rem;
   color: var(--text-secondary);
+  font-style: italic;
+  background: var(--bg-secondary);
+  border-radius: 0 8px 8px 0;
 }
 hr {
   border: none;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px dashed var(--border-color);
+  margin: 2em 0;
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 720px) {
-  body { font-size: 18px; }
-  main { padding: 1em; }
+  body { font-size: 15px; }
+  h1 { font-size: 1.85rem; }
+  h2 { font-size: 1.35rem; }
+  main { padding: 1.5em 1em; }
 }
 
 /* ============================================

@@ -1,8 +1,8 @@
-﻿---
+---
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { SITE_TITLE } from '../../consts';
+import { SITE_TITLE, SERIES_CONFIG } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 
@@ -86,13 +86,17 @@ const guias = (await getCollection('guias', ({ data }) => !data.draft))
         <p>Tutoriales detallados paso a paso para dominar herramientas y conceptos de infraestructura.</p>
       </section>
 
-      {guias.some(g => g.data.serie) && (
-        <div class="serie-banner" style="padding:1.5rem; background:var(--bg-secondary); border-left:4px solid var(--accent); border-radius:8px; margin-bottom:2rem;">
-          <span style="font-size:0.8rem; text-transform:uppercase; font-weight:bold; color:var(--accent);">Serie</span>
-          <h2 style="margin:0.25rem 0; font-size:1.5rem;">DevOps en Windows</h2>
-          <p style="margin:0; font-size:0.95rem; color:var(--text-secondary);">4 guías desde la instalación hasta producción</p>
-        </div>
-      )}
+      {Object.entries(SERIES_CONFIG).map(([slug, s]) => {
+        const hasSeries = guias.some(g => g.data.serie === slug);
+        if (!hasSeries) return null;
+        return (
+          <div class="serie-banner" style="padding:1.5rem; background:var(--bg-secondary); border-left:4px solid var(--accent); border-radius:8px; margin-bottom:2rem;">
+            <span style="font-size:0.8rem; text-transform:uppercase; font-weight:bold; color:var(--accent);">Serie</span>
+            <h2 style="margin:0.25rem 0; font-size:1.5rem;">{s.titulo}</h2>
+            <p style="margin:0; font-size:0.95rem; color:var(--text-secondary);">{s.descripcion}</p>
+          </div>
+        );
+      })}
 
       <section class="guias-grid">
         {guias.length > 0 ? (
@@ -103,7 +107,7 @@ const guias = (await getCollection('guias', ({ data }) => !data.draft))
               </span>
               {guia.data.serie && (
                 <span style="font-size:0.8rem; color:var(--accent); margin-top:0.5rem; font-weight:bold;">
-                  Parte {guia.data.orden} de 4
+                  Parte {guia.data.orden} de {SERIES_CONFIG[guia.data.serie]?.total ?? ''}
                 </span>
               )}
               <h2>{guia.data.titulo}</h2>
