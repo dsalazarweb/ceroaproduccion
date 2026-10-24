@@ -201,7 +201,6 @@ async function sendBroadcast({ apiKey, audienceId, payload, isDryRun }) {
       reply_to: payload.reply_to,
       subject: payload.subject,
       audience_id: audienceId,
-      segment_id: audienceId,
       send: true,
       html_length: payload.html.length,
     }, null, 2));
@@ -217,7 +216,6 @@ async function sendBroadcast({ apiKey, audienceId, payload, isDryRun }) {
     },
     body: JSON.stringify({
       audience_id: audienceId,
-      segment_id: audienceId,
       from: payload.from,
       reply_to: payload.reply_to,
       subject: payload.subject,
