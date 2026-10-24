@@ -222,7 +222,8 @@ async function sendBroadcast({ apiKey, audienceId, payload, isDryRun }) {
       reply_to: payload.reply_to,
       subject: payload.subject,
       html: payload.html,
-      name: payload.name,
+      // Resend restringe el campo interno `name` a un máximo estricto de 70 caracteres
+      name: (payload.name || payload.subject).slice(0, 65).trim(),
       send: true,
     }),
   });
@@ -306,6 +307,8 @@ async function main() {
     console.log(`   URL: ${url}`);
     console.log(`   Asunto: ${subject}`);
 
+    const broadcastName = `${tipo}: ${meta.titulo}`.slice(0, 65).trim();
+
     try {
       const result = await sendBroadcast({
         apiKey,
@@ -316,7 +319,7 @@ async function main() {
           reply_to: REPLY_TO_EMAIL,
           subject,
           html,
-          name: `${tipo}: ${meta.titulo}`,
+          name: broadcastName,
         },
       });
 
