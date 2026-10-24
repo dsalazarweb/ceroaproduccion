@@ -235,7 +235,7 @@ Ya dominas el flujo moderno: creas ramas sin romper la línea principal, resuelv
 
 Pero en el día a día real, las cosas a veces fallan: cometes un error grave en un commit, necesitas borrar cambios antes de que nadie los vea o te toca pausar lo que estás haciendo porque surgió una emergencia en producción.
 
-En la **Entrega 3 (Post final)**, abriremos el botiquín de emergencias de Git:
+En la [Entrega 3 (Post final)](/guias/git-desde-cero-deshacer-buenas-practicas), abriremos el botiquín de emergencias de Git:
 * Cómo deshacer cambios con precisión quirúrgica (`restore`, `revert` y cuándo tenerle respeto a `reset`).
 * Guardar ideas a medio cocinar sin ensuciar la historia con `git stash`.
 * El estándar de mensajes profesionales en español que usamos en producción.
