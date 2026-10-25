@@ -212,7 +212,7 @@ Verás tu historial transformado en un diagrama interactivo con colores, autores
 
 Si llegaste hasta aquí, ya tienes todo el mapa conceptual y práctico necesario para moverte con seguridad profesional en Git. 
 
-Si te gusta complementar tu aprendizaje viendo cómo otros ingenieros resuelven problemas en pantalla y con código en vivo, estos son los canales y cursos en español que tienen el contenido más completo y pedagógico publicado y de los cuales aprendí la mayoría de las cosas explicadas en esta trilogía:
+Si te gusta complementar tu aprendizaje viendo cómo otras personas resuelven problemas en pantalla y con código en vivo, estos son los canales y cursos en español que tienen el contenido más completo y pedagógico publicado y de los cuales aprendí la mayoría de las cosas explicadas en esta trilogía:
 
 * **[Píldoras de programación](https://www.youtube.com/@pildorasdeprogramacion)** — *Nelson* tiene un [curso completo de 8 horas](https://www.youtube.com/watch?v=ZCiKsdoPfhY) con una pedagogía impecable: pausado, transparente, explicando la lógica interna de Git paso a paso y con un tono sumamente cercano.
 * **[Código Espinoza](https://www.youtube.com/@CodigoEspinoza)** — Su serie modular es ideal si tienes una duda muy puntual sobre cómo instalar o configurar una herramienta específica en pocos minutos.
