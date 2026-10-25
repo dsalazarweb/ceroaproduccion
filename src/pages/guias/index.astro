@@ -16,7 +16,46 @@ const guias = (await getCollection('guias', ({ data }) => !data.draft))
     <BaseHead title={`Guías — ${SITE_TITLE}`} description="Tutoriales detallados y guías evergreen sobre DevOps, Cloud y Linux." />
     <style>
       .guias-intro {
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
+      }
+      .series-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-bottom: 2.5rem;
+      }
+      .serie-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 999px;
+        text-decoration: none;
+        color: var(--text-primary);
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: border-color 0.2s, transform 0.2s;
+      }
+      .serie-pill:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+      .serie-pill .pill-badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 0.15rem 0.5rem;
+        background: rgba(var(--accent-rgb), 0.15);
+        color: var(--accent);
+        border-radius: 999px;
+        letter-spacing: 0.03em;
+      }
+      .serie-pill .pill-count {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 400;
       }
       .guias-grid {
         display: grid;
@@ -86,17 +125,28 @@ const guias = (await getCollection('guias', ({ data }) => !data.draft))
         <p>Tutoriales detallados paso a paso para dominar herramientas y conceptos de infraestructura.</p>
       </section>
 
-      {Object.entries(SERIES_CONFIG).map(([slug, s]) => {
-        const hasSeries = guias.some(g => g.data.serie === slug);
-        if (!hasSeries) return null;
-        return (
-          <div class="serie-banner" style="padding:1.5rem; background:var(--bg-secondary); border-left:4px solid var(--accent); border-radius:8px; margin-bottom:2rem;">
-            <span style="font-size:0.8rem; text-transform:uppercase; font-weight:bold; color:var(--accent);">Serie</span>
-            <h2 style="margin:0.25rem 0; font-size:1.5rem;">{s.titulo}</h2>
-            <p style="margin:0; font-size:0.95rem; color:var(--text-secondary);">{s.descripcion}</p>
-          </div>
+      {(() => {
+        const seriesWithGuias = Object.entries(SERIES_CONFIG).filter(([slug]) =>
+          guias.some(g => g.data.serie === slug)
         );
-      })}
+        if (seriesWithGuias.length === 0) return null;
+        return (
+          <nav class="series-pills">
+            {seriesWithGuias.map(([slug, s]) => {
+              const firstGuia = guias
+                .filter(g => g.data.serie === slug)
+                .sort((a, b) => (a.data.orden ?? 0) - (b.data.orden ?? 0))[0];
+              return (
+                <a href={`/guias/${firstGuia.id}`} class="serie-pill">
+                  <span class="pill-badge">Serie</span>
+                  {s.titulo}
+                  <span class="pill-count">· {s.total} partes</span>
+                </a>
+              );
+            })}
+          </nav>
+        );
+      })()}
 
       <section class="guias-grid">
         {guias.length > 0 ? (

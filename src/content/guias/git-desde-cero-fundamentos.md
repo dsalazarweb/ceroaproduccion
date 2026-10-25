@@ -203,4 +203,4 @@ A partir de ese momento, Git actuará como si esos archivos no existieran: no te
 
 Ya tienes tu taller montado, tus herramientas configuradas y sabes cómo tomar fotos seguras de tu trabajo en local. 
 
-En la **Entrega 2**, daremos el gran salto: aprenderemos a abrir universos paralelos con ramas (`git switch`), a resolver choques de código sin entrar en pánico cuando dos personas modifican el mismo archivo, y a conectar todo este trabajo con **GitHub** en la nube usando llaves SSH seguras.
+En la [Entrega 2](/guias/git-desde-cero-ramas-github), daremos el gran salto: aprenderemos a abrir universos paralelos con ramas (`git switch`), a resolver choques de código sin entrar en pánico cuando dos personas modifican el mismo archivo, y a conectar todo este trabajo con **GitHub** en la nube usando llaves SSH seguras.
